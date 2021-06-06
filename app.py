@@ -6,14 +6,12 @@ from flask import session
 import pymongo
 import os
 from pymongo import MongoClient
-from random import randint
 import json
 from dotenv import load_dotenv
 
 app = Flask(__name__)
 load_dotenv()
 # mongodb code
-print(os.environ.get("USER"))
 cluster = MongoClient(f'mongodb+srv://{os.environ.get("USER")}:{os.environ.get("PASSWORD")}@cluster0.ymdax.mongodb.net/myFirstDatabase?retryWrites=true&w=majority')
 db = cluster["FarmersElevator"]
 
