@@ -49,7 +49,7 @@ def signin_form():
     # redirect to main page
     return "TO DO"
 
-@app.route('/signup-form')
+@app.route('/signup-form', methods=['POST'])
 def signup_form():
     # create the new profile into the database
 
