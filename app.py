@@ -1,8 +1,17 @@
+
+# IMPORTs
 from flask import Flask, render_template, url_for, redirect, request
+from flask import session
+
 import sqlite3 as lite
 from random import randint
 
 app = Flask(__name__)
+
+# CONSTANTS
+app.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
+
+# WEBSITE
 
 @app.route('/')
 def index():
@@ -10,6 +19,9 @@ def index():
 
 @app.route('/signin')
 def signin():
+    if 'username' in session:
+        session.pop('username', None)
+        session.pop('elevator', None)
     return '''
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
@@ -42,6 +54,13 @@ def signup():
 	</form>
     '''
 
+@app.route('/logout')
+def logout():
+    # remove the username from the session if it's there
+    session.pop('username', None)
+    session.pop('elevator', None)
+    return redirect("/", code=302) 
+
 # parameters: username, password, elevator
 @app.route('/signin-form', methods=['POST'])
 def signin_form():
@@ -72,7 +91,8 @@ def signin_form():
                 '''
         else:
             # create new session
-
+            session['username'] = username
+            session['elevator'] = True
             # redirect to main page
             return redirect("/home", code=302) 
     else:
@@ -97,7 +117,8 @@ def signin_form():
                 '''
         else:
             # create new session
-            
+            session['username'] = username
+            session['elevator'] = False
             # redirect to main page
             return redirect("/home", code=302)
 
@@ -109,7 +130,6 @@ def signup_form():
     username = request.form['username']
     password = request.form['password']
     toInsert = ('name', randint(0, 100000), email, password, username, 1,)
-    print(len(toInsert))
 
     if isElevator == "on":
         con = lite.connect('base.db') 
@@ -124,7 +144,7 @@ def signup_form():
             # redirect to sign in page
             return redirect("/signin", code=302)
         except lite.Error as error:
-            return "Failed "+str(error)
+            return "Failed: "+str(error)
         finally:
             if (con):
                 con.close()
@@ -141,17 +161,28 @@ def signup_form():
             # redirect to sign in page
             return redirect("/signin", code=302)
         except lite.Error as error:
-            return "Failed "+str(error)
+            return "Failed: "+str(error)
         finally:
             if (con):
                 con.close()
 
 @app.route('/home')
 def homepage():
-    return '''
-    <h1>Farmers & Elevators</h1>
-    <h3>Homepage</h3>
-    '''
+    # check if user is in session
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            return f'''
+            <h1>Farmers & Elevators</h1>
+            <h3>Elevator {session["username"]} HomePage </h3><a href="/logout">logout</a>
+            '''
+        else:
+            return f'''
+            <h1>Farmers & Elevators</h1>
+            <h3>Farmers's {session["username"]} HomePage </h3><a href="/logout">logout</a>
+            '''
+    else:
+        return redirect("/", code=302)
 
 # this does not work
 with app.test_request_context():
