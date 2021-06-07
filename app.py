@@ -22,6 +22,7 @@ def signin():
     if 'username' in session:
         session.pop('username', None)
         session.pop('elevator', None)
+        session.pop('user_id', None)
     return '''
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
@@ -59,6 +60,7 @@ def logout():
     # remove the username from the session if it's there
     session.pop('username', None)
     session.pop('elevator', None)
+    session.pop('user_id', None)
     return redirect("/", code=302) 
 
 # parameters: username, password, elevator
@@ -73,8 +75,9 @@ def signin_form():
         # check username and password in DB
         con = lite.connect('base.db') 
         cur = con.cursor()
-        cur.execute(f"SELECT username from elevators WHERE username='{username}' AND Password = '{password}';")
-        if not cur.fetchone():  # An empty result evaluates to False.
+        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND Password = '{password}';")
+        result = cur.fetchone()
+        if not result:  # An empty result evaluates to False.
             cur.close()
             return '''
                 <h1>Farmers & Elevators</h1>
@@ -93,14 +96,16 @@ def signin_form():
             # create new session
             session['username'] = username
             session['elevator'] = True
+            session['id'] = result[1]
             # redirect to main page
             return redirect("/home", code=302) 
     else:
         # check username and password in DB
         con = lite.connect('base.db') 
         cur = con.cursor()
-        cur.execute(f"SELECT username from farmers WHERE username='{username}' AND Password = '{password}';")
-        if not cur.fetchone():  # An empty result evaluates to False.
+        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}' AND Password = '{password}';")
+        result = cur.fetchone()
+        if not result:  # An empty result evaluates to False.
             cur.close()
             return '''
                 <h1>Farmers & Elevators</h1>
@@ -119,6 +124,7 @@ def signin_form():
             # create new session
             session['username'] = username
             session['elevator'] = False
+            session['user_id'] = result[1]
             # redirect to main page
             return redirect("/home", code=302)
 
@@ -128,6 +134,7 @@ def signup_form():
     if 'username' in session:
         session.pop('username', None)
         session.pop('elevator', None)
+        session.pop('user_id', None)
 
     isElevator = request.form.get('elevator')
     email = request.form['email']
@@ -176,9 +183,9 @@ def homepage():
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            return render_template('home-elevator.html', username=session["username"])
+            return render_template('home-elevator.html', username=session["username"], id=session["user_id"])
         else:
-            return render_template('home-farmer.html', username=session["username"])
+            return render_template('home-farmer.html', username=session["username"], id=session["user_id"])
     else:
         return redirect("/", code=302)
 
@@ -238,6 +245,23 @@ def delete_account():
             '''
     else:
         return redirect("/", code=302)
+
+@app.route('/shop/<string:id>', methods=['GET'])
+def shop(id):
+    return id
+
+@app.route('/profile/<string:id>', methods=['GET'])
+def profile(id):
+    return id
+
+@app.route('/manage-shop')
+def manage_shop():
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            return render_template('manage-shop.html', username=session['username'])
+    else:
+        return redirect("/home", code=302)
 
 # this does not work
 with app.test_request_context():

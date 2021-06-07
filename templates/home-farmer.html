@@ -3,11 +3,13 @@
 <h1>Farmers & Elevators HomePage</h1>
 <nav>
   <h3>Welcome {{username}}</h3>
-  <a href="/logout">logout </a>| 
+  <a href="{{ url_for('profile', id = id)}}">your profile </a>|
+  <a href="/logout">logout </a>|
   <a href="/settings-farmer">settings</a>
 </nav>
 <nav>
-  <a href="/shop">Make new order</a>
+  <!-- select shop -->
+  <a href="{{ url_for('shop', id = id)}}">shop at {{username}}</a>
 </nav>
 <h3>Order History</h3>
 <table>
