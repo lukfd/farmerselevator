@@ -1,6 +1,6 @@
 
 # IMPORTs
-from flask import Flask, render_template, url_for, redirect, request
+from flask import Flask, render_template, url_for, redirect, request, escape
 from flask import session
 
 import sqlite3 as lite
@@ -125,6 +125,10 @@ def signin_form():
 # Parameters: email, username, password, elevator
 @app.route('/signup-form', methods=['POST'])
 def signup_form():
+    if 'username' in session:
+        session.pop('username', None)
+        session.pop('elevator', None)
+
     isElevator = request.form.get('elevator')
     email = request.form['email']
     username = request.form['username']
@@ -172,14 +176,65 @@ def homepage():
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
+            return render_template('home-elevator.html', username=session["username"])
+        else:
+            return render_template('home-farmer.html', username=session["username"])
+    else:
+        return redirect("/", code=302)
+
+@app.route('/settings-elevator')
+def settings_elevator():
+    # check if user is in session
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            return render_template('settings-elevator.html')
+        else:
+            return render_template('settings-farmer.html')
+    else:
+        return redirect("/", code=302)
+
+@app.route('/settings-farmer')
+def settings_farmer():
+    # check if user is in session
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            return render_template('settings-elevator.html')
+        else:
+            return render_template('settings-farmer.html')
+    else:
+        return redirect("/", code=302)
+
+@app.route('/delete-account')
+def delete_account():
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            username = session["username"]
+            # delete account from DB
+            
+
             return f'''
             <h1>Farmers & Elevators</h1>
-            <h3>Elevator {session["username"]} HomePage </h3><a href="/logout">logout</a>
+            <nav>
+                <h3>Account {escape(username)} deleted</h3>
+                <a href="/signup">create a new account</a>
+                <a href="/">home</a>
+            </nav>
             '''
         else:
+            username = session["username"]
+            # delete account from DB
+
+
             return f'''
             <h1>Farmers & Elevators</h1>
-            <h3>Farmers's {session["username"]} HomePage </h3><a href="/logout">logout</a>
+            <nav>
+                <h3>Account {escape(username)} deleted</h3>
+                <a href="/signup">create a new account</a>
+                <a href="/">home</a>
+            </nav>
             '''
     else:
         return redirect("/", code=302)

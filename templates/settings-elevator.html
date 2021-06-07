@@ -1,0 +1,40 @@
+<!doctype html>
+<title>HomePage</title>
+<h1>Farmers & Elevators HomePage</h1>
+<nav>
+  <h3>Setting Page for {{username}}</h3>
+  <a href="/logout">logout</a>
+  <a href="/home">home</a>
+</nav>
+<form action="/change-settings" method="POST">
+  <label>email</label>
+  <input type="email" name="email">
+  <label>name contact person</label>
+  <input type="text" name="contact_person">
+  <label>phone</label>
+  <input type="tel" name="phone">
+  <label>website</label>
+  <input type="text">
+  <label>address</label>
+  <input type="text" name="address">
+  <label>profile image</label>
+  <input type="file" name="image">
+  <button type="submit">SUBMIT</button>
+</form>
+
+<br>
+<br>
+
+<form action="/change-password">
+  <label>old password</label>
+  <input type="text">
+  <label>new password</label>
+  <input type="text">
+</form>
+
+<br>
+<br>
+
+<form action="/delete-account">
+  <button>DELETE ACCOUNT</button>
+</form>
