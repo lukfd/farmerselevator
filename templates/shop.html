@@ -1,26 +1,20 @@
 <!doctype html>
-<title>HomePage</title>
-<h1>Farmers & Elevators HomePage</h1>
+<title>{{username}}</title>
+<h1>Welcome to {{username}}'s shop</h1>
+<p>learn more about <a href="{{ url_for('profile', id = id)}}">{{username}}</a></p>
 <nav>
-  <h3>Welcome {{username}}</h3>
-  <a href="{{ url_for('profile', id = id)}}">your profile </a>|
+  <a href="/home">home </a>|
   <a href="/logout">logout </a>|
   <a href="/settings-farmer">settings</a>
 </nav>
-<nav>
-  <!-- select shop -->
-  <label for="cars">Choose an elevator to shop from:</label>
-  {% for elevator in elevators %}
-    <a href="{{ url_for('shop', name = elevator)}}">{{elevator}}</a>
-  {% endfor %}
-</nav>
-<h3>Order History</h3>
+<h3>Shop now!</h3>
 <table>
   <thead>
     <tr>
-      <th>header1</th>
-      <th>header2</th>
-      <th>header3</th>
+      <th>Product name</th>
+      <th>Description</th>
+      <th>Price</th>
+      <th></th>
     </tr>
    </thead>
    <tbody>
@@ -28,16 +22,19 @@
        <td>text1.1</td>
        <td>text1.2</td>
        <td>text1.3</td>
+       <td><button>Buy</button></td>
      </tr>
      <tr>
        <td>text2.1</td>
        <td>text2.2</td>
        <td>text2.3</td>
+       <td><button>Buy</button></td>
      </tr>
      <tr>
        <td>text3.1</td>
        <td>text3.2</td>
        <td>text3.3</td>
+       <td><button>Buy</button></td>
      </tr>
      <tr>
      </tr>

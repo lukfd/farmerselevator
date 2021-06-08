@@ -96,7 +96,7 @@ def signin_form():
             # create new session
             session['username'] = username
             session['elevator'] = True
-            session['id'] = result[1]
+            session['user_id'] = result[1]
             # redirect to main page
             return redirect("/home", code=302) 
     else:
@@ -185,7 +185,16 @@ def homepage():
         if session["elevator"] == True:
             return render_template('home-elevator.html', username=session["username"], id=session["user_id"])
         else:
-            return render_template('home-farmer.html', username=session["username"], id=session["user_id"])
+            # get list of elevators
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            cur.execute(f"SELECT username from elevators;")
+            elevators = cur.fetchone()
+            if not elevators:
+                elevators = []
+            # render page
+            cur.close()
+            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators)
     else:
         return redirect("/", code=302)
 
@@ -246,13 +255,52 @@ def delete_account():
     else:
         return redirect("/", code=302)
 
-@app.route('/shop/<string:id>', methods=['GET'])
-def shop(id):
-    return id
+@app.route('/shop/<string:name>', methods=['GET'])
+def shop(name):
+    # get list of elevators
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
+    elevator_id = cur.fetchone()
+    if not elevator_id:
+        return f'''
+            <h1>Farmers & Elevators</h1>
+            <nav>
+                <h3>Shop {escape(name)} not found</h3>
+                <a href="/signup">create a new account</a>
+                <a href="/">home</a>
+            </nav>
+            '''
+    # render page
+    cur.close()
+    return render_template('shop.html', username=name, id=elevator_id[0])
 
 @app.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
-    return id
+    # select from the table
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT username from elevators WHERE elevator_id='{id}';")
+    result = cur.fetchone()
+    if not result:  # An empty result evaluates to False.
+        cur.execute(f"SELECT username from farmers WHERE farmer_id='{id}';")
+        result = cur.fetchone()
+        if not result:
+            cur.close()
+            return f'''
+            <h1>Farmers & Elevators</h1>
+            <nav>
+                <h3>Account {escape(id)} not found</h3>
+                <a href="/signup">create a new account</a>
+                <a href="/">home</a>
+            </nav>
+            '''
+        else:
+            cur.close()
+            return render_template('profile.html', username=result[0], profile_type = "farmer")    
+    else:
+        cur.close()
+        return render_template('profile.html', username=result[0], profile_type = "elevator")
 
 @app.route('/manage-shop')
 def manage_shop():
