@@ -296,8 +296,8 @@ def change_profile_information():
             cur = con.cursor()
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email='{email}', first_name='{first_name}
-                                last_name='{last_name}'',
+                                SET email='{email}', name='{first_name}
+                                lastname='{last_name}'',
                                 phone='{phone}', address='{address}',
                                 profile_image='{image}' 
                                 WHERE farmer_id='{user_id}';""")
