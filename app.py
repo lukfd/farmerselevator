@@ -201,7 +201,7 @@ def settings_elevator():
             try:
                 con = lite.connect('base.db') 
                 cur = con.cursor()
-                cur.execute(f"""SELECT email, first_name, last_name, phone, address
+                cur.execute(f"""SELECT email, name, lastname, phone, address
                 from farmers WHERE farmer_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
@@ -239,7 +239,7 @@ def settings_farmer():
             try:
                 con = lite.connect('base.db') 
                 cur = con.cursor()
-                cur.execute(f"""SELECT email, first_name, last_name, phone, address
+                cur.execute(f"""SELECT email, name, lastname, phone, address
                 from farmers WHERE farmer_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
