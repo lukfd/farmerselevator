@@ -6,17 +6,15 @@
   <a href="/logout">logout</a>
   <a href="/home">home</a>
 </nav>
-<form action="/change-settings" method="POST">
+<form action="/change-profile-information" method="POST">
   <label>email</label>
-  <input type="email" name="email">
+  <input type="email" name="email" value={{result[0]}}>
   <label>name contact person</label>
-  <input type="text" name="contact_person">
+  <input type="text" name="contact_person" value={{result[1]}}>
   <label>phone</label>
-  <input type="tel" name="phone">
-  <label>website</label>
-  <input type="text">
+  <input type="tel" name="phone" value={{result[2]}}>
   <label>address</label>
-  <input type="text" name="address">
+  <input type="text" name="address" value={{result[3]}}>
   <label>profile image</label>
   <input type="file" name="image">
   <button type="submit">SUBMIT</button>
@@ -27,9 +25,9 @@
 
 <form action="/change-password">
   <label>old password</label>
-  <input type="text">
+  <input type="text" name="old_password">
   <label>new password</label>
-  <input type="text">
+  <input type="text" name="new_password">
 </form>
 
 <br>

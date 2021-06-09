@@ -75,7 +75,7 @@ def signin_form():
         # check username and password in DB
         con = lite.connect('base.db') 
         cur = con.cursor()
-        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND Password = '{password}';")
+        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND password = '{password}';")
         result = cur.fetchone()
         if not result:  # An empty result evaluates to False.
             cur.close()
@@ -103,7 +103,7 @@ def signin_form():
         # check username and password in DB
         con = lite.connect('base.db') 
         cur = con.cursor()
-        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}' AND Password = '{password}';")
+        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}' AND password = '{password}';")
         result = cur.fetchone()
         if not result:  # An empty result evaluates to False.
             cur.close()
@@ -177,36 +177,41 @@ def signup_form():
             if (con):
                 con.close()
 
-@app.route('/home')
-def homepage():
-    # check if user is in session
-    if 'username' in session:
-        # Two different pages for elevator or farmer
-        if session["elevator"] == True:
-            return render_template('home-elevator.html', username=session["username"], id=session["user_id"])
-        else:
-            # get list of elevators
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            cur.execute(f"SELECT username from elevators;")
-            elevators = cur.fetchone()
-            if not elevators:
-                elevators = []
-            # render page
-            cur.close()
-            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators)
-    else:
-        return redirect("/", code=302)
-
 @app.route('/settings-elevator')
 def settings_elevator():
     # check if user is in session
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            return render_template('settings-elevator.html')
-        else:
-            return render_template('settings-farmer.html')
+            try:
+                con = lite.connect('base.db') 
+                cur = con.cursor()
+                cur.execute(f"""SELECT email, primary_contact, phone, address
+                from elevators WHERE elevator_id='{session['user_id']}';""")
+                result = cur.fetchone()
+                result = ['' if x is None else x for x in result]
+                cur.close()
+                return render_template('settings-elevator.html', result=result)
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+        else: # Farmer
+            try:
+                con = lite.connect('base.db') 
+                cur = con.cursor()
+                cur.execute(f"""SELECT email, first_name, last_name, phone, address
+                from farmers WHERE farmer_id='{session['user_id']}';""")
+                result = cur.fetchone()
+                result = ['' if x is None else x for x in result]
+                cur.close()
+                return render_template('settings-farmer.html', result=result)
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
     else:
         return redirect("/", code=302)
 
@@ -216,9 +221,134 @@ def settings_farmer():
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            return render_template('settings-elevator.html')
+            try:
+                con = lite.connect('base.db') 
+                cur = con.cursor()
+                cur.execute(f"""SELECT email, primary_contact, phone, address
+                from elevators WHERE elevator_id='{session['user_id']}';""")
+                result = cur.fetchone()
+                result = ['' if x is None else x for x in result]
+                cur.close()
+                return render_template('settings-elevator.html', result=result)
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+        else: # Farmer
+            try:
+                con = lite.connect('base.db') 
+                cur = con.cursor()
+                cur.execute(f"""SELECT email, first_name, last_name, phone, address
+                from farmers WHERE farmer_id='{session['user_id']}';""")
+                result = cur.fetchone()
+                result = ['' if x is None else x for x in result]
+                cur.close()
+                return render_template('settings-farmer.html', result=result)
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+    else:
+        return redirect("/", code=302)
+
+@app.route('/change-profile-information', methods=['POST'])
+def change_profile_information():
+    if 'username' in session:
+        user_id = session['user_id']
+
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            email = request.form['email']
+            contact_person = request.form['contact_person']
+            phone = request.form['phone']
+            address = request.form['address']
+            image = request.form['image']
+            # change in DB
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            #create the new profile into the database
+            try:
+                cur.execute(f"""UPDATE elevators 
+                            SET email='{email}', primary_contact='{contact_person}
+                            phone='{phone}', address='{address}',
+                            profile_image='{image}' 
+                            WHERE elevator_id='{user_id}';""")
+                con.commit()
+                cur.close()
+                # reload page
+                return redirect('/settings-elevator.html', code=302)
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+        else: # farmer
+            email = request.form['email']
+            first_name = request.form['first_name']
+            last_name = request.form['last_name']
+            phone = request.form['phone']
+            address = request.form['address']
+            image = request.form['image']
+            # change in DB
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""UPDATE farmers 
+                                SET email='{email}', first_name='{first_name}
+                                last_name='{last_name}'',
+                                phone='{phone}', address='{address}',
+                                profile_image='{image}' 
+                                WHERE farmer_id='{user_id}';""")
+                # reload page
+                return redirect('/settings-farmer.html', code=302)                
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+    else:
+        return redirect("/", code=302)
+
+@app.route('/change-password', methods=['POST'])
+def change_password():
+    
+    if 'username' in session:
+        user_id = session['user_id']
+        old_password = request.form['old_password']
+        new_password = request.form['new_password']
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            # change password in DB
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""UPDATE elevators 
+                                SET password='{new_password}' 
+                                WHERE elevator_id='{user_id}' AND password='{old_password}';""")
+                # reload page
+                return redirect('/settings-farmer.html', code=302)                
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
         else:
-            return render_template('settings-farmer.html')
+            # change password in DB
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""UPDATE farmers 
+                                SET password='{new_password}' 
+                                WHERE farmer_id='{user_id}' AND password='{old_password}';""")
+                # reload page
+                return redirect('/settings-farmer.html', code=302)                
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
     else:
         return redirect("/", code=302)
 
@@ -255,25 +385,26 @@ def delete_account():
     else:
         return redirect("/", code=302)
 
-@app.route('/shop/<string:name>', methods=['GET'])
-def shop(name):
-    # get list of elevators
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
-    elevator_id = cur.fetchone()
-    if not elevator_id:
-        return f'''
-            <h1>Farmers & Elevators</h1>
-            <nav>
-                <h3>Shop {escape(name)} not found</h3>
-                <a href="/signup">create a new account</a>
-                <a href="/">home</a>
-            </nav>
-            '''
-    # render page
-    cur.close()
-    return render_template('shop.html', username=name, id=elevator_id[0])
+@app.route('/home')
+def homepage():
+    # check if user is in session
+    if 'username' in session:
+        # Two different pages for elevator or farmer
+        if session["elevator"] == True:
+            return render_template('home-elevator.html', username=session["username"], id=session["user_id"])
+        else:
+            # get list of elevators
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            cur.execute(f"SELECT username from elevators;")
+            elevators = cur.fetchone()
+            if not elevators:
+                elevators = []
+            # render page
+            cur.close()
+            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators)
+    else:
+        return redirect("/", code=302)
 
 @app.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
@@ -301,6 +432,26 @@ def profile(id):
     else:
         cur.close()
         return render_template('profile.html', username=result[0], profile_type = "elevator")
+
+@app.route('/shop/<string:name>', methods=['GET'])
+def shop(name):
+    # get list of elevators
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
+    elevator_id = cur.fetchone()
+    if not elevator_id:
+        return f'''
+            <h1>Farmers & Elevators</h1>
+            <nav>
+                <h3>Shop {escape(name)} not found</h3>
+                <a href="/signup">create a new account</a>
+                <a href="/">home</a>
+            </nav>
+            '''
+    # render page
+    cur.close()
+    return render_template('shop.html', username=name, id=elevator_id[0])
 
 @app.route('/manage-shop')
 def manage_shop():
