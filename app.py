@@ -435,23 +435,47 @@ def profile(id):
 
 @app.route('/shop/<string:name>', methods=['GET'])
 def shop(name):
-    # get list of elevators
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
-    elevator_id = cur.fetchone()
-    if not elevator_id:
-        return f'''
-            <h1>Farmers & Elevators</h1>
-            <nav>
-                <h3>Shop {escape(name)} not found</h3>
-                <a href="/signup">create a new account</a>
-                <a href="/">home</a>
-            </nav>
-            '''
-    # render page
-    cur.close()
-    return render_template('shop.html', username=name, id=elevator_id[0])
+    if 'username' in session:
+        # get list of elevators
+        con = lite.connect('base.db') 
+        cur = con.cursor()
+        cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
+        elevator_id = cur.fetchone()
+        if not elevator_id:
+            return f'''
+                <h1>Farmers & Elevators</h1>
+                <nav>
+                    <h3>Shop {escape(name)} not found</h3>
+                    <a href="/signup">create a new account</a>
+                    <a href="/">home</a>
+                </nav>
+                '''
+        # render page
+
+        # 
+        cur.close()
+        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True)
+    else:
+        # get list of elevators
+        con = lite.connect('base.db') 
+        cur = con.cursor()
+        cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
+        elevator_id = cur.fetchone()
+        if not elevator_id:
+            return f'''
+                <h1>Farmers & Elevators</h1>
+                <nav>
+                    <h3>Shop {escape(name)} not found</h3>
+                    <a href="/signup">create a new account</a>
+                    <a href="/">home</a>
+                </nav>
+                '''
+        # render page
+
+        # check shop table
+        cur.close()
+        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=False)
+
 
 @app.route('/manage-shop')
 def manage_shop():

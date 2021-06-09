@@ -2,11 +2,13 @@
 <title>{{username}}</title>
 <h1>Welcome to {{username}}'s shop</h1>
 <p>learn more about <a href="{{ url_for('profile', id = id)}}">{{username}}</a></p>
-<nav>
-  <a href="/home">home </a>|
-  <a href="/logout">logout </a>|
-  <a href="/settings-farmer">settings</a>
-</nav>
+{% if loggedin %}
+  <nav>
+    <a href="/home">home</a> |
+    <a href="/logout">logout</a> |
+    <a href="/settings-farmer">settings</a>
+  </nav>
+{% endif %}
 <h3>Shop now!</h3>
 <table>
   <thead>
