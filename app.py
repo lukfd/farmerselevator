@@ -271,7 +271,7 @@ def change_profile_information():
             #create the new profile into the database
             try:
                 cur.execute(f"""UPDATE elevators 
-                            SET email='{email}', primary_contact='{contact_person}
+                            SET email='{email}', primary_contact='{contact_person}'
                             phone='{phone}', address='{address}',
                             profile_image='{image}' 
                             WHERE elevator_id='{user_id}';""")
@@ -296,8 +296,8 @@ def change_profile_information():
             cur = con.cursor()
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email='{email}', name='{first_name}
-                                lastname='{last_name}'',
+                                SET email='{email}', name='{first_name}'
+                                lastname='{last_name}',
                                 phone='{phone}', address='{address}',
                                 profile_image='{image}' 
                                 WHERE farmer_id='{user_id}';""")
