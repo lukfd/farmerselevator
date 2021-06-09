@@ -10,14 +10,19 @@ The problem specifically arises today because farmers would need to call the ele
 
 From the website [flask.palletsprojects.com/en/2.0.x/installation](https://flask.palletsprojects.com/en/2.0.x/installation/)
 Create a project folder and a venv folder within:
+
 ```
 > py -3 -m venv venv
 ```
+
 Before you work on your project, activate the corresponding environment:
+
 ```
 > venv\Scripts\activate
 ```
+
 Then can install Flask within the activated environment
+
 ```
 > pip install Flask
 ```
@@ -28,11 +33,38 @@ Then can install Flask within the activated environment
 
 ### To Do
 
+Now:
 
+- [ ] Finish Settings
+
+- [ ] Create tables for Shop and Orders
+
+- [ ] /delete-account
+
+- [ ] test change password
+
+- [ ] shopping functionality (updating /home and /manage-shop when click buy)
+
+- [ ] uploading profile pictures
+
+Future:
+
+- [ ] Password hasing
+
+- [ ] SQL injection threats
+
+- [ ] Generate better ID for farmers and elevators
+
+- [ ] stay consistant with variables
+
+- [ ] creating functions for redundant code
+
+- [ ] Style
+
+- [ ] In homepage have a search bar for searching elevator's shop
 
 ### References
 
 [https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies](https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies)
 
 [https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
-
