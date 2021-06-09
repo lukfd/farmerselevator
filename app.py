@@ -2,6 +2,7 @@
 # IMPORTs
 from flask import Flask, render_template, url_for, redirect, request, escape
 from flask import session
+import bcrypt 
 
 import sqlite3 as lite
 from random import randint
@@ -75,7 +76,8 @@ def signin_form():
         # check username and password in DB
         con = lite.connect('base.db') 
         cur = con.cursor()
-        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND password = '{password}';")
+        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND password = '{password}';") # NOTE: might get rid of 'AND password = ... ' for checking if a hash password matches plaintext
+        checkHash = bcrypt.checkpw(password.encode('utf-8'), hashed_password)
         result = cur.fetchone()
         if not result:  # An empty result evaluates to False.
             cur.close()
@@ -139,7 +141,7 @@ def signup_form():
     isElevator = request.form.get('elevator')
     email = request.form['email']
     username = request.form['username']
-    password = request.form['password']
+    password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
     toInsert = ('name', randint(0, 100000), email, password, username, 1,)
 
     if isElevator == "on":
