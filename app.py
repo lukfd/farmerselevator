@@ -83,7 +83,7 @@ def signin_form():
     result = cur.fetchone()
     cur.close()
     
-    if result: # An non-empty result evaluates to True.
+    if result: # A non-empty result evaluates to True.
         # 1st parameter checks if plain text password matches 2nd parameter hash in database
         # if true, password hashes correctly
         if bcrypt.checkpw(password.encode('utf-8'), result[2]):
