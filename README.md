@@ -49,7 +49,7 @@ Now:
 
 Future:
 
-- [ ] Password hasing
+- [x] Password hasing
 
 - [ ] SQL injection threats
 
