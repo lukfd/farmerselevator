@@ -123,40 +123,28 @@ def signup_form():
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
     toInsert = ('name', randint(0, 100000), email, password, username, 1,)
 
-    if isElevator == "on":
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        #create the new profile into the database
-        try:
-            cur.execute("""INSERT INTO elevators
-                            (name, elevator_id, email, password, username, status) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-            con.commit()
-            cur.close()
-            # redirect to sign in page
-            return redirect("/signin", code=302)
-        except lite.Error as error:
-            return "Failed: "+str(error)
-        finally:
-            if (con):
-                con.close()
-    else:
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        # create the new profile into the database
-        try:
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+
+    try:
+        if isElevator == "on":
+                cur.execute("""INSERT INTO elevators
+                                    (name, elevator_id, email, password, username, status) 
+                                    VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+        else:
             cur.execute("""INSERT INTO farmers
                             (name, farmer_id, email, password, username, status) 
                             VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-            con.commit()
-            cur.close()
-            # redirect to sign in page
-            return redirect("/signin", code=302)
-        except lite.Error as error:
+        con.commit()
+        cur.close()
+        # redirect to sign in page
+        return redirect("/signin", code=302)
+    except lite.Error as error:
             return "Failed: "+str(error)
-        finally:
-            if (con):
-                con.close()
+    finally:
+        if (con):
+            con.close()
+
 
 @app.route('/settings-elevator')
 def settings_elevator():
