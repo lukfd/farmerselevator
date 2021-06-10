@@ -22,9 +22,7 @@ def index():
 @app.route('/signin')
 def signin():
     if 'username' in session:
-        session.pop('username', None)
-        session.pop('elevator', None)
-        session.pop('user_id', None)
+        closeSession()
     return '''
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
@@ -113,9 +111,7 @@ def signin_form():
 @app.route('/signup-form', methods=['POST'])
 def signup_form():
     if 'username' in session:
-        session.pop('username', None)
-        session.pop('elevator', None)
-        session.pop('user_id', None)
+        closeSession()
 
     isElevator = request.form.get('elevator')
     email = request.form['email']
@@ -254,12 +250,20 @@ def change_profile_information():
                 if (con):
                     con.close()
         else: # farmer
+            # email = request.form.get('email')
+            # first_name = request.form.get('first_name')
+            # last_name = request.form.get('last_name')
+            # phone = request.form.get('phone')
+            # address = request.form.get('address')
+            # image = request.form.get('image')
+
             email = request.form.get('email')
-            first_name = request.form.get('first_name')
-            last_name = request.form.get('last_name')
-            phone = request.form.get('phone')
-            address = request.form.get('address')
-            image = request.form.get('image')
+            first_name = "Luca"
+            last_name = "Comba"
+            phone = 6127079745
+            address = "my address"
+            image = (1024).to_bytes(2, byteorder='big')
+
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -453,6 +457,9 @@ def manage_shop():
     else:
         return redirect("/home", code=302)
 
+#########################################################
+# HELPER METHODS
+#########################################################
 
 def closeSession():
     session.pop('username', None)
