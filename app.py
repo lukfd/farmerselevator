@@ -260,11 +260,11 @@ def change_profile_information():
 
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            email = request.form['email']
-            contact_person = request.form['contact_person']
-            phone = request.form['phone']
-            address = request.form['address']
-            image = request.form['image']
+            email = request.form.get('email')
+            contact_person = request.form.get('contact_person')
+            phone = request.form.get('phone')
+            address = request.form.get('address')
+            image = request.form.get('image')
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -285,12 +285,12 @@ def change_profile_information():
                 if (con):
                     con.close()
         else: # farmer
-            email = request.form['email']
-            first_name = request.form['first_name']
-            last_name = request.form['last_name']
-            phone = request.form['phone']
-            address = request.form['address']
-            image = request.form['image']
+            email = request.form.get('email')
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            phone = request.form.get('phone')
+            address = request.form.get('address')
+            image = request.form.get('image')
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -359,8 +359,17 @@ def delete_account():
         if session["elevator"] == True:
             username = session["username"]
             # delete account from DB
-            
-
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""DELETE FROM elevators
+                                WHERE elevator_id ='{session['user_id']}';""")
+                # reload page               
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
             return f'''
             <h1>Farmers & Elevators</h1>
             <nav>
@@ -372,8 +381,17 @@ def delete_account():
         else:
             username = session["username"]
             # delete account from DB
-
-
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""DELETE FROM farmers
+                                WHERE farmer_id ='{session['user_id']}';""")
+                # reload page               
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
             return f'''
             <h1>Farmers & Elevators</h1>
             <nav>
