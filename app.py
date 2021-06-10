@@ -292,11 +292,11 @@ def change_password():
         user_id = session['user_id']
         new_password = request.form['new_password']
         confirm_password = request.form['confirm_password']
-
+        flag = True
         if new_password != confirm_password:
-            return redirect("/settings-farmer", code=302) # this needs to show some error
+            return render_template("/settings-farmer", data = [flag]) # this needs to show some error
 
-        new_password2 = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+        new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
 
         con = lite.connect('base.db') 
         cur = con.cursor()
@@ -304,14 +304,10 @@ def change_password():
         try:
             if session["elevator"] == True:
                 # change password in DB:
-                cur.execute(f"""UPDATE elevators 
-                                SET password='{str(new_password2)}' 
-                                WHERE elevator_id='{user_id}';""")
+                cur.execute('''UPDATE elevators SET password = ? WHERE elevator_id = ?''', (new_password, user_id))
                 con.commit()
             else:
-                cur.execute(f"""UPDATE farmers 
-                                SET password='{new_password2}'
-                                WHERE farmer_id='{user_id}';""")
+                cur.execute('''UPDATE farmers SET password = ? WHERE farmer_id = ?''', (new_password, user_id))
                 con.commit()
                 # reload page
             return redirect('/settings-farmer', code=302)                
