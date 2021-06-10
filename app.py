@@ -236,46 +236,48 @@ def change_profile_information():
             #create the new profile into the database
             try:
                 cur.execute(f"""UPDATE elevators 
-                            SET email='{email}', primary_contact='{contact_person}'
+                            SET email='{email}', primary_contact='{contact_person}',
                             phone='{phone}', address='{address}',
                             profile_image='{image}' 
                             WHERE elevator_id='{user_id}';""")
                 con.commit()
                 cur.close()
                 # reload page
-                return redirect('/settings-elevator.html', code=302)
+                return redirect('/settings-elevator', code=302)
             except lite.Error as error:
                 return "Failed: "+str(error)
             finally:
                 if (con):
                     con.close()
         else: # farmer
-            # email = request.form.get('email')
-            # first_name = request.form.get('first_name')
-            # last_name = request.form.get('last_name')
-            # phone = request.form.get('phone')
-            # address = request.form.get('address')
-            # image = request.form.get('image')
-
             email = request.form.get('email')
-            first_name = "Luca"
-            last_name = "Comba"
-            phone = 6127079745
-            address = "my address"
-            image = (1024).to_bytes(2, byteorder='big')
+            first_name = request.form.get('first_name')
+            last_name = request.form.get('last_name')
+            phone = request.form.get('phone')
+            address = request.form.get('address')
+            image = request.form.get('image')
+
+            # email = request.form.get('email')
+            # first_name = "Luca"
+            # last_name = "Comba"
+            # phone = 6127079745
+            # address = "my address"
+            # image = (1024).to_bytes(2, byteorder='big')
 
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email='{email}', name='{first_name}'
+                                SET email='{email}', name='{first_name}',
                                 lastname='{last_name}',
                                 phone='{phone}', address='{address}',
                                 profile_image='{image}' 
                                 WHERE farmer_id='{user_id}';""")
+                con.commit()
+                cur.close()
                 # reload page
-                return redirect('/settings-farmer.html', code=302)                
+                return redirect('/settings-farmer', code=302)                
             except lite.Error as error:
                 return "Failed: "+str(error)
             finally:
