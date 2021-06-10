@@ -2,29 +2,47 @@
 <title>{{username}}</title>
 <nav>
   <a href="/home">home </a>|
-  <a href="/logout">logout </a>|
+  {% if loggedin %}
+    <a href="/logout">logout </a>|
+  {% endif %}
   <a href="/settings-farmer">settings</a>
 </nav>
-<h1>{{profile_type}} {{username}}</h1>
+
 <table>
     <thead>
-     </thead>
-     <tbody>
-       <tr>
-         <td>profile picture</td>
-         <td>text1.2</td>
-       </tr>
-       <tr>
-         <td>Name</td>
-         <td>text2.2</td>
-       </tr>
-       <tr>
-         <td>LastName</td>
-         <td>text3.2</td>
-       </tr>
-       <tr>
-        <td>Phone</td>
-        <td>text3.2</td>
+      <h1>{{profile_type}}: {{username}}</h1>
+    </thead>
+    <tbody>
+      <tr>
+        <td>profile picture</td>
+        <td>text1.2</td>
       </tr>
-    </tbody>
-  </table>
+      <tr>
+        <td>Name</td>
+        <td>{{name}}</td>
+      </tr>
+      {% if profile_type == 'elevator' %}
+        <tr>
+          <td>Shop at</td>
+          <td><a href="{{ url_for('shop', name = username)}}">{{username}}</a>'s shop</td>
+        </tr>
+        <tr>
+          <td>Phone</td>
+          <td>{{phone}}</td>
+        </tr>
+        <tr>
+          <td>Email</td>
+          <td>{{email}}</td>
+        </tr>
+        <tr>
+          <td>Address</td>
+          <td>{{address}}</td>
+        </tr>
+      {% else %}
+        <tr>
+          <td>Email</td>
+          <td>{{email}}</td>
+        </tr>
+      {% endif %}
+  </tbody>
+</table>

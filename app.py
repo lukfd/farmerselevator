@@ -257,13 +257,6 @@ def change_profile_information():
             address = request.form.get('address')
             image = request.form.get('image')
 
-            # email = request.form.get('email')
-            # first_name = "Luca"
-            # last_name = "Comba"
-            # phone = 6127079745
-            # address = "my address"
-            # image = (1024).to_bytes(2, byteorder='big')
-
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -286,34 +279,38 @@ def change_profile_information():
     else:
         return redirect("/", code=302)
 
-@app.route('/change-password', methods=['GET', 'POST'])
+@app.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
     if 'username' in session:
         user_id = session['user_id']
-        new_password = request.form['new_password']
-        confirm_password = request.form['confirm_password']
-
-        if new_password != confirm_password:
-            return redirect("/settings-farmer", code=302) # this needs to show some error
-
-        new_password2 = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
-
+        old_password = request.form['old_password']
+        new_password = bcrypt.hashpw(request.form['new_password'].encode('utf-8'), bcrypt.gensalt())
         con = lite.connect('base.db') 
         cur = con.cursor()
         # Two different pages for elevator or farmer
+        print(session['username'])
         try:
             if session["elevator"] == True:
-                # change password in DB:
-                cur.execute(f"""UPDATE elevators 
-                                SET password='{str(new_password2)}' 
-                                WHERE elevator_id='{user_id}';""")
-                con.commit()
+                # change password in DB
+                cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{session['username']}';")
+                result = cur.fetchone()
+                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
+                if pwValid:
+                    cur.execute(f"""UPDATE elevators 
+                                    SET password='{new_password}' 
+                                    WHERE elevator_id='{user_id}';""")
+                    con.commit()
             else:
-                cur.execute(f"""UPDATE farmers 
-                                SET password='{new_password2}'
-                                WHERE farmer_id='{user_id}';""")
-                con.commit()
-                # reload page
+                cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{session['username']}';")
+                result = cur.fetchone()
+                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
+                print('pwValid is ' + str(pwValid))
+                if pwValid:
+                    cur.execute(f"""UPDATE farmers 
+                                    SET password='{new_password}'
+                                    WHERE farmer_id='{user_id}';""")
+                    con.commit()
+                    # reload page
             return redirect('/settings-farmer', code=302)                
         except lite.Error as error:
             return "Failed: "+str(error)
@@ -377,13 +374,16 @@ def homepage():
 
 @app.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
+    loggedin = False
+    if 'username' in session:
+        loggedin = True
     # select from the table
     con = lite.connect('base.db') 
     cur = con.cursor()
-    cur.execute(f"SELECT username from elevators WHERE elevator_id='{id}';")
+    cur.execute(f"SELECT username, primary_contact, phone, email, address from elevators WHERE elevator_id='{id}';")
     result = cur.fetchone()
     if not result:  # An empty result evaluates to False.
-        cur.execute(f"SELECT username from farmers WHERE farmer_id='{id}';")
+        cur.execute(f"SELECT username, name, lastname, email from farmers WHERE farmer_id='{id}';")
         result = cur.fetchone()
         if not result:
             cur.close()
@@ -397,10 +397,10 @@ def profile(id):
             '''
         else:
             cur.close()
-            return render_template('profile.html', username=result[0], profile_type = "farmer")    
+            return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "farmer", name=result[1]+' '+result[2], email=result[3])    
     else:
         cur.close()
-        return render_template('profile.html', username=result[0], profile_type = "elevator")
+        return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "elevator", name=result[1], phone=result[2], email=result[3], address=result[4])
 
 @app.route('/shop/<string:name>', methods=['GET'])
 def shop(name):
@@ -426,7 +426,7 @@ def shop(name):
         return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True)
     else:
         # get list of elevators
-        con = lite.connect('base.db') 
+        con = lite.connect('base.db')
         cur = con.cursor()
         cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
         elevator_id = cur.fetchone()

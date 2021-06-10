@@ -30,16 +30,19 @@ Then can install Flask within the activated environment
 **Packages needed:**
 
 - `pip install pysqlite3`, in case of SQLite3 DataBase usage
+- `pip install bcrypt` for hasing passwords
 
 ### To Do
 
 Now:
 
-- [ ] Finish Settings (changing row by sending variables)
+- [x] Finish Settings (changing row by sending variables)
+
+- [ ] Finish /profile
 
 - [ ] Create tables for Shop and Orders
 
-- [ ] test /delete-account
+- [x] test /delete-account
 
 - [ ] test change password
 
