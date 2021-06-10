@@ -78,7 +78,7 @@ def signin_form():
     if isElevator == "on":
         cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{username}';")
     else:
-        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}';")
+        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{username}';")
     
     result = cur.fetchone()
     cur.close()
@@ -87,7 +87,6 @@ def signin_form():
         # 1st parameter checks if plain text password matches 2nd parameter hash in database
         # if true, password hashes correctly
         if bcrypt.checkpw(password.encode('utf-8'), result[2]):
-            
             # create new session
             session['username'] = username
             session['elevator'] = True
