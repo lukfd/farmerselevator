@@ -95,18 +95,18 @@ def signin_form():
             return redirect("/home", code=302)
     # failed to login
     return '''
-                <h1>Farmers & Elevators</h1>
-                <h3>Login Failed, try again</h3>
-                <form action="/signin-form" method="post">
-                    <label>Username:</label>
-                    <input type="text" name="username"/>
-                    <label>Password:</label>
-                    <input type="password" name="password"/>
-                    <label>elevator?</label>
-                    <input type="checkbox" name="elevator"/>
-                    <button type="submit">sign-in</button>
-                </form>
-                '''
+        <h1>Farmers & Elevators</h1>
+        <h3>Login Failed, try again</h3>
+        <form action="/signin-form" method="post">
+            <label>Username:</label>
+            <input type="text" name="username"/>
+            <label>Password:</label>
+            <input type="password" name="password"/>
+            <label>elevator?</label>
+            <input type="checkbox" name="elevator"/>
+            <button type="submit">sign-in</button>
+        </form>
+        '''
             
     
 # Parameters: email, username, password, elevator
