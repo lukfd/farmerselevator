@@ -283,34 +283,27 @@ def change_profile_information():
 def change_password():
     if 'username' in session:
         user_id = session['user_id']
-        old_password = request.form['old_password']
-        new_password = bcrypt.hashpw(request.form['new_password'].encode('utf-8'), bcrypt.gensalt())
+        new_password = request.form['new_password']
+        confirm_password = request.form['confirm_password']
+        flag = True
+        if new_password != confirm_password:
+            return render_template("/settings-farmer", data = [flag]) # this needs to show some error
+
+        new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
+
         con = lite.connect('base.db') 
         cur = con.cursor()
         # Two different pages for elevator or farmer
         print(session['username'])
         try:
             if session["elevator"] == True:
-                # change password in DB
-                cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{session['username']}';")
-                result = cur.fetchone()
-                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
-                if pwValid:
-                    cur.execute(f"""UPDATE elevators 
-                                    SET password='{new_password}' 
-                                    WHERE elevator_id='{user_id}';""")
-                    con.commit()
+                # change password in DB:
+                cur.execute('''UPDATE elevators SET password = ? WHERE elevator_id = ?''', (new_password, user_id))
+                con.commit()
             else:
-                cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{session['username']}';")
-                result = cur.fetchone()
-                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
-                print('pwValid is ' + str(pwValid))
-                if pwValid:
-                    cur.execute(f"""UPDATE farmers 
-                                    SET password='{new_password}'
-                                    WHERE farmer_id='{user_id}';""")
-                    con.commit()
-                    # reload page
+                cur.execute('''UPDATE farmers SET password = ? WHERE farmer_id = ?''', (new_password, user_id))
+                con.commit()
+                # reload page
             return redirect('/settings-farmer', code=302)                
         except lite.Error as error:
             return "Failed: "+str(error)

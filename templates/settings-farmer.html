@@ -24,7 +24,9 @@
 
 <br>
 <br>
-
+{% if flag == True %}
+  <p>Passwords do not match</p>
+{% endif %}
 <form action="/change-password" method="POST">
   <label>new password</label>
   <input type="text" name="new_password">
