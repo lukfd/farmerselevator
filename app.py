@@ -1,5 +1,6 @@
 
 # IMPORTs
+from os import close
 from flask import Flask, render_template, url_for, redirect, request, escape
 from flask import session
 import bcrypt 
@@ -59,9 +60,7 @@ def signup():
 @app.route('/logout')
 def logout():
     # remove the username from the session if it's there
-    session.pop('username', None)
-    session.pop('elevator', None)
-    session.pop('user_id', None)
+    closeSession()
     return redirect("/", code=302) 
 
 # parameters: username, password, elevator
@@ -324,43 +323,18 @@ def change_password():
 @app.route('/delete-account')
 def delete_account():
     if 'username' in session:
-        # Two different pages for elevator or farmer
-        if session["elevator"] == True:
+        # delete account from DB
+        con = lite.connect('base.db') 
+        cur = con.cursor()
+        try:
             username = session["username"]
-            # delete account from DB
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            try:
+            if session["elevator"] == True:
                 cur.execute(f"""DELETE FROM elevators
                                 WHERE elevator_id ='{session['user_id']}';""")
-                # reload page               
-            except lite.Error as error:
-                return "Failed: "+str(error)
-            finally:
-                if (con):
-                    con.close()
-            return f'''
-            <h1>Farmers & Elevators</h1>
-            <nav>
-                <h3>Account {escape(username)} deleted</h3>
-                <a href="/signup">create a new account</a>
-                <a href="/">home</a>
-            </nav>
-            '''
-        else:
-            username = session["username"]
-            # delete account from DB
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            try:
+            else:
                 cur.execute(f"""DELETE FROM farmers
                                 WHERE farmer_id ='{session['user_id']}';""")
-                # reload page               
-            except lite.Error as error:
-                return "Failed: "+str(error)
-            finally:
-                if (con):
-                    con.close()
+            closeSession()
             return f'''
             <h1>Farmers & Elevators</h1>
             <nav>
@@ -369,6 +343,11 @@ def delete_account():
                 <a href="/">home</a>
             </nav>
             '''
+        except lite.Error as error:
+                return "Failed: "+str(error)
+        finally:
+            if (con):
+                con.close()
     else:
         return redirect("/", code=302)
 
@@ -472,6 +451,12 @@ def manage_shop():
             return render_template('manage-shop.html', username=session['username'])
     else:
         return redirect("/home", code=302)
+
+
+def closeSession():
+    session.pop('username', None)
+    session.pop('elevator', None)
+    session.pop('user_id', None)
 
 # this does not work
 with app.test_request_context():
