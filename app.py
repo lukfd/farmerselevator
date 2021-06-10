@@ -70,46 +70,32 @@ def signin_form():
     isElevator = request.form.get('elevator')
     username = request.form['username']
     password = request.form['password']
-    
+
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+
     # if it is an Elevator logging in
     if isElevator == "on":
-        # check username and password in DB
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        cur.execute(f"SELECT username, elevator_id from elevators WHERE username='{username}' AND password = '{password}';") # NOTE: might get rid of 'AND password = ... ' for checking if a hash password matches plaintext
-        checkHash = bcrypt.checkpw(password.encode('utf-8'), hashed_password)
-        result = cur.fetchone()
-        if not result:  # An empty result evaluates to False.
-            cur.close()
-            return '''
-                <h1>Farmers & Elevators</h1>
-                <h3>Login Failed, try again</h3>
-                <form action="/signin-form" method="post">
-                    <label>Username:</label>
-                    <input type="text" name="username"/>
-                    <label>Password:</label>
-                    <input type="password" name="password"/>
-                    <label>elevator?</label>
-                    <input type="checkbox" name="elevator"/>
-                    <button type="submit">sign-in</button>
-                </form>
-                '''
-        else:
+        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{username}';")
+    else:
+        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}';")
+    
+    result = cur.fetchone()
+    cur.close()
+    
+    if result: # An non-empty result evaluates to True.
+        # 1st parameter checks if plain text password matches 2nd parameter hash in database
+        # if true, password hashes correctly
+        if bcrypt.checkpw(password.encode('utf-8'), result[2]):
+            
             # create new session
             session['username'] = username
             session['elevator'] = True
             session['user_id'] = result[1]
             # redirect to main page
-            return redirect("/home", code=302) 
-    else:
-        # check username and password in DB
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        cur.execute(f"SELECT username, farmer_id from farmers WHERE username='{username}' AND password = '{password}';")
-        result = cur.fetchone()
-        if not result:  # An empty result evaluates to False.
-            cur.close()
-            return '''
+            return redirect("/home", code=302)
+    # failed to login
+    return '''
                 <h1>Farmers & Elevators</h1>
                 <h3>Login Failed, try again</h3>
                 <form action="/signin-form" method="post">
@@ -122,14 +108,8 @@ def signin_form():
                     <button type="submit">sign-in</button>
                 </form>
                 '''
-        else:
-            # create new session
-            session['username'] = username
-            session['elevator'] = False
-            session['user_id'] = result[1]
-            # redirect to main page
-            return redirect("/home", code=302)
-
+            
+    
 # Parameters: email, username, password, elevator
 @app.route('/signup-form', methods=['POST'])
 def signup_form():
