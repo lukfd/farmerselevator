@@ -284,44 +284,41 @@ def change_profile_information():
     else:
         return redirect("/", code=302)
 
-@app.route('/change-password', methods=['POST'])
+@app.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
-    
     if 'username' in session:
         user_id = session['user_id']
         old_password = request.form['old_password']
-        new_password = request.form['new_password']
+        new_password = bcrypt.hashpw(request.form['new_password'].encode('utf-8'), bcrypt.gensalt())
+        con = lite.connect('base.db') 
+        cur = con.cursor()
         # Two different pages for elevator or farmer
-        if session["elevator"] == True:
-            # change password in DB
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            try:
-                cur.execute(f"""UPDATE elevators 
-                                SET password='{new_password}' 
-                                WHERE elevator_id='{user_id}' AND password='{old_password}';""")
-                # reload page
-                return redirect('/settings-farmer.html', code=302)                
-            except lite.Error as error:
-                return "Failed: "+str(error)
-            finally:
-                if (con):
-                    con.close()
-        else:
-            # change password in DB
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            try:
-                cur.execute(f"""UPDATE farmers 
-                                SET password='{new_password}' 
-                                WHERE farmer_id='{user_id}' AND password='{old_password}';""")
-                # reload page
-                return redirect('/settings-farmer.html', code=302)                
-            except lite.Error as error:
-                return "Failed: "+str(error)
-            finally:
-                if (con):
-                    con.close()
+        print(session['username'])
+        try:
+            if session["elevator"] == True:
+                # change password in DB
+                cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{session['username']}';")
+                result = cur.fetchone()
+                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
+                if pwValid:
+                    cur.execute(f"""UPDATE elevators 
+                                    SET password='{new_password}' 
+                                    WHERE elevator_id='{user_id}';""")
+            else:
+                cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{session['username']}';")
+                result = cur.fetchone()
+                pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
+                if pwValid:
+                    cur.execute(f"""UPDATE farmers 
+                                    SET password='{new_password}' 
+                                    WHERE farmer_id='{user_id}';""")
+                    # reload page
+            return redirect('/settings-farmer', code=302)                
+        except lite.Error as error:
+            return "Failed: "+str(error)
+        finally:
+            if (con):
+                con.close()
     else:
         return redirect("/", code=302)
 
