@@ -35,11 +35,11 @@ Then can install Flask within the activated environment
 
 Now:
 
-- [ ] Finish Settings
+- [ ] Finish Settings (changing row by sending variables)
 
 - [ ] Create tables for Shop and Orders
 
-- [ ] /delete-account
+- [ ] test /delete-account
 
 - [ ] test change password
 
