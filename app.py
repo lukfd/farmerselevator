@@ -306,14 +306,17 @@ def change_password():
                     cur.execute(f"""UPDATE elevators 
                                     SET password='{new_password}' 
                                     WHERE elevator_id='{user_id}';""")
+                    con.commit()
             else:
                 cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{session['username']}';")
                 result = cur.fetchone()
                 pwValid = bcrypt.checkpw(old_password.encode('utf-8'), result[2])
+                print('pwValid is ' + str(pwValid))
                 if pwValid:
                     cur.execute(f"""UPDATE farmers 
-                                    SET password='{new_password}' 
+                                    SET password='{new_password}'
                                     WHERE farmer_id='{user_id}';""")
+                    con.commit()
                     # reload page
             return redirect('/settings-farmer', code=302)                
         except lite.Error as error:
