@@ -36,19 +36,27 @@ Then can install Flask within the activated environment
 
 Now:
 
-- [x] Finish Settings (changing row by sending variables)
+- [ ] Correct the address in /settings (does not take spaces)
 
-- [ ] Finish /profile
+- [ ] Correct the description of products input in /manage-shop (does not take spaces)
 
-- [ ] Create tables for Shop and Orders
+- [ ] Update /home orders table for farmers and elevators
+
+- [ ] Finish /manage-shop (add delete row and modify exisiting products)
+
+- [ ] Populate /shop tables and the buy functionality
+
+- [ ] Make a clever way for user_id and product_id
 
 - [x] test /delete-account
 
-- [ ] test change password
+- [x] test change password
 
-- [ ] shopping functionality (updating /home and /manage-shop when click buy)
+- [x] uploading profile pictures
 
-- [ ] uploading profile pictures
+- [x] Finish Settings (changing row by sending variables)
+
+- [x] Finish /profile
 
 Future:
 
