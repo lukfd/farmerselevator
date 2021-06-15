@@ -1,7 +1,7 @@
 
 # IMPORTs
-from os import close
-from flask import Flask, render_template, url_for, redirect, request, escape
+import os
+from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory
 from flask import session
 import bcrypt 
 
@@ -12,9 +12,12 @@ app = Flask(__name__)
 
 # CONSTANTS
 app.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
+UPLOAD_FOLDER = './uploads'
+ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # WEBSITE
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -34,6 +37,7 @@ def signin():
 		<input type="checkbox" name="elevator"/>
 		<button type="submit">sign-in</button>
 	</form>
+    <a href="/signup">Don't have an account yet? Sign Up</a>
     '''
 
 @app.route('/signup')
@@ -53,6 +57,7 @@ def signup():
 		<input type="checkbox" name="elevator"/>
 		<button type="submit">sign-up</button>
 	</form>
+    <a href="/signin">Already have an account? Sign in</a>
     '''
 
 @app.route('/logout')
@@ -104,6 +109,7 @@ def signin_form():
             <input type="checkbox" name="elevator"/>
             <button type="submit">sign-in</button>
         </form>
+        <a href="/signup">Don't have an account yet? Sign Up</a>
         '''
             
     
@@ -117,7 +123,7 @@ def signup_form():
     email = request.form['email']
     username = request.form['username']
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-    toInsert = ('name', randint(0, 100000), email, password, username, 1,)
+    toInsert = ('name', randint(0, 100000), email, password, username, 1, "default.png")
 
     con = lite.connect('base.db') 
     cur = con.cursor()
@@ -125,12 +131,12 @@ def signup_form():
     try:
         if isElevator == "on":
                 cur.execute("""INSERT INTO elevators
-                                    (name, elevator_id, email, password, username, status) 
-                                    VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+                                    (name, elevator_id, email, password, username, status, profile_image) 
+                                    VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
         else:
             cur.execute("""INSERT INTO farmers
-                            (name, farmer_id, email, password, username, status) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+                            (name, farmer_id, email, password, username, status, profile_image) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
         con.commit()
         cur.close()
         # redirect to sign in page
@@ -189,12 +195,12 @@ def settings_farmer():
             try:
                 con = lite.connect('base.db') 
                 cur = con.cursor()
-                cur.execute(f"""SELECT email, primary_contact, phone, address
+                cur.execute(f"""SELECT email, primary_contact, phone, address, profile_image
                 from elevators WHERE elevator_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
-                return render_template('settings-elevator.html', result=result)
+                return render_template('settings-elevator.html', username=session['username'], result=result)
             except lite.Error as error:
                 return "Failed: "+str(error)
             finally:
@@ -204,12 +210,12 @@ def settings_farmer():
             try:
                 con = lite.connect('base.db') 
                 cur = con.cursor()
-                cur.execute(f"""SELECT email, name, lastname, phone, address
+                cur.execute(f"""SELECT email, name, lastname, phone, address, profile_image
                 from farmers WHERE farmer_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
-                return render_template('settings-farmer.html', result=result)
+                return render_template('settings-farmer.html', username=session['username'], result=result)
             except lite.Error as error:
                 return "Failed: "+str(error)
             finally:
@@ -229,7 +235,6 @@ def change_profile_information():
             contact_person = request.form.get('contact_person')
             phone = request.form.get('phone')
             address = request.form.get('address')
-            image = request.form.get('image')
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -238,7 +243,7 @@ def change_profile_information():
                 cur.execute(f"""UPDATE elevators 
                             SET email='{email}', primary_contact='{contact_person}',
                             phone='{phone}', address='{address}',
-                            profile_image='{image}' 
+                            profile_image='{user_id}' 
                             WHERE elevator_id='{user_id}';""")
                 con.commit()
                 cur.close()
@@ -255,8 +260,6 @@ def change_profile_information():
             last_name = request.form.get('last_name')
             phone = request.form.get('phone')
             address = request.form.get('address')
-            image = request.form.get('image')
-
             # change in DB
             con = lite.connect('base.db') 
             cur = con.cursor()
@@ -265,7 +268,7 @@ def change_profile_information():
                                 SET email='{email}', name='{first_name}',
                                 lastname='{last_name}',
                                 phone='{phone}', address='{address}',
-                                profile_image='{image}' 
+                                profile_image='{user_id}' 
                                 WHERE farmer_id='{user_id}';""")
                 con.commit()
                 cur.close()
@@ -278,6 +281,54 @@ def change_profile_information():
                     con.close()
     else:
         return redirect("/", code=302)
+
+@app.route('/change-profile-image', methods=['POST'])
+def change_profile_image():
+    if 'username' in session:
+        user_id = session['user_id']
+        # save image
+        file = request.files['image']
+        extension = file.filename.split('.')[1]
+        image_name = str(user_id)+"."+extension
+        path = os.path.join(app.config['UPLOAD_FOLDER'], image_name)
+        file.save(path)
+
+        if session["elevator"] == True:
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""UPDATE elevators 
+                                SET profile_image='{image_name}' 
+                                WHERE elevator_id='{user_id}';""")
+                con.commit()
+                cur.close()
+                # reload page
+                return redirect('/settings-farmer', code=302)                
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+        else:
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute(f"""UPDATE farmers 
+                                SET profile_image='{image_name}' 
+                                WHERE farmer_id='{user_id}';""")
+                con.commit()
+                cur.close()
+                # reload page
+                return redirect('/settings-farmer', code=302)                
+            except lite.Error as error:
+                return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
+
+@app.route('/get-profile-image/<file>')
+def get_profile_image(file):
+    return send_from_directory(app.config['UPLOAD_FOLDER'], file)
 
 @app.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
@@ -327,6 +378,7 @@ def delete_account():
             else:
                 cur.execute(f"""DELETE FROM farmers
                                 WHERE farmer_id ='{session['user_id']}';""")
+            con.commit()
             closeSession()
             return f'''
             <h1>Farmers & Elevators</h1>
@@ -373,11 +425,12 @@ def profile(id):
     # select from the table
     con = lite.connect('base.db') 
     cur = con.cursor()
-    cur.execute(f"SELECT username, primary_contact, phone, email, address from elevators WHERE elevator_id='{id}';")
+    cur.execute(f"SELECT username, primary_contact, phone, email, address, profile_image from elevators WHERE elevator_id='{id}';")
     result = cur.fetchone()
     if not result:  # An empty result evaluates to False.
-        cur.execute(f"SELECT username, name, lastname, email from farmers WHERE farmer_id='{id}';")
+        cur.execute(f"SELECT username, name, lastname, email, profile_image from farmers WHERE farmer_id='{id}';")
         result = cur.fetchone()
+        result = ['' if x is None else x for x in result]
         if not result:
             cur.close()
             return f'''
@@ -390,10 +443,10 @@ def profile(id):
             '''
         else:
             cur.close()
-            return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "farmer", name=result[1]+' '+result[2], email=result[3])    
+            return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "farmer", name=result[1]+' '+result[2], email=result[3], image=str(result[4]))    
     else:
         cur.close()
-        return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "elevator", name=result[1], phone=result[2], email=result[3], address=result[4])
+        return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "elevator", name=result[1], phone=result[2], email=result[3], address=result[4], image=str(result[5]))
 
 @app.route('/shop/<string:name>', methods=['GET'])
 def shop(name):
@@ -413,8 +466,6 @@ def shop(name):
                 </nav>
                 '''
         # render page
-
-        # 
         cur.close()
         return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True)
     else:
@@ -444,9 +495,54 @@ def manage_shop():
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            return render_template('manage-shop.html', username=session['username'])
+            id=session['user_id']
+            # select from the table
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            cur.execute(f"SELECT * from products WHERE elevator_id='{id}';")
+            result = cur.fetchall()
+            if not result:
+                result = []
+            else:
+                result = ['' if x is None else x for x in result]
+            cur.close()
+            return render_template('manage-shop.html', username=session['username'], products=result, user_id=id)
     else:
         return redirect("/home", code=302)
+
+@app.route('/add-product', methods=['POST'])
+def add_product():
+    if 'username' in session:
+        #elevator_id = request.form.get('elevator_id')
+        elevator_id = session['user_id']
+        product_name = request.form.get('product_name')
+        product_id = request.form.get('product_id')
+        quantity_available = request.form.get('quantity_available')
+        measure = request.form.get('measure')
+        price = request.form.get('price')
+        description = request.form.get('description')
+        print(product_id)
+        if product_id is '':
+            product_id = randint(0, 100000)
+        toInsert = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
+        # inserting new product
+        con = lite.connect('base.db') 
+        cur = con.cursor()
+        try:
+            cur.execute("""INSERT INTO products
+                    (elevator_id, name, product_id, quantity_available, measure, price, description) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+            con.commit()
+            cur.close()
+            # redirect to sign in page
+            return redirect("/manage-shop", code=302)
+        except lite.Error as error:
+                return "Failed: "+str(error)
+        finally:
+            if (con):
+                con.close()
+    else:
+        return "not authorized"
 
 #########################################################
 # HELPER METHODS

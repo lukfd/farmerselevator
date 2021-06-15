@@ -6,3 +6,47 @@
   <a href="/logout">logout </a>|
   <a href="/settings-farmer">settings</a>
 </nav>
+<h3>Your products</h3>
+
+<table style="border: 1px solid;">
+  <thead>
+    <tr>
+      <th></th>
+      <th>Elevator ID</th>
+      <th>Name</th>
+      <th>Product ID</th>
+      <th>Quantity left</th>
+      <th>Measure</th>
+      <th>Price in $</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  {% for product in products %}
+    <tr>
+      <td>x</td>
+      {% for i in product %}
+        <td style="border: 1px solid;">{{i}}</td>
+      {% endfor %}
+    </tr>
+  {% endfor %}
+</table>
+
+
+<h3>Add a new product</h3>
+<form action="/add-product" method="post">
+  <label>elevator id</label>
+  <input type="number" name="elevator_id" value={{user_id}} disabled>
+  <label>product name</label>
+  <input type="text" name="product_name">
+  <label>product ID</label>
+  <input type="number" name="product_id">
+  <label>initial quantity available</label>
+  <input type="text" name="quantity_available">
+  <label>measurement of quantity</label>
+  <input type="text" name="measure">
+  <label>price</label>
+  <input type="number" name="price">
+  <label>description</label>
+  <input type="text" name="description"></input>
+  <button type="submit">SUBMIT</button>
+</form>

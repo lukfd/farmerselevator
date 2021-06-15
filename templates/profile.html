@@ -4,8 +4,8 @@
   <a href="/home">home </a>|
   {% if loggedin %}
     <a href="/logout">logout </a>|
+    <a href="/settings-farmer">settings</a>
   {% endif %}
-  <a href="/settings-farmer">settings</a>
 </nav>
 
 <table>
@@ -14,8 +14,8 @@
     </thead>
     <tbody>
       <tr>
-        <td>profile picture</td>
-        <td>text1.2</td>
+        <td>picture</td>
+        <td><img src="{{ url_for('get_profile_image', file = image)}}" alt="profile image" height="100px"></td>
       </tr>
       <tr>
         <td>Name</td>
