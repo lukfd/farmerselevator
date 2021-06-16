@@ -625,12 +625,17 @@ def getProductInformation(product_id, elevator_id):
     return result[0]
 
 def deleteProduct(elevator_id, product_id):
-    elevator_id = elevator_id
-    product_id = product_id
+    toDelete = (elevator_id, product_id,)
     con = lite.connect('base.db') 
     cur = con.cursor()
     try:
-        cur.execute("DELETE from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}'")
+        deletedProductToIntesert = getProductInformation(product_id, elevator_id)
+        # deletedProductToInsert is a tuple (elevator_id, name, product_id, quantity_av, measure, price, description)
+        cur.execute("""INSERT INTO deleted_products
+                    (elevator_id, name, product_id, quantity_available, measure, price, description) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?);""", deletedProductToIntesert)
+        con.commit()
+        cur.execute("DELETE from products WHERE elevator_id=? AND product_id=?;", toDelete)
         con.commit()
         cur.close()
         # return success
