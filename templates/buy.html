@@ -1,0 +1,40 @@
+<!doctype html>
+<title>Making a new order</title>
+<nav>
+    <a href="/home">home</a> |
+    <a href="/logout">logout</a> |
+    <a href="/settings-farmer">settings</a>
+</nav>
+
+<h1>You are making a new order</h1>
+
+<p>Order the product now from the {{elevator_id}}</p>
+
+<b>Product infromation in the cart</b>
+
+<table style="border: 1px solid;">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity left</th>
+        <th>Measure</th>
+        <th>Price in $</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tr>
+        <td style="border: 1px solid;">{{name}}</td>
+        <td style="border: 1px solid;">{{quantity_available}}</td>
+        <td style="border: 1px solid;">{{measure}}</td>
+        <td style="border: 1px solid;">{{price}}</td>
+        <td style="border: 1px solid;">{{description}}</td>
+    </tr>
+</table>
+
+<form action="{{ url_for('submit_order', product_id=product_id, elevator_id=elevator_id, farmer_id=farmer_id) }}" method="POST">
+
+    <label>quantity to order</label>
+    <input type="number" name="quantity" min="0" max={{quantity_available}}>
+
+    <button type="submit">SUBMIT</button>
+</form>

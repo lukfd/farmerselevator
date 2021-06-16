@@ -467,7 +467,8 @@ def shop(name):
                 '''
         # render page
         cur.close()
-        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True)
+        products = getProductList(elevator_id[0])
+        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True, products=products)
     else:
         # get list of elevators
         con = lite.connect('base.db')
@@ -483,12 +484,59 @@ def shop(name):
                     <a href="/">home</a>
                 </nav>
                 '''
-        # render page
-
-        # check shop table
         cur.close()
-        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=False)
+        # render page
+        products = getProductList(elevator_id[0])
+        return render_template('shop.html', username=name, id=elevator_id[0], loggedin=False, products=products)
 
+@app.route('/buy/<int:product_id>/<int:elevator_id>', methods=['GET', 'POST'])
+def buy(product_id, elevator_id):
+    if 'username' in session:
+        if session['elevator'] == False:
+            farmer_id = session['user_id']
+            # get information of product from product_id
+            result = getProductInformation(product_id, elevator_id)
+            print(result)
+            return render_template('buy.html', product_id=product_id,
+                elevator_id=elevator_id, farmer_id=farmer_id, name=result[1],
+                quantity_available=result[3], measure=result[4],
+                price=result[5], description=result[6])
+    # not signed in or not a Farmer account
+    return """
+    <h1>Farmers & Elevators</h1>
+    <h3>To order any product you need to have a farmer account</h3>
+    <a href="/signin">Sign In</a>
+    <a href="/signup">Don't have an account yet? Sign Up</a>
+    """
+
+@app.route('/submit-order/<int:product_id>/<int:elevator_id>/<int:farmer_id>', methods=['GET', 'POST'])
+def submit_order(product_id, elevator_id, farmer_id):
+    if 'username' in session:
+        if session['elevator'] == False:
+            quantity_requested = request.form.get('quantity')
+            # send info to orders table
+            result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested)
+            # send email informations
+            # return message
+            if result == True:
+                return """
+                <title>Order Sent!</title>
+                <nav>
+                    <a href="/home">home</a> |
+                    <a href="/logout">logout</a> |
+                    <a href="/settings-farmer">settings</a>
+                </nav>
+                <h1>The order has been sent successfully!</h1>
+                """
+            else:
+                return "Error: the new order could not been send at this time"
+    # not signed in or not a Farmer account
+    return """
+    <h1>Farmers & Elevators</h1>
+    <h3>To order any product you need to have a farmer account</h3>
+    <a href="/signin">Sign In</a>
+    <a href="/signup">Don't have an account yet? Sign Up</a>
+    """
 
 @app.route('/manage-shop')
 def manage_shop():
@@ -497,15 +545,7 @@ def manage_shop():
         if session["elevator"] == True:
             id=session['user_id']
             # select from the table
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            cur.execute(f"SELECT * from products WHERE elevator_id='{id}';")
-            result = cur.fetchall()
-            if not result:
-                result = []
-            else:
-                result = ['' if x is None else x for x in result]
-            cur.close()
+            result = getProductList(id)
             return render_template('manage-shop.html', username=session['username'], products=result, user_id=id)
     else:
         return redirect("/home", code=302)
@@ -544,6 +584,13 @@ def add_product():
     else:
         return "not authorized"
 
+@app.route('/delete-product/<int:elevator_id>/<int:product_id>', methods=['GET','POST'])
+def delete_product(elevator_id, product_id):
+    if 'username' in session:
+        if session['elevator'] == True:
+            return deleteProduct(elevator_id, product_id)
+    return "Not logged in"
+
 #########################################################
 # HELPER METHODS
 #########################################################
@@ -552,6 +599,70 @@ def closeSession():
     session.pop('username', None)
     session.pop('elevator', None)
     session.pop('user_id', None)
+
+def getProductList(id):
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT * from products WHERE elevator_id='{id}';")
+    result = cur.fetchall()
+    if not result:
+        result = []
+    else:
+        result = ['' if x is None else x for x in result]
+    cur.close()
+    return result
+
+def getProductInformation(product_id, elevator_id):
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT * from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
+    result = cur.fetchall()
+    if not result:
+        result = []
+    else:
+        result = ['' if x is None else x for x in result]
+    cur.close()
+    return result[0]
+
+def deleteProduct(elevator_id, product_id):
+    print(elevator_id)
+    elevator_id = elevator_id
+    product_id = product_id
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    try:
+        cur.execute("DELETE from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}'")
+        con.commit()
+        cur.close()
+        # return success
+        return redirect("/manage-shop", code=302)
+    except lite.Error as error:
+        return "Error:" + str(error)
+    finally:
+        if (con):
+            con.close()
+
+def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
+    # missing date, status, quantity_type, description, payment
+    toInsert = (product_id, elevator_id, farmer_id, quantity_requested,)
+    # inserting new product
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    try:
+        cur.execute("""INSERT INTO orders
+                (product_id, elevator_id, farmer_id, quantity_int) 
+                VALUES (?, ?, ?, ?);""", toInsert)
+        # UPDATE in products table quantity available
+        con.commit()
+        cur.close()
+        # return success
+        return True
+    except lite.Error as error:
+        print(error)
+        return False
+    finally:
+        if (con):
+            con.close()
 
 # this does not work
 with app.test_request_context():

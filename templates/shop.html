@@ -10,35 +10,27 @@
   </nav>
 {% endif %}
 <h3>Shop now!</h3>
-<table>
+<table style="border: 1px solid;">
   <thead>
     <tr>
-      <th>Product name</th>
+      <th>Name</th>
+      <th>Product ID</th>
+      <th>Quantity left</th>
+      <th>Measure</th>
+      <th>Price in $</th>
       <th>Description</th>
-      <th>Price</th>
       <th></th>
     </tr>
-   </thead>
-   <tbody>
-     <tr>
-       <td>text1.1</td>
-       <td>text1.2</td>
-       <td>text1.3</td>
-       <td><button>Buy</button></td>
-     </tr>
-     <tr>
-       <td>text2.1</td>
-       <td>text2.2</td>
-       <td>text2.3</td>
-       <td><button>Buy</button></td>
-     </tr>
-     <tr>
-       <td>text3.1</td>
-       <td>text3.2</td>
-       <td>text3.3</td>
-       <td><button>Buy</button></td>
-     </tr>
-     <tr>
-     </tr>
-  </tbody>
+  </thead>
+  {% for product in products %}
+    <tr>
+      {% for i in product %}
+        {% if loop.index != 1 %} 
+          <!-- No elevator_id -->
+          <td style="border: 1px solid;">{{i}}</td>
+        {% endif %}
+      {% endfor %}
+      <td><a href="{{ url_for('buy', product_id = product[2], elevator_id = product[0])}}">BUY</a></td>
+    </tr>
+  {% endfor %}
 </table>
