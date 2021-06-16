@@ -74,6 +74,18 @@ Future:
 
 - [ ] In homepage have a search bar for searching elevator's shop
 
+### API Description
+
+The API handles all the request for adding, deliting and modifying users. The API also handles the interaction with tables in the Database.
+
+### DATABASE TABLES
+
+- **farmers** is the table to store all farmer users
+- **elevators** is the table to store all elevator users
+- **products** stores the list of products for each elevator
+- **orders stores** all transactions
+- **deleted_products** stores all deleted products
+
 ### References
 
 [https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies](https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies)
