@@ -79,3 +79,5 @@ Future:
 [https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies](https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies)
 
 [https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
+
+[https://flask-socketio.readthedocs.io/en/latest/getting_started.html](https://flask-socketio.readthedocs.io/en/latest/getting_started.html)

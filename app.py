@@ -625,7 +625,6 @@ def getProductInformation(product_id, elevator_id):
     return result[0]
 
 def deleteProduct(elevator_id, product_id):
-    print(elevator_id)
     elevator_id = elevator_id
     product_id = product_id
     con = lite.connect('base.db') 
