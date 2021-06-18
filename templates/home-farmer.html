@@ -14,32 +14,29 @@
     <a href="{{ url_for('shop', name = elevator)}}">{{elevator}}</a>
   {% endfor %}
 </nav>
-<h3>Order History</h3>
-<table>
-  <thead>
-    <tr>
-      <th>header1</th>
-      <th>header2</th>
-      <th>header3</th>
-    </tr>
-   </thead>
-   <tbody>
-     <tr>
-       <td>text1.1</td>
-       <td>text1.2</td>
-       <td>text1.3</td>
-     </tr>
-     <tr>
-       <td>text2.1</td>
-       <td>text2.2</td>
-       <td>text2.3</td>
-     </tr>
-     <tr>
-       <td>text3.1</td>
-       <td>text3.2</td>
-       <td>text3.3</td>
-     </tr>
-     <tr>
-     </tr>
-  </tbody>
-</table>
+<div>
+  <h3>Orders</h3>
+  <table style="border: 1px solid;">
+    <thead>
+      <tr>
+        <th>Farmer ID</th>
+        <th>Elevator ID</th>
+        <th>Date</th>
+        <th>Status</th>
+        <th>Product ID</th>
+        <th>Quantity ordered</th>
+        <th>Measure</th>
+        <th>Description</th>
+        <th>Completed date</th>
+        <th>Payment</th>
+      </tr>
+    </thead>
+    {% for order in orders %}
+      <tr>
+        {% for i in order %}
+          <td style="border: 1px solid;">{{i}}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+</div>

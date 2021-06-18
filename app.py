@@ -402,7 +402,8 @@ def homepage():
     if 'username' in session:
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
-            return render_template('home-elevator.html', username=session["username"], id=session["user_id"])
+            orders = elevatorGetOrders(session["user_id"])
+            return render_template('home-elevator.html', username=session["username"], id=session["user_id"], orders=orders)
         else:
             # get list of elevators
             con = lite.connect('base.db') 
@@ -413,7 +414,11 @@ def homepage():
                 elevators = []
             # render page
             cur.close()
-            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators)
+
+            # get list of orders
+            orders = farmerGetOrders(session["user_id"])
+
+            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators, orders=orders)
     else:
         return redirect("/", code=302)
 
@@ -674,3 +679,27 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
     finally:
         if (con):
             con.close()
+
+def elevatorGetOrders(elevator_id):
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT * from orders WHERE elevator_id='{elevator_id}';")
+    result = cur.fetchall()
+    if not result:
+        result = []
+    else:
+        result = ['' if x is None else x for x in result]
+    cur.close()
+    return result
+
+def farmerGetOrders(farmer_id):
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT * from orders WHERE farmer_id='{farmer_id}';")
+    result = cur.fetchall()
+    if not result:
+        result = []
+    else:
+        result = ['' if x is None else x for x in result]
+    cur.close()
+    return result
