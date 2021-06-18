@@ -345,7 +345,7 @@ def change_password():
         con = lite.connect('base.db') 
         cur = con.cursor()
         # Two different pages for elevator or farmer
-        print(session['username'])
+        #print(session['username'])
         try:
             if session["elevator"] == True:
                 # change password in DB:
@@ -496,7 +496,7 @@ def buy(product_id, elevator_id):
             farmer_id = session['user_id']
             # get information of product from product_id
             result = getProductInformation(product_id, elevator_id)
-            print(result)
+            #print(result)
             return render_template('buy.html', product_id=product_id,
                 elevator_id=elevator_id, farmer_id=farmer_id, name=result[1],
                 quantity_available=result[3], measure=result[4],
@@ -561,7 +561,7 @@ def add_product():
         measure = request.form.get('measure')
         price = request.form.get('price')
         description = request.form.get('description')
-        print(product_id)
+        #print(product_id)
         if product_id is '':
             product_id = randint(0, 100000)
         toInsert = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
@@ -656,7 +656,14 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
         cur.execute("""INSERT INTO orders
                 (product_id, elevator_id, farmer_id, quantity_int) 
                 VALUES (?, ?, ?, ?);""", toInsert)
+        con.commit()
         # UPDATE in products table quantity available
+        cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
+        quantity_available = cur.fetchall()
+        toUpdate = (int(quantity_available[0][0]-int(quantity_requested)), elevator_id, product_id,)
+        cur.execute(f"""UPDATE products 
+                        SET quantity_available=? 
+                        WHERE elevator_id=? AND product_id=?;""", toUpdate)
         con.commit()
         cur.close()
         # return success
@@ -667,7 +674,3 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
     finally:
         if (con):
             con.close()
-
-# this does not work
-with app.test_request_context():
-    url_for('static', filename='index.js')
