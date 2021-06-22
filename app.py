@@ -130,9 +130,9 @@ def signup_form():
 
     try:
         if isElevator == "on":
-                cur.execute("""INSERT INTO elevators
-                                    (name, elevator_id, email, password, username, status, profile_image) 
-                                    VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+            cur.execute("""INSERT INTO elevators
+                            (name, elevator_id, email, password, username, status, profile_image) 
+                            VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
         else:
             cur.execute("""INSERT INTO farmers
                             (name, farmer_id, email, password, username, status, profile_image) 
@@ -519,8 +519,10 @@ def submit_order(product_id, elevator_id, farmer_id):
     if 'username' in session:
         if session['elevator'] == False:
             quantity_requested = request.form.get('quantity')
+            measure = request.form.get('measure')
+            description = request.form.get('description')
             # send info to orders table
-            result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested)
+            result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description)
             # send email informations
             # return message
             if result == True:
@@ -542,6 +544,15 @@ def submit_order(product_id, elevator_id, farmer_id):
     <a href="/signin">Sign In</a>
     <a href="/signup">Don't have an account yet? Sign Up</a>
     """
+
+@app.route('/mark-completed', methods=['GET'])
+def mark_completed():
+    if 'username' in session:
+        product_id = request.args.get('product_id')
+        elevator_id = request.args.get('elevator_id')
+        return markAsComplete(product_id, elevator_id)
+    else:
+        return "you have to be logged in"
 
 @app.route('/manage-shop')
 def manage_shop():
@@ -651,16 +662,16 @@ def deleteProduct(elevator_id, product_id):
         if (con):
             con.close()
 
-def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
+def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description):
     # missing date, status, quantity_type, description, payment
-    toInsert = (product_id, elevator_id, farmer_id, quantity_requested,)
+    toInsert = (product_id, elevator_id, farmer_id, quantity_requested, measure, description)
     # inserting new product
     con = lite.connect('base.db') 
     cur = con.cursor()
     try:
         cur.execute("""INSERT INTO orders
-                (product_id, elevator_id, farmer_id, quantity_int) 
-                VALUES (?, ?, ?, ?);""", toInsert)
+                (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description) 
+                VALUES (?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?);""", toInsert)
         con.commit()
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
@@ -676,6 +687,26 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested):
     except lite.Error as error:
         print(error)
         return False
+    finally:
+        if (con):
+            con.close()
+
+def markAsComplete(product_id, elevator_id):
+    # update orders table
+    toUpdate = ('completed', elevator_id, product_id,)
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    try:
+        cur.execute(f"""UPDATE orders 
+                        SET status=?, completed_date=datetime('now', 'localtime')  
+                        WHERE elevator_id=? AND product_id=?;""", toUpdate)
+        con.commit()
+        cur.close()
+        # return success
+        return redirect("/home", code=302)
+    except lite.Error as error:
+        print(error)
+        return "Could not mark as completed"
     finally:
         if (con):
             con.close()
