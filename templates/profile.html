@@ -24,7 +24,7 @@
       {% if profile_type == 'elevator' %}
         <tr>
           <td>Shop at</td>
-          <td><a href="{{ url_for('shop', name = username)}}">{{username}}</a>'s shop</td>
+          <td><a href="/shop?name={{username}}">{{username}}</a>'s shop</td>
         </tr>
         <tr>
           <td>Phone</td>

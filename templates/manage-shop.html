@@ -4,7 +4,8 @@
 <nav>
   <a href="/home">home </a>|
   <a href="/logout">logout </a>|
-  <a href="/settings-farmer">settings</a>
+  <a href="/settings-farmer">settings</a>|
+  <a href="/shop?name={{username}}">visit your shop</a>
 </nav>
 <h3>Your products</h3>
 
@@ -31,6 +32,28 @@
   {% endfor %}
 </table>
 
+<h3>Update existing product</h3>
+<small>First type in the productID number of the existing product,
+  then change any of the values of the product that you need to update. Click submit.
+</small>
+<br>
+<form action="/update-product" method="post">
+  <label>elevator id</label>
+  <input type="number" name="elevator_id" value={{user_id}} disabled>
+  <label>product name</label>
+  <input type="text" name="product_name">
+  <label>product ID</label>
+  <input type="number" name="product_id" required>
+  <label>initial quantity available</label>
+  <input type="text" name="quantity_available">
+  <label>measurement of quantity</label>
+  <input type="text" name="measure">
+  <label>price</label>
+  <input type="number" name="price">
+  <label>description</label>
+  <input type="text" name="description"></input>
+  <button type="submit">SUBMIT</button>
+</form>
 
 <h3>Add a new product</h3>
 <form action="/add-product" method="post">

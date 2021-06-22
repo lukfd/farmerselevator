@@ -9,10 +9,16 @@
 </nav>
 <nav>
   <!-- select shop -->
-  <label for="cars">Choose an elevator to shop from:</label>
-  {% for elevator in elevators %}
-    <a href="{{ url_for('shop', name = elevator)}}">{{elevator}}</a>
-  {% endfor %}
+  <label>Choose an elevator to shop from:</label>
+  <form action="{{ url_for('shop')}}">
+    <select name="name">
+      {% for elevator in elevators %}
+        <option value={{elevator}}>{{elevator}}</option>
+      {% endfor %}
+    </select>
+    <button type="submit">VISIT</button>
+  </form>
+  
 </nav>
 <div>
   <h3>Orders</h3>
