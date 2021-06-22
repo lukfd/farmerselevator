@@ -42,11 +42,13 @@ Now:
 
 - [ ] Update /home orders table for farmers and elevators
 
-- [ ] Finish /manage-shop (add delete row and modify exisiting products)
+- [ ] Finish /manage-shop (modify existing products in the shop)
 
-- [ ] Populate /shop tables and the buy functionality
+- [ ] Add payment functionality
 
 - [ ] Make a clever way for user_id and product_id
+
+- [x] Populate /shop tables and the buy functionality
 
 - [x] test /delete-account
 
@@ -64,13 +66,13 @@ Future:
 
 - [ ] SQL injection threats
 
-- [ ] Generate better ID for farmers and elevators
+- [ ] Generate better ID for farmers and elevators (no repetition, because now is just random number)
 
-- [ ] stay consistant with variables
+- [ ] stay consistant with variables in the code
 
-- [ ] creating functions for redundant code
+- [ ] creating functions for redundancy in the code
 
-- [ ] Style
+- [ ] Style CSS
 
 - [ ] In homepage have a search bar for searching elevator's shop
 
