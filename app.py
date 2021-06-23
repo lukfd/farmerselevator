@@ -522,8 +522,12 @@ def submit_order(product_id, elevator_id, farmer_id):
             quantity_requested = request.form.get('quantity')
             measure = request.form.get('measure')
             description = request.form.get('description')
+            order_id = randint(0, 100000)
+            # get product name
+            product_name = getProductName(elevator_id, product_id)
+            product_name = product_name[0]
             # send info to orders table
-            result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description)
+            result = insertNewOrder(order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
             # send email informations
             # return message
             if result == True:
@@ -551,7 +555,8 @@ def mark_completed():
     if 'username' in session:
         product_id = request.args.get('product_id')
         elevator_id = request.args.get('elevator_id')
-        return markAsComplete(product_id, elevator_id)
+        order_id = request.args.get('order_id')
+        return markAsComplete(product_id, elevator_id, order_id)
     else:
         return "you have to be logged in"
 
@@ -570,74 +575,76 @@ def manage_shop():
 @app.route('/add-product', methods=['POST'])
 def add_product():
     if 'username' in session:
-        #elevator_id = request.form.get('elevator_id')
-        elevator_id = session['user_id']
-        product_name = request.form.get('product_name')
-        product_id = request.form.get('product_id')
-        quantity_available = request.form.get('quantity_available')
-        measure = request.form.get('measure')
-        price = request.form.get('price')
-        description = request.form.get('description')
-        #print(product_id)
-        if product_id is '':
-            product_id = randint(0, 100000)
-        toInsert = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
-        # inserting new product
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        try:
-            cur.execute("""INSERT INTO products
-                    (elevator_id, name, product_id, quantity_available, measure, price, description) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
-            con.commit()
-            cur.close()
-            # redirect to sign in page
-            return redirect("/manage-shop", code=302)
-        except lite.Error as error:
-                return "Failed: "+str(error)
-        finally:
-            if (con):
-                con.close()
+        if session['elevator'] is True:
+            #elevator_id = request.form.get('elevator_id')
+            elevator_id = session['user_id']
+            product_name = request.form.get('product_name')
+            product_id = request.form.get('product_id')
+            quantity_available = request.form.get('quantity_available')
+            measure = request.form.get('measure')
+            price = request.form.get('price')
+            description = request.form.get('description')
+            #print(product_id)
+            if product_id is '':
+                product_id = randint(0, 100000)
+            toInsert = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
+            # inserting new product
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute("""INSERT INTO products
+                        (elevator_id, name, product_id, quantity_available, measure, price, description) 
+                        VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+                con.commit()
+                cur.close()
+                # redirect to sign in page
+                return redirect("/manage-shop", code=302)
+            except lite.Error as error:
+                    return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
     else:
         return "not authorized"
 
 @app.route('/update-product', methods=['POST'])
 def update_product():
     if 'username' in session:
-        #elevator_id = request.form.get('elevator_id')
-        elevator_id = session['user_id']
-        product_name = request.form.get('product_name')
-        product_id = request.form.get('product_id')
-        quantity_available = request.form.get('quantity_available')
-        measure = request.form.get('measure')
-        price = request.form.get('price')
-        description = request.form.get('description')
-        #print(product_id)
-        if product_id is '':
-            return "you have to select a product id! <a href='/manage-shop'>Go back</a>"
-        # if any of the form are empty, use old values
-        olderValues = getProductInformation(product_id, elevator_id)
-        # make the variables
-        toUpdate = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
-        toUpdate = substituteWithOlderValues(toUpdate, olderValues)
-        # switching values
-        toUpdate = (toUpdate[1], toUpdate[3], toUpdate[4], toUpdate[5], toUpdate[6], toUpdate[2], toUpdate[0],)
-        # inserting new product
-        con = lite.connect('base.db') 
-        cur = con.cursor()
-        try:
-            cur.execute("""UPDATE products
-                    SET name=?, quantity_available=?, measure=?, price=?, description=? 
-                    WHERE product_id=? AND elevator_id=?;""", toUpdate)
-            con.commit()
-            cur.close()
-            # redirect to sign in page
-            return redirect("/manage-shop", code=302)
-        except lite.Error as error:
-                return "Failed: "+str(error)
-        finally:
-            if (con):
-                con.close()
+        if session['elevator'] is True:
+            #elevator_id = request.form.get('elevator_id')
+            elevator_id = session['user_id']
+            product_name = request.form.get('product_name')
+            product_id = request.form.get('product_id')
+            quantity_available = request.form.get('quantity_available')
+            measure = request.form.get('measure')
+            price = request.form.get('price')
+            description = request.form.get('description')
+            #print(product_id)
+            if product_id is '':
+                return "you have to select a product id! <a href='/manage-shop'>Go back</a>"
+            # if any of the form are empty, use old values
+            olderValues = getProductInformation(product_id, elevator_id)
+            # make the variables
+            toUpdate = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
+            toUpdate = substituteWithOlderValues(toUpdate, olderValues)
+            # switching values
+            toUpdate = (toUpdate[1], toUpdate[3], toUpdate[4], toUpdate[5], toUpdate[6], toUpdate[2], toUpdate[0],)
+            # inserting new product
+            con = lite.connect('base.db') 
+            cur = con.cursor()
+            try:
+                cur.execute("""UPDATE products
+                        SET name=?, quantity_available=?, measure=?, price=?, description=? 
+                        WHERE product_id=? AND elevator_id=?;""", toUpdate)
+                con.commit()
+                cur.close()
+                # redirect to sign in page
+                return redirect("/manage-shop", code=302)
+            except lite.Error as error:
+                    return "Failed: "+str(error)
+            finally:
+                if (con):
+                    con.close()
     else:
         return "not authorized"
 
@@ -681,6 +688,18 @@ def getProductInformation(product_id, elevator_id):
     cur.close()
     return result[0]
 
+def getProductName(elevator_id, product_id):
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT name from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
+    result = cur.fetchall()
+    if not result:
+        result = []
+    else:
+        result = ['' if x is None else x for x in result]
+    cur.close()
+    return result[0]
+
 def deleteProduct(elevator_id, product_id):
     toDelete = (elevator_id, product_id,)
     con = lite.connect('base.db') 
@@ -703,16 +722,16 @@ def deleteProduct(elevator_id, product_id):
         if (con):
             con.close()
 
-def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description):
+def insertNewOrder(order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name):
     # missing date, status, quantity_type, description, payment
-    toInsert = (product_id, elevator_id, farmer_id, quantity_requested, measure, description)
+    toInsert = (order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
     # inserting new product
     con = lite.connect('base.db') 
     cur = con.cursor()
     try:
         cur.execute("""INSERT INTO orders
-                (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description) 
-                VALUES (?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?);""", toInsert)
+                (order_id, product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
+                VALUES (?, ?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
         con.commit()
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
@@ -732,15 +751,15 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
         if (con):
             con.close()
 
-def markAsComplete(product_id, elevator_id):
+def markAsComplete(product_id, elevator_id, order_id):
     # update orders table
-    toUpdate = ('completed', elevator_id, product_id,)
+    toUpdate = ('completed', elevator_id, product_id, order_id,)
     con = lite.connect('base.db') 
     cur = con.cursor()
     try:
         cur.execute(f"""UPDATE orders 
                         SET status=?, completed_date=datetime('now', 'localtime')  
-                        WHERE elevator_id=? AND product_id=?;""", toUpdate)
+                        WHERE elevator_id=? AND product_id=? AND order_id=?;""", toUpdate)
         con.commit()
         cur.close()
         # return success
@@ -781,5 +800,4 @@ def substituteWithOlderValues(toUpdate, olderValues):
     for i in range(0, len(toUpdate)):
         if toUpdate[i] == '':
             newToUpdate[i] = olderValues[i]
-
     return tuple(newToUpdate)

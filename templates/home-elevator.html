@@ -16,6 +16,7 @@
   <table style="border: 1px solid;">
     <thead>
       <tr>
+        <th>Order ID</th>
         <th>Farmer ID</th>
         <th>Elevator ID</th>
         <th>Date</th>
@@ -26,16 +27,17 @@
         <th>Description</th>
         <th>Completed date</th>
         <th>Payment</th>
+        <th>Product name</th>
         <th></th>
       </tr>
     </thead>
     {% for order in orders %}
       <tr>
-        {% if order[3] == 'to process'%}
+        {% if order[4] == 'to process'%}
           {% for i in order %}
             <td style="border: 1px solid;">{{i}}</td>
           {% endfor %}
-          <td><a href="/mark-completed?product_id={{order[4]}}&elevator_id={{order[1]}}">MARK IT AS COMPLETED</a></td>
+          <td><a href="/mark-completed?product_id={{order[5]}}&elevator_id={{order[2]}}&order_id={{order[0]}}">MARK IT AS COMPLETED</a></td>
         {% endif %}
       </tr>
     {% endfor %}
@@ -46,6 +48,7 @@
   <table style="border: 1px solid;">
     <thead>
       <tr>
+        <th>Order ID</th>
         <th>Farmer ID</th>
         <th>Elevator ID</th>
         <th>Date</th>
@@ -56,11 +59,12 @@
         <th>Description</th>
         <th>Completed date</th>
         <th>Payment</th>
+        <th>Product name</th>
       </tr>
     </thead>
     {% for order in orders %}
       <tr>
-        {% if order[3] != 'to process'%}
+        {% if order[4] != 'to process'%}
           {% for i in order %}
             <td style="border: 1px solid;">{{i}}</td>
           {% endfor %}
