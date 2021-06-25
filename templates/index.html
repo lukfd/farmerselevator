@@ -2,15 +2,46 @@
   <head>
     <title>Farmers & Elevators</title>
     <!-- CDNs -->
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='index.css') }}">
   </head>
   <body>
-    <div id="app">
-        <div>
-            <h1>Farmers & Elevators</h1>
-            <a href="/signin" type="button">Sign In</a>
-            <a href="/signup" type="button">Sign Up</a>
-        </div>
+    
+    <!-- <div class="header">
+      <h1>Farmers & Elevators</h1>
+      <nav>
+        <a href="/signin" type="button">SignIn</a>
+        <a href="/signup" type="button">SignUp</a>
+      </nav>
+    </div> -->
+
+    <ul class="header">
+      <li><h1>Farmers & Elevators</h1></li>
+      <ul class="right">
+        <li class="button"><a href="/signin" type="button">SignIn</a></li>
+        <li class="button"><a href="/signup" type="button">SignUp</a></li>
+      </ul>
+    </ul>
+
+    <div class="body">
+      <div class="center-text">
+        <h5>The online shop for farmers and elevators</h5>
+      </div>
+  
+      <div class="center-text">
+        <form action="">
+          <input type="text" name="input" placeholder="Search the name of the elevator" class="search-bar">
+          <button type="submit">
+            <object data="/static/images/handlens.svg" type="image/svg+xml">
+              <!-- <img src="/static/images/handlens.svg"/> -->
+            </object>            
+          </button>          
+        </form>        
+      </div>
     </div>
+
+    <footer>
+      <a href="/contact-us">Contact us</a>
+    </footer>
   </body>
 </html>

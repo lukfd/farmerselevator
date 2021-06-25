@@ -22,11 +22,16 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def index():
     return render_template('index.html')
 
+@app.route('/contact-us')
+def contact_us():
+    return render_template('contact-us.html')
+
 @app.route('/signin')
 def signin():
     if 'username' in session:
         closeSession()
     return '''
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
 		<label>Username:</label>
@@ -43,6 +48,7 @@ def signin():
 @app.route('/signup')
 def signup():
     return '''
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
     <h1>Farmers & Elevators</h1>
 	<form action="/signup-form" method="post">
 		<label>Email:</label>
@@ -98,6 +104,7 @@ def signin_form():
             return redirect("/home", code=302)
     # failed to login
     return '''
+        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
         <h1>Farmers & Elevators</h1>
         <h3>Login Failed, try again</h3>
         <form action="/signin-form" method="post">
@@ -509,6 +516,7 @@ def buy(product_id, elevator_id):
                 price=result[5], description=result[6])
     # not signed in or not a Farmer account
     return """
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
     <h1>Farmers & Elevators</h1>
     <h3>To order any product you need to have a farmer account</h3>
     <a href="/signin">Sign In</a>
@@ -532,6 +540,7 @@ def submit_order(product_id, elevator_id, farmer_id):
             # return message
             if result == True:
                 return """
+                <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
                 <title>Order Sent!</title>
                 <nav>
                     <a href="/home">home</a> |
@@ -544,6 +553,7 @@ def submit_order(product_id, elevator_id, farmer_id):
                 return "Error: the new order could not been send at this time"
     # not signed in or not a Farmer account
     return """
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
     <h1>Farmers & Elevators</h1>
     <h3>To order any product you need to have a farmer account</h3>
     <a href="/signin">Sign In</a>
@@ -558,7 +568,10 @@ def mark_completed():
         order_id = request.args.get('order_id')
         return markAsComplete(product_id, elevator_id, order_id)
     else:
-        return "you have to be logged in"
+        return """
+            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+            you have to be logged in
+            """
 
 @app.route('/manage-shop')
 def manage_shop():
@@ -801,3 +814,20 @@ def substituteWithOlderValues(toUpdate, olderValues):
         if toUpdate[i] == '':
             newToUpdate[i] = olderValues[i]
     return tuple(newToUpdate)
+
+##################################################
+# ERROR HANDLING
+##################################################
+
+@app.errorhandler(404)
+def page_not_found(e):
+    # note that we set the 404 status explicitly
+    return """
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <h1>Page not found...</h1>
+    <nav>
+        <a href="/home" type="button">Home</a>
+        <a href="/signin" type="button">Sign In</a>
+        <a href="/signup" type="button">Sign Up</a>
+    </nav>
+    """

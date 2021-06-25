@@ -1,5 +1,9 @@
 <!doctype html>
-<title>{{username}}</title>
+<head>
+  <title>{{username}}</title>
+  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+</head>
+
 <h1>Welcome to {{username}}'s shop</h1>
 <p>learn more about <a href="{{ url_for('profile', id = id)}}">{{username}}</a></p>
 {% if loggedin %}
@@ -17,7 +21,7 @@
       <th>Product ID</th>
       <th>Quantity left</th>
       <th>Measure</th>
-      <th>Price in $</th>
+      <th>Price in $ for unit</th>
       <th>Description</th>
       <th></th>
     </tr>
