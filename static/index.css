@@ -42,13 +42,24 @@ li a {
     overflow: hidden;
 }
 
-
 .button {
     background-color: #254dcf;
     border-radius: 5px;
     margin: 15px 10px;
     padding: 10px;
 }
+
+.btn {
+    border-radius: 4px;
+    top: 6.6px;
+    position: relative;
+}
+
+.btnImg {
+    width: 25px;
+    height: 25px;
+}
+
 
 .body {
     padding-top: 10%;
