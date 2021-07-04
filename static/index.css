@@ -1,8 +1,6 @@
 /* GENERAL */
 
-.body {
-    padding-top: 10%;
-}
+body { min-height: 100vh; }
 
 .center-text {
     text-align: center;
@@ -43,6 +41,11 @@ li a {
 }
 
 /* SEARCH BAR */
+
+.search-area {
+    padding: 10% auto auto 0;
+}
+
 .search-bar {
     font: Arial;
     height: 34px;
@@ -87,6 +90,13 @@ li a {
 
 /* CARDS */
 
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 5%;
+}
+
 .cards ul {
     list-style-type: none;
     margin: 0;
@@ -94,19 +104,23 @@ li a {
     overflow: hidden;
 }
 
-.cards li{
-    display: inline;
+li {
+    list-style: none;
 }
 
 .card {
-    display: block;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
-    width: 40%;
     border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 4%;
 }
 
-.card img {
+.card img {    
     width: 100%;
     border-radius: 5px 5px 5px 5px;
 }
@@ -115,14 +129,18 @@ li a {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
+h4 {
+    font-family: sans-serif;
+}
+
 .container {
-    padding: 1px 8px;
-} 
+    text-align: left;
+}
 
 /* FOOTER */
 
 footer {
-    position: relative;
+    position: absolute;
     bottom: 0;
     padding: 1%;
 }
