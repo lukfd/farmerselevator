@@ -48,6 +48,8 @@ Now:
 
 - [ ] Make a clever way for user_id and product_id
 
+- [ ] If logged in, replace signup and signin with user profile
+
 - [x] Populate /shop tables and the buy functionality
 
 - [x] test /delete-account
