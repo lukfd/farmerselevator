@@ -31,7 +31,7 @@ def signin():
     if 'username' in session:
         closeSession()
     return '''
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{escape(url_for('static', filename='main.css'))}">
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
 		<label>Username:</label>

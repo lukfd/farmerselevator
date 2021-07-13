@@ -40,15 +40,27 @@ Now:
 
 - [ ] Correct the description of products input in /manage-shop (does not take spaces)
 
-- [ ] Update /home orders table for farmers and elevators
+- [ ] Update /home orders table for farmers and elevators using SOCKET/IO
 
-- [ ] Finish /manage-shop (modify existing products in the shop)
+- [ ] Add payment and send email when sending the new order
 
-- [ ] Add payment functionality
-
-- [ ] Make a clever way for user_id and product_id
+- [ ] Correct user_id and product_id
 
 - [ ] If logged in, replace signup and signin with user profile
+
+- [ ] SQL injection threats
+
+- [ ] stay consistant with variables in the code
+
+- [ ] creating functions for redundancy in the code
+
+- [ ] have homepage search bar working
+
+- [ ] in homepage make a map for searching elevators
+
+- [ ] finish contact-page
+
+- [ ] create live chat messages tools
 
 - [x] Populate /shop tables and the buy functionality
 
@@ -62,21 +74,7 @@ Now:
 
 - [x] Finish /profile
 
-Future:
-
 - [x] Password hasing
-
-- [ ] SQL injection threats
-
-- [ ] Generate better ID for farmers and elevators (no repetition, because now is just random number)
-
-- [ ] stay consistant with variables in the code
-
-- [ ] creating functions for redundancy in the code
-
-- [ ] Style CSS
-
-- [ ] In homepage have a search bar for searching elevator's shop
 
 ### API Description
 
