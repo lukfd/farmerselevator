@@ -1,9 +1,151 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;500&display=swap');
 
+:root {
+    --primary-blue: #472c93;
+}
+
 body {
     margin: 0;
 }
 
 body, h1, h2, h3, h4, h5, h6, p {
     font-family: 'Rubik', sans-serif;
+}
+
+* {box-sizing: border-box}
+
+#emailID, #usernameID, #passwdID {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+  border-radius: 15px;
+  margin-right: 10px;
+}
+
+#emailID:focus, #passwdID:focus, #usernameID:focus {
+  background-color: #ddd;
+  outline: none;
+}
+
+
+#modal-btn {
+  background-color: #254dcf;
+  color: white;
+  padding: 14px 20px;
+  margin: 0 0;
+  /* border: none; */
+  cursor: pointer;
+  width: 100%;
+  opacity: 0.9;
+  font-family: 'Rubik';
+}
+
+#modal-btn:hover {
+  opacity:1;
+}
+
+
+.cancelbtn {
+  padding: 14px 20px;
+  background-color: #f44336;
+  font-family: 'Rubik';
+  color: white;
+  cursor: pointer;
+}
+
+
+.cancelbtn {
+  float: left;
+  width: 20%;
+  border-radius: 5px;
+  opacity: 0.9;
+}
+
+.cancelbtn:hover {
+  opacity:1;
+}
+
+.signupbtn {
+  float: left;
+  width: 20%;
+  max-height: 47px;
+  border-radius: 5px;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 15px;
+}
+
+/* Add padding to container elements */
+.modal-container {
+  padding: 16px;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top of page */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: hidden; /* Disable scroll */
+  /* background-color: #474e5d; */
+  background: rgba(0,0,0,.7);
+  padding-top: 20px;
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  border: 1px solid #888;
+  width: 40%; /* the size of the form */
+  border-radius: 15px;
+}
+
+/* Style the horizontal ruler */
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+/* The Close Button (x) */
+.close {
+  position: relative;
+  top: 10%;
+  left: 95%;
+  font-size: 40px;
+  font-weight: bold;
+  color: black;
+}
+
+.close:hover,
+.close:focus {
+  color: #f44336;
+  cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+/* Change styles for cancel button and signup button on extra small screens */
+@media screen and (max-width: 300px) {
+  .cancelbtn, .signupbtn {
+    width: 100%;
+  }
+}
+
+/* change signup text so it stays center on the button as screen shrinks*/
+@media screen and (max-width: 1251px) {
+  .signupbtn {
+    line-height: 10px;
+  }
 }
