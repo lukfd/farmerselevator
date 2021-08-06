@@ -1,8 +1,7 @@
 
 # IMPORTs
 import os
-from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory
-from flask import session
+from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory, session
 import bcrypt 
 
 import sqlite3 as lite
@@ -31,7 +30,7 @@ def signin():
     if 'username' in session:
         closeSession()
     return '''
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <h1>Farmers & Elevators</h1>
 	<form action="/signin-form" method="post">
 		<label>Username:</label>
@@ -48,7 +47,7 @@ def signin():
 @app.route('/signup')
 def signup():
     return '''
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <h1>Farmers & Elevators</h1>
 	<form action="/signup-form" method="post">
 		<label>Email:</label>
@@ -100,11 +99,11 @@ def signin_form():
             # create new session
             session['username'] = username
             session['user_id'] = result[1]
-            # redirect to main page
+            # redirect to css/main page
             return redirect("/home", code=302)
     # failed to login
     return '''
-        <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
         <h1>Farmers & Elevators</h1>
         <h3>Login Failed, try again</h3>
         <form action="/signin-form" method="post">
@@ -516,7 +515,7 @@ def buy(product_id, elevator_id):
                 price=result[5], description=result[6])
     # not signed in or not a Farmer account
     return """
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <h1>Farmers & Elevators</h1>
     <h3>To order any product you need to have a farmer account</h3>
     <a href="/signin">Sign In</a>
@@ -540,7 +539,7 @@ def submit_order(product_id, elevator_id, farmer_id):
             # return message
             if result == True:
                 return """
-                <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+                <link rel="stylesheet" type="text/css" href="/static/css/main.css">
                 <title>Order Sent!</title>
                 <nav>
                     <a href="/home">home</a> |
@@ -553,7 +552,7 @@ def submit_order(product_id, elevator_id, farmer_id):
                 return "Error: the new order could not been send at this time"
     # not signed in or not a Farmer account
     return """
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <h1>Farmers & Elevators</h1>
     <h3>To order any product you need to have a farmer account</h3>
     <a href="/signin">Sign In</a>
@@ -569,7 +568,7 @@ def mark_completed():
         return markAsComplete(product_id, elevator_id, order_id)
     else:
         return """
-            <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+            <link rel="stylesheet" type="text/css" href="/static/css/main.css">
             you have to be logged in
             """
 
@@ -823,7 +822,7 @@ def substituteWithOlderValues(toUpdate, olderValues):
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return """
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <link rel="stylesheet" type="text/css" href="/static/css/main.css">
     <h1>Page not found...</h1>
     <nav>
         <a href="/home" type="button">Home</a>
