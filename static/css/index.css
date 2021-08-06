@@ -92,9 +92,12 @@ li a {
 
 .cards {
     display: flex;
-    justify-content: center;
-    gap: 1rem;
+    flex-wrap: wrap;
+    /* justify-content: center; */
+    justify-content: flex-start;
+    gap: 1em;
     padding: 5%;
+    /* padding-left: 10em; */
 }
 
 .cards ul {
@@ -112,6 +115,8 @@ li {
     box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
     transition: 0.3s;
     border-radius: 5px;
+    width: 30em;
+    height: 30em;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -123,9 +128,16 @@ li {
 .card img {    
     /*width: 100%;*/
     height: 18rem;
+    width: 100%;
     object-fit: cover;
     border-radius: 5px 5px 5px 5px;
 }
+
+/* #card3 {
+    position: relative;
+    bottom: 0em;
+    height: 18em;
+} */
 
 .card:hover {
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
@@ -137,6 +149,7 @@ h4 {
 
 .container {
     text-align: left;
+    width: 20em;
 }
 
 /* SIGN-UP */
@@ -283,7 +296,7 @@ hr {
 /* FOOTER */
 
 footer {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     padding: 1%;
 }
