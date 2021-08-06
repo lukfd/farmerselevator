@@ -1,15 +1,148 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;500&display=swap');
+/* GENERAL */
+
+body { min-height: 100vh; }
+
+.center-text {
+    text-align: center;
+}
+
+/* HEADER */
+
+.header {
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 2%;
+    text-decoration: none;
+}
+
+.right {
+    float: right;
+    overflow: hidden;
+}
+
+.button a {
+    color: white;
+}
+
+/* SEARCH BAR */
+
+.search-area {
+    padding: 10% auto auto 0;
+}
+
+.search-bar {
+    font: Arial;
+    height: 34px;
+    width: 399px;
+    padding-left : 15px;
+    padding-right: 10px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 0.5px solid;
+}
+
+.button {
+    background-color: #254dcf;
+    border-radius: 5px;
+    margin: 15px 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 0 0 #1f40ac;
+}
+
+.button:hover {
+    background-color: #385cd1;
+    border-radius: 5px;
+    margin: 15px 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 0 0 #2a48ac;
+}
+
+.btn {
+    background-color: white;
+    border-radius: 4px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    top: 6.6px;
+    position: relative;
+}
+
+.btnImg {
+    width: 25px;
+    height: 25px;
+}
+
+/* CARDS */
+
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    padding: 5%;
+}
+
+.cards ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    list-style: none;
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 4%;
+}
+
+.card img {    
+    /*width: 100%;*/
+    height: 18rem;
+    object-fit: cover;
+    border-radius: 5px 5px 5px 5px;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+h4 {
+    font-family: sans-serif;
+}
+
+.container {
+    text-align: left;
+}
+
+/* SIGN-UP */
 
 :root {
     --primary-blue: #472c93;
-}
-
-body {
-    margin: 0;
-}
-
-body, h1, h2, h3, h4, h5, h6, p {
-    font-family: 'Rubik', sans-serif;
 }
 
 * {box-sizing: border-box}
@@ -30,7 +163,6 @@ body, h1, h2, h3, h4, h5, h6, p {
   outline: none;
 }
 
-
 #modal-btn {
   background-color: #254dcf;
   color: white;
@@ -47,7 +179,6 @@ body, h1, h2, h3, h4, h5, h6, p {
   opacity:1;
 }
 
-
 .cancelbtn {
   padding: 14px 20px;
   background-color: #f44336;
@@ -55,7 +186,6 @@ body, h1, h2, h3, h4, h5, h6, p {
   color: white;
   cursor: pointer;
 }
-
 
 .cancelbtn {
   float: left;
@@ -148,4 +278,16 @@ hr {
   .signupbtn {
     line-height: 10px;
   }
+}
+
+/* FOOTER */
+
+footer {
+    position: absolute;
+    bottom: 0;
+    padding: 1%;
+}
+
+footer a {
+    text-decoration: none;
 }
