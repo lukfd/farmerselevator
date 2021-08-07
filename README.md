@@ -44,7 +44,7 @@ Now:
 
 - [ ] Add payment and send email when sending the new order
 
-- [ ] Correct user_id and product_id
+- [ ] Correct user_id and product_id generation
 
 - [ ] If logged in, replace signup and signin with user profile
 
@@ -62,6 +62,12 @@ Now:
 
 - [ ] create live chat messages tools
 
+- [ ] Better css
+
+
+
+Completed:
+
 - [x] Populate /shop tables and the buy functionality
 
 - [x] test /delete-account
@@ -75,6 +81,14 @@ Now:
 - [x] Finish /profile
 
 - [x] Password hasing
+
+
+
+Future goals:
+
+- 
+
+
 
 ### API Description
 

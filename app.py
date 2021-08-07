@@ -1,7 +1,7 @@
 
 # IMPORTs
 import os
-from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory, session
+from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory, session, jsonify, json
 import bcrypt 
 
 import sqlite3 as lite
@@ -412,21 +412,21 @@ def homepage():
             return render_template('home-elevator.html', username=session["username"], id=session["user_id"], orders=orders)
         else:
             # get list of elevators
-            con = lite.connect('base.db') 
-            cur = con.cursor()
-            cur.execute(f"SELECT username from elevators;")
-            elevators = cur.fetchone()
-            if not elevators:
-                elevators = []
-            # render page
-            cur.close()
-
+            elevators = getElevatorArray()
             # get list of orders
             orders = farmerGetOrders(session["user_id"])
 
             return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators, orders=orders)
     else:
         return redirect("/", code=302)
+
+@app.route('/getElevatorList', methods=['GET'])
+def getElevatorList():
+    # get names of elevators
+    elevators = getElevatorArray()
+    elevators = [x for x in elevators]
+    
+    return json.dumps(elevators)
 
 @app.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
@@ -813,6 +813,19 @@ def substituteWithOlderValues(toUpdate, olderValues):
         if toUpdate[i] == '':
             newToUpdate[i] = olderValues[i]
     return tuple(newToUpdate)
+
+def getElevatorArray():
+    # get list of elevators
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+    cur.execute(f"SELECT username from elevators;")
+    elevators = cur.fetchone()
+    if not elevators:
+        elevators = []
+    # render page
+    cur.close()
+    # return elevators array
+    return elevators
 
 ##################################################
 # ERROR HANDLING
