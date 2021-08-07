@@ -424,9 +424,13 @@ def homepage():
 def getElevatorList():
     # get names of elevators
     elevators = getElevatorArray()
-    elevators = [x for x in elevators]
-    
-    return json.dumps(elevators)
+
+    data = []
+    for i in range(len(elevators)):
+        data.append({"name": elevators[i][0]})
+
+    # return json
+    return jsonify(data)
 
 @app.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
@@ -819,7 +823,7 @@ def getElevatorArray():
     con = lite.connect('base.db') 
     cur = con.cursor()
     cur.execute(f"SELECT username from elevators;")
-    elevators = cur.fetchone()
+    elevators = cur.fetchall()
     if not elevators:
         elevators = []
     # render page
