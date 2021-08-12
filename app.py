@@ -1,22 +1,75 @@
+#    Written by Luca Comba and Daniel Taufiq
+#    started May 2021
 
-# IMPORTs
+###############################################
+#  This is the server for the website         #
+#                                             #
+#  It uses flask, sqlite and our written      #
+#  helper methods.                            #
+#                                             #
+#  for more infromation visit:                #
+#  https://github.com/lukfd/farmerselevator   #
+###############################################
+
+###############################################
+# IMPORTS
+
 import os
 from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory, session, jsonify, json
-import bcrypt 
-
+import bcrypt
 import sqlite3 as lite
 from random import randint
 
+# OUR CODE from ./helper.py
+from helper import *
+
+# Flask name server
 app = Flask(__name__)
 
 # CONSTANTS
 app.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# WEBSITE
+##################################################
+#                                                #
+#  METHODS LIST and ports of the API:            #
+#                                                #
+#  # # # # # # # # # # # # # # # # # # # # # # # #  
+#  
+#  index():
+#  contact_us():
+#  signin():
+#  signup():
+#  logout():
+#  signin_form():
+#  signup_form():
+#
+#  settings_elevator():
+#  settings_farmer():
+#  change_profile_information():
+#  change_profile_image():
+#  get_profile_image(file):
+#  change_password():
+#  delete_account():
+#  homepage():
+#  getElevatorList():
+#  profile(id):
+#  shop():
+#  buy(product_id, elevator_id)
+#  submit_order(product_id, product_id)
+#  mark_completed():
+#  manage_shop():
+#  add_product():
+#  update_product():
+#  delete_product(elevator_id, product_id)
+#  page_not_found(e):
+#
+#####################################################
+
+# WEBSITE MAIN FUNCTIONS
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -670,170 +723,6 @@ def delete_product(elevator_id, product_id):
         if session['elevator'] == True:
             return deleteProduct(elevator_id, product_id)
     return "Not logged in"
-
-#########################################################
-# HELPER METHODS
-#########################################################
-
-def closeSession():
-    session.pop('username', None)
-    session.pop('elevator', None)
-    session.pop('user_id', None)
-
-def getProductList(id):
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT * from products WHERE elevator_id='{id}';")
-    result = cur.fetchall()
-    if not result:
-        result = []
-    else:
-        result = ['' if x is None else x for x in result]
-    cur.close()
-    return result
-
-def getProductInformation(product_id, elevator_id):
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT * from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
-    result = cur.fetchall()
-    if not result:
-        result = []
-    else:
-        result = ['' if x is None else x for x in result]
-    cur.close()
-    return result[0]
-
-def getProductName(elevator_id, product_id):
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT name from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
-    result = cur.fetchall()
-    if not result:
-        result = []
-    else:
-        result = ['' if x is None else x for x in result]
-    cur.close()
-    return result[0]
-
-def deleteProduct(elevator_id, product_id):
-    toDelete = (elevator_id, product_id,)
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    try:
-        deletedProductToIntesert = getProductInformation(product_id, elevator_id)
-        # deletedProductToInsert is a tuple (elevator_id, name, product_id, quantity_av, measure, price, description)
-        cur.execute("""INSERT INTO deleted_products
-                    (elevator_id, name, product_id, quantity_available, measure, price, description) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?);""", deletedProductToIntesert)
-        con.commit()
-        cur.execute("DELETE from products WHERE elevator_id=? AND product_id=?;", toDelete)
-        con.commit()
-        cur.close()
-        # return success
-        return redirect("/manage-shop", code=302)
-    except lite.Error as error:
-        return "Error:" + str(error)
-    finally:
-        if (con):
-            con.close()
-
-def insertNewOrder(order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name):
-    # missing date, status, quantity_type, description, payment
-    toInsert = (order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
-    # inserting new product
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    try:
-        cur.execute("""INSERT INTO orders
-                (order_id, product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
-                VALUES (?, ?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
-        con.commit()
-        # UPDATE in products table quantity available
-        cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
-        quantity_available = cur.fetchall()
-        toUpdate = (int(quantity_available[0][0]-int(quantity_requested)), elevator_id, product_id,)
-        cur.execute(f"""UPDATE products 
-                        SET quantity_available=? 
-                        WHERE elevator_id=? AND product_id=?;""", toUpdate)
-        con.commit()
-        cur.close()
-        # return success
-        return True
-    except lite.Error as error:
-        print(error)
-        return False
-    finally:
-        if (con):
-            con.close()
-
-def markAsComplete(product_id, elevator_id, order_id):
-    # update orders table
-    toUpdate = ('completed', elevator_id, product_id, order_id,)
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    try:
-        cur.execute(f"""UPDATE orders 
-                        SET status=?, completed_date=datetime('now', 'localtime')  
-                        WHERE elevator_id=? AND product_id=? AND order_id=?;""", toUpdate)
-        con.commit()
-        cur.close()
-        # return success
-        return redirect("/home", code=302)
-    except lite.Error as error:
-        print(error)
-        return "Could not mark as completed"
-    finally:
-        if (con):
-            con.close()
-
-def elevatorGetOrders(elevator_id):
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT * from orders WHERE elevator_id='{elevator_id}';")
-    result = cur.fetchall()
-    if not result:
-        result = []
-    else:
-        result = ['' if x is None else x for x in result]
-    cur.close()
-    return result
-
-def farmerGetOrders(farmer_id):
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT * from orders WHERE farmer_id='{farmer_id}';")
-    result = cur.fetchall()
-    if not result:
-        result = []
-    else:
-        result = ['' if x is None else x for x in result]
-    cur.close()
-    return result
-
-def substituteWithOlderValues(toUpdate, olderValues):
-    newToUpdate = list(toUpdate)
-    for i in range(0, len(toUpdate)):
-        if toUpdate[i] == '':
-            newToUpdate[i] = olderValues[i]
-    return tuple(newToUpdate)
-
-def getElevatorArray():
-    # get list of elevators
-    con = lite.connect('base.db') 
-    cur = con.cursor()
-    cur.execute(f"SELECT username from elevators;")
-    elevators = cur.fetchall()
-    if not elevators:
-        elevators = []
-    # render page
-    cur.close()
-    # return elevators array
-    return elevators
-
-##################################################
-# ERROR HANDLING
-##################################################
 
 @app.errorhandler(404)
 def page_not_found(e):
