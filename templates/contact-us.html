@@ -1,21 +1,48 @@
 <html>
   <head>
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
+    <!-- CDNs -->
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/contact_us.css') }}">
     <title>Contact us</title>
   </head>
   <body>
-    <div id="app">
-        <div>
-            <h1>Farmers & Elevators</h1>
-            <a href="/signin" type="button">Sign In</a>
-            <a href="/signup" type="button">Sign Up</a>
-        </div>
+    
+    <!-- Header -->
+    <ul class="header">
+      <li><a href="/"><h1>Farmers & Elevators</h1></a></li>
+      <ul class="right">
+        <li class="button"><a href="/signin" type="button">SignIn</a></li>
+        <li class="button" onclick="document.getElementById('id01').style.display='block'"><a href="#" type="button">SignUp</a></li>
+      </ul>
+    </ul>
+
+
+    <!-- Page -->
+    <div class="page">
+      <div class="request">
+        <h3>Contact us</h3>
+        <form action="/contact-us-message" method="POST">
+          <label class="clear-both">Title:</label>
+          <input type="text" name="title">
+          <label class="clear-both">Your email:</label>
+          <input type="email" name="email" required>
+          <br>
+          <label>Type your message for us:</label>
+          <br>
+          <textarea name="message" style="width: 100%;" rows="10"></textarea>
+          <br>
+          <button class="submit">SUBMIT</button>
+        </form>
+      </div>
+      <div>
+        <h3>Our latest news!</h3>
+
+      </div>
     </div>
-    <div>
-        <a href="mailto:luca.comba98@gmail.com">send us an email for any questions that you might have regarding Farmers and Elevators app!</a>
-    </div>
-    <div>
-      <footer><a href="/contact-us">Contact us</a></footer>
-    </div>
+
+    <!-- Footer -->
+    <footer>
+      <a href="/">Homepage</a>
+    </footer>
   </body>
 </html>

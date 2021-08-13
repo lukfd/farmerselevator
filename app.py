@@ -13,7 +13,6 @@
 
 ###############################################
 # IMPORTS
-
 import os
 from flask import Flask, render_template, url_for, redirect, request, escape, send_from_directory, session, jsonify, json
 import bcrypt
@@ -40,6 +39,7 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 #  
 #  index():
 #  contact_us():
+#  contact_us_message():
 #  signin():
 #  signup():
 #  logout():
@@ -77,6 +77,32 @@ def index():
 @app.route('/contact-us')
 def contact_us():
     return render_template('contact-us.html')
+
+@app.route('/contact-us-message', methods=['POST'])
+def contact_us_message():
+    title = request.form['title']
+    email = request.form['email']
+    message = request.form['message']
+
+    # also date and id
+
+    toInsert = (title, email, message)
+
+    con = lite.connect('base.db') 
+    cur = con.cursor()
+
+    try:
+        cur.execute("""INSERT INTO contact_us_messages
+                        (message_title, sender_email, message_text, date) 
+                        VALUES (?, ?, ?, datetime('now', 'localtime'));""", toInsert)
+        con.commit()
+        cur.close()
+    except lite.Error as error:
+            return "Failed: "+str(error)
+    finally:
+        if (con):
+            con.close()
+    return contact_us()
 
 @app.route('/signin')
 def signin():

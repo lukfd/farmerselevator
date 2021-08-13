@@ -58,11 +58,13 @@ Now:
 
 - [ ] in homepage make a map for searching elevators
 
-- [ ] finish contact-page
+- [ ] finish contact-page: send email to us, blogging for developers
 
 - [ ] create live chat messages tools
 
-- [ ] Better css
+- [ ] Better css for internal pages
+
+- [ ] Fix css for populating results in search bar, offset to the right (index.js)
 
 
 
