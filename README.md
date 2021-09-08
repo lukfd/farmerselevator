@@ -1,4 +1,8 @@
 # Farmers Elevator
+### Version 0.0.1
+**started on may 2021 - end september 2021**
+for different system structure
+
 
 *Authors: Luca and Daniel*
 
