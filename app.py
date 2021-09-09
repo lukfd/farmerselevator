@@ -24,8 +24,7 @@ from helper import *
 
 # Flask name server
 app = Flask(__name__)
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+
 # CONSTANTS
 app.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
 UPLOAD_FOLDER = './uploads'
@@ -763,3 +762,6 @@ def page_not_found(e):
         <a href="/signup" type="button">Sign Up</a>
     </nav>
     """
+
+if __name__ == '__main__':
+    app.run()
