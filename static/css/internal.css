@@ -1,0 +1,82 @@
+/* GENERAL */
+.center-text {
+    text-align: center;
+}
+
+.p5 {
+    padding: 5px;
+}
+
+/* HEADER */
+
+.header {
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+.header a {
+    margin: 0;
+    color: black;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    text-align: center;
+    padding: 2%;
+    text-decoration: none;
+}
+
+.right {
+    float: right;
+    overflow: hidden;
+}
+
+/* PAGE */
+
+.page {
+    padding: 0 5% 0 5%;
+}
+
+button {
+    color: white;
+    font-size: 12px;
+    font-family: 'Rubik', sans-serif;
+    border: none;
+    background-color: #254dcf;
+    border-radius: 5px;
+    margin: 15px 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 0 0 #1f40ac;
+}
+
+button:hover {
+    cursor: pointer;
+    background-color: #385cd1;
+    border-radius: 5px;
+    margin: 15px 10px;
+    padding: 10px;
+    box-shadow: 2px 2px 0 0 #2a48ac;
+}
+
+/* FOOTER */
+
+footer {
+    position: relative;
+    bottom: -50px;
+    padding: 1%;
+}
+
+footer a {
+    text-decoration: none;
+}

@@ -110,17 +110,24 @@ def signin():
         closeSession()
     return '''
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-    <h1>Farmers & Elevators</h1>
-	<form action="/signin-form" method="post">
-		<label>Username:</label>
-		<input type="text" name="username"/>
-		<label>Password:</label>
-		<input type="password" name="password"/>
-		<label>elevator?</label>
-		<input type="checkbox" name="elevator"/>
-		<button type="submit">sign-in</button>
-	</form>
-    <a href="/signup">Don't have an account yet? Sign Up</a>
+    <link rel="stylesheet" type="text/css" href="/static/css/internal.css">
+    <div class="header">
+        <h1>Farmers & Elevators</h1>
+    </div>
+    <div class="page">
+        <form action="/signin-form" method="post">
+            <label>Username:</label>
+            <input type="text" name="username"/>
+            <label>Password:</label>
+            <input type="password" name="password"/>
+            <label>elevator?</label>
+            <input type="checkbox" name="elevator"/>
+            <button type="submit" class="button">Singin</button>
+        </form>
+        </div>
+            <a href="/signup">Don't have an account yet? Sign Up</a>
+        <div>
+    </div>    
     '''
 
 @application.route('/signup')
@@ -492,6 +499,11 @@ def homepage():
         else:
             # get list of elevators
             elevators = getElevatorArray()
+            correctElevators = []
+            for i in elevators:
+                for tuple in i:
+                    correctElevators.applicationend(tuple)
+            elevators = correctElevators
             # get list of orders
             orders = farmerGetOrders(session["user_id"])
 
