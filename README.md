@@ -115,3 +115,7 @@ The API handles all the request for adding, deliting and modifying users. The AP
 [https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
 
 [https://flask-socketio.readthedocs.io/en/latest/getting_started.html](https://flask-socketio.readthedocs.io/en/latest/getting_started.html)
+
+### AWS deployment
+
+https://www.youtube.com/watch?v=dhHOzye-Rms

@@ -23,13 +23,13 @@ from random import randint
 from helper import *
 
 # Flask name server
-app = Flask(__name__)
+application = Flask(__name__)
 
 # CONSTANTS
-app.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
+application.secret_key = b'b[\x0e\x8c\x87\xdb\xa17\x9a\x8d\xdeO\r\xba|\xcd'
 UPLOAD_FOLDER = './uploads'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg', 'gif'}
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+application.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 ##################################################
 #                                                #
@@ -70,15 +70,15 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # WEBSITE MAIN FUNCTIONS
 
-@app.route('/')
+@application.route('/')
 def index():
     return render_template('index.html')
 
-@app.route('/contact-us')
+@application.route('/contact-us')
 def contact_us():
     return render_template('contact-us.html')
 
-@app.route('/contact-us-message', methods=['POST'])
+@application.route('/contact-us-message', methods=['POST'])
 def contact_us_message():
     title = request.form['title']
     email = request.form['email']
@@ -104,7 +104,7 @@ def contact_us_message():
             con.close()
     return contact_us()
 
-@app.route('/signin')
+@application.route('/signin')
 def signin():
     if 'username' in session:
         closeSession()
@@ -123,7 +123,7 @@ def signin():
     <a href="/signup">Don't have an account yet? Sign Up</a>
     '''
 
-@app.route('/signup')
+@application.route('/signup')
 def signup():
     return '''
     <link rel="stylesheet" type="text/css" href="/static/css/main.css">
@@ -144,14 +144,14 @@ def signup():
     <a href="/signin">Already have an account? Sign in</a>
     '''
 
-@app.route('/logout')
+@application.route('/logout')
 def logout():
     # remove the username from the session if it's there
     closeSession()
     return redirect("/", code=302) 
 
 # parameters: username, password, elevator
-@app.route('/signin-form', methods=['POST'])
+@application.route('/signin-form', methods=['POST'])
 def signin_form():
     isElevator = request.form.get('elevator')
     username = request.form['username']
@@ -199,7 +199,7 @@ def signin_form():
             
     
 # Parameters: email, username, password, elevator
-@app.route('/signup-form', methods=['POST'])
+@application.route('/signup-form', methods=['POST'])
 def signup_form():
     if 'username' in session:
         closeSession()
@@ -233,7 +233,7 @@ def signup_form():
             con.close()
 
 
-@app.route('/settings-elevator')
+@application.route('/settings-elevator')
 def settings_elevator():
     # check if user is in session
     if 'username' in session:
@@ -271,7 +271,7 @@ def settings_elevator():
     else:
         return redirect("/", code=302)
 
-@app.route('/settings-farmer')
+@application.route('/settings-farmer')
 def settings_farmer():
     # check if user is in session
     if 'username' in session:
@@ -309,7 +309,7 @@ def settings_farmer():
     else:
         return redirect("/", code=302)
 
-@app.route('/change-profile-information', methods=['POST'])
+@application.route('/change-profile-information', methods=['POST'])
 def change_profile_information():
     if 'username' in session:
         user_id = session['user_id']
@@ -367,7 +367,7 @@ def change_profile_information():
     else:
         return redirect("/", code=302)
 
-@app.route('/change-profile-image', methods=['POST'])
+@application.route('/change-profile-image', methods=['POST'])
 def change_profile_image():
     if 'username' in session:
         user_id = session['user_id']
@@ -375,7 +375,7 @@ def change_profile_image():
         file = request.files['image']
         extension = file.filename.split('.')[1]
         image_name = str(user_id)+"."+extension
-        path = os.path.join(app.config['UPLOAD_FOLDER'], image_name)
+        path = os.path.join(application.config['UPLOAD_FOLDER'], image_name)
         file.save(path)
 
         if session["elevator"] == True:
@@ -411,11 +411,11 @@ def change_profile_image():
                 if (con):
                     con.close()
 
-@app.route('/get-profile-image/<file>')
+@application.route('/get-profile-image/<file>')
 def get_profile_image(file):
-    return send_from_directory(app.config['UPLOAD_FOLDER'], file)
+    return send_from_directory(application.config['UPLOAD_FOLDER'], file)
 
-@app.route('/change-password', methods=['GET', 'POST', 'PULL'])
+@application.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
     if 'username' in session:
         user_id = session['user_id']
@@ -449,7 +449,7 @@ def change_password():
     else:
         return redirect("/", code=302)
 
-@app.route('/delete-account')
+@application.route('/delete-account')
 def delete_account():
     if 'username' in session:
         # delete account from DB
@@ -481,7 +481,7 @@ def delete_account():
     else:
         return redirect("/", code=302)
 
-@app.route('/home')
+@application.route('/home')
 def homepage():
     # check if user is in session
     if 'username' in session:
@@ -499,19 +499,19 @@ def homepage():
     else:
         return redirect("/", code=302)
 
-@app.route('/getElevatorList', methods=['GET'])
+@application.route('/getElevatorList', methods=['GET'])
 def getElevatorList():
     # get names of elevators
     elevators = getElevatorArray()
 
     data = []
     for i in range(len(elevators)):
-        data.append({"name": elevators[i][0]})
+        data.applicationend({"name": elevators[i][0]})
 
     # return json
     return jsonify(data)
 
-@app.route('/profile/<string:id>', methods=['GET'])
+@application.route('/profile/<string:id>', methods=['GET'])
 def profile(id):
     loggedin = False
     if 'username' in session:
@@ -542,7 +542,7 @@ def profile(id):
         cur.close()
         return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "elevator", name=result[1], phone=result[2], email=result[3], address=result[4], image=str(result[5]))
 
-@app.route('/shop', methods=['GET'])
+@application.route('/shop', methods=['GET'])
 def shop():
     name = request.args.get('name')
     if 'username' in session:
@@ -584,7 +584,7 @@ def shop():
         products = getProductList(elevator_id[0])
         return render_template('shop.html', username=name, id=elevator_id[0], loggedin=False, products=products)
 
-@app.route('/buy/<int:product_id>/<int:elevator_id>', methods=['GET', 'POST'])
+@application.route('/buy/<int:product_id>/<int:elevator_id>', methods=['GET', 'POST'])
 def buy(product_id, elevator_id):
     if 'username' in session:
         if session['elevator'] == False:
@@ -605,7 +605,7 @@ def buy(product_id, elevator_id):
     <a href="/signup">Don't have an account yet? Sign Up</a>
     """
 
-@app.route('/submit-order/<int:product_id>/<int:elevator_id>/<int:farmer_id>', methods=['GET', 'POST'])
+@application.route('/submit-order/<int:product_id>/<int:elevator_id>/<int:farmer_id>', methods=['GET', 'POST'])
 def submit_order(product_id, elevator_id, farmer_id):
     if 'username' in session:
         if session['elevator'] == False:
@@ -642,7 +642,7 @@ def submit_order(product_id, elevator_id, farmer_id):
     <a href="/signup">Don't have an account yet? Sign Up</a>
     """
 
-@app.route('/mark-completed', methods=['GET'])
+@application.route('/mark-completed', methods=['GET'])
 def mark_completed():
     if 'username' in session:
         product_id = request.args.get('product_id')
@@ -655,7 +655,7 @@ def mark_completed():
             you have to be logged in
             """
 
-@app.route('/manage-shop')
+@application.route('/manage-shop')
 def manage_shop():
     if 'username' in session:
         # Two different pages for elevator or farmer
@@ -667,7 +667,7 @@ def manage_shop():
     else:
         return redirect("/home", code=302)
 
-@app.route('/add-product', methods=['POST'])
+@application.route('/add-product', methods=['POST'])
 def add_product():
     if 'username' in session:
         if session['elevator'] is True:
@@ -702,7 +702,7 @@ def add_product():
     else:
         return "not authorized"
 
-@app.route('/update-product', methods=['POST'])
+@application.route('/update-product', methods=['POST'])
 def update_product():
     if 'username' in session:
         if session['elevator'] is True:
@@ -743,14 +743,14 @@ def update_product():
     else:
         return "not authorized"
 
-@app.route('/delete-product/<int:elevator_id>/<int:product_id>', methods=['GET','POST'])
+@application.route('/delete-product/<int:elevator_id>/<int:product_id>', methods=['GET','POST'])
 def delete_product(elevator_id, product_id):
     if 'username' in session:
         if session['elevator'] == True:
             return deleteProduct(elevator_id, product_id)
     return "Not logged in"
 
-@app.errorhandler(404)
+@application.errorhandler(404)
 def page_not_found(e):
     # note that we set the 404 status explicitly
     return """
@@ -764,4 +764,4 @@ def page_not_found(e):
     """
 
 if __name__ == '__main__':
-    app.run()
+    application.run()
