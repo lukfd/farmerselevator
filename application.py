@@ -502,7 +502,7 @@ def homepage():
             correctElevators = []
             for i in elevators:
                 for tuple in i:
-                    correctElevators.applicationend(tuple)
+                    correctElevators.append(tuple)
             elevators = correctElevators
             # get list of orders
             orders = farmerGetOrders(session["user_id"])
@@ -518,7 +518,7 @@ def getElevatorList():
 
     data = []
     for i in range(len(elevators)):
-        data.applicationend({"name": elevators[i][0]})
+        data.append({"name": elevators[i][0]})
 
     # return json
     return jsonify(data)
