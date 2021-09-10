@@ -167,6 +167,7 @@ h4 {
 #mapid {
   height: 30%;
   width: 100%;
+  z-index: -1;
 }
 
 /* SIGN-UP */
