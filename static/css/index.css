@@ -261,10 +261,11 @@ h4 {
 /* Modal Content/Box */
 .modal-content {
   background-color: #fefefe;
-  margin: 5% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
+  margin: 1% auto 15% auto; /* 5% from the top, 15% from the bottom and centered */
   border: 1px solid #888;
   width: 40%; /* the size of the form */
   border-radius: 15px;
+  font-size: clamp(10px, 1vw, 12px);
 }
 
 /* Style the horizontal ruler */
