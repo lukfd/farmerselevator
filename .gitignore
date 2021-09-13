@@ -3,3 +3,9 @@ venv/
 __pycache__/
 .__pycache__
 .env
+
+farmerselevator/venv/
+farmerselevator/.venv/
+farmerselevator/__pycache__/
+farmerselevator/.__pycache__
+farmerselevator/.env

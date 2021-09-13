@@ -1,5 +1,8 @@
 # Farmers Elevator
 
+Version 0.0.2
+started on september 2021 - now for different system structure
+
 *Authors: Luca and Daniel*
 
 An application for grain elevators ([Grain elevator - Wikipedia](https://en.wikipedia.org/wiki/Grain_elevator)) for giving them their own website and ecommerce to sell food for livestock to farmers.
@@ -42,7 +45,9 @@ Now:
 
 - [ ] Update /home orders table for farmers and elevators using SOCKET/IO
 
-- [ ] Add payment and send email when sending the new order
+- [ ] Add payments
+
+- [ ] Send email when sending the new order
 
 - [ ] Correct user_id and product_id generation
 
@@ -54,42 +59,21 @@ Now:
 
 - [ ] creating functions for redundancy in the code
 
-- [ ] have homepage search bar working
+- [ ] have homepage search bar working (style)
 
-- [ ] in homepage make a map for searching elevators
+- [ ] in homepage have map populated for searching elevators
 
 - [ ] finish contact-page: send email to us, blogging for developers
 
 - [ ] create live chat messages tools
 
-- [ ] Better css for internal pages
+- [ ] Move to Bootstrap
 
 - [ ] Fix css for populating results in search bar, offset to the right (index.js)
 
-
+- [ ] How do we decide if user can be opening a elevator account?
 
 Completed:
-
-- [x] Populate /shop tables and the buy functionality
-
-- [x] test /delete-account
-
-- [x] test change password
-
-- [x] uploading profile pictures
-
-- [x] Finish Settings (changing row by sending variables)
-
-- [x] Finish /profile
-
-- [x] Password hasing
-
-
-
-Future goals:
-
-- 
-
 
 
 ### API Description
@@ -101,8 +85,9 @@ The API handles all the request for adding, deliting and modifying users. The AP
 - **farmers** is the table to store all farmer users
 - **elevators** is the table to store all elevator users
 - **products** stores the list of products for each elevator
-- **orders stores** all transactions
+- **orders** all transactions
 - **deleted_products** stores all deleted products
+- **contact_us_messages** stores all deleted products
 
 ### References
 
