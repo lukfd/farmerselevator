@@ -9,6 +9,44 @@ An application for grain elevators ([Grain elevator - Wikipedia](https://en.wiki
 
 The problem specifically arises today because farmers would need to call the elevator several times to complete an order. The order would take even longer in case it has been placed during the weekend.
 
+### Structure
+
+```
+farmerselevator
+│
+├─── database/
+│        ├ base.db
+│        ├ schemas.txt
+│        └ db
+│
+├─── src/
+│        ├ api/
+│        │   ├ buy.py
+│        │   ├ elevatorList.py
+│        │   ├ orders.py
+│        │   ├ products.py
+│        │   ├ registration.py
+│        │   └ settings.py
+│        ├ pages/
+│        │   ├ contuctus.py
+│        │   ├ error.py
+│        │   ├ home.py
+│        │   ├ index.py
+│        │   ├ logout.py
+│        │   ├ manageShop.py
+│        │   ├ profile.py
+│        │   ├ registration.py
+│        │   ├ settings.py
+│        │   └ shop.py
+│        └ helper.py
+│
+├─── static/
+│
+├─── templates/
+│
+└ ─── uploads/
+```
+
 ### Installation guide
 
 From the website [flask.palletsprojects.com/en/2.0.x/installation](https://flask.palletsprojects.com/en/2.0.x/installation/)

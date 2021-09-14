@@ -2,11 +2,12 @@
 
 Endpoints and functions
 
+### Pages
+
 ```
-WEBSITE:
 def __init__(self, app):
 
- @app.route('/')  
+@app.route('/')  
 def index(self):
 
  @app.route('/contact-us') 
@@ -47,11 +48,11 @@ def manage_shop():
 
  @app.errorhandler(404) 
 def page_not_found(e):
+```
 
-DATABASE:
+### API FUNCTIONS
 
-def __init__(self, app):
-
+```
  @app.route('/signin-form', methods=['POST'])
 def signin_form():
 
@@ -90,8 +91,10 @@ def update_product():
 
 @app.route('/delete-product/<int:elevator_id>/<int:product_id>', methods=['GET','POST'])
 def delete_product(elevator_id, product_id): 
+```
 
-HELPER:
+**helper.py**
+```
 def closeSession():
 def getProductList(id):
 def getProductInformation(product_id, elevator_id):
