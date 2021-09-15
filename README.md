@@ -77,9 +77,9 @@ Then can install Flask within the activated environment
 
 Now:
 
-- [ ] Correct the address in /settings (does not take spaces)
+- [x] Correct the address in /settings (does not take spaces)
 
-- [ ] Correct the description of products input in /manage-shop (does not take spaces)
+- [x] Correct the description of products input in /manage-shop (does not take spaces)
 
 - [ ] Update /home orders table for farmers and elevators using SOCKET/IO
 
@@ -87,7 +87,7 @@ Now:
 
 - [ ] Send email when sending the new order
 
-- [ ] Correct user_id and product_id generation
+- [x] Correct user_id and product_id generation
 
 - [ ] If logged in, replace signup and signin with user profile
 
