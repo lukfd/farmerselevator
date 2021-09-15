@@ -4,9 +4,6 @@ import farmerselevator.constants
 
 from flask import request
 
-from random import randint
-
-
 @application.route('/add-product', methods=['POST'])
 def add_product():
     if 'username' in session:
@@ -14,22 +11,20 @@ def add_product():
             #elevator_id = request.form.get('elevator_id')
             elevator_id = session['user_id']
             product_name = request.form.get('product_name')
-            product_id = request.form.get('product_id')
+            #product_id = request.form.get('product_id')
             quantity_available = request.form.get('quantity_available')
             measure = request.form.get('measure')
             price = request.form.get('price')
             description = request.form.get('description')
-            #print(product_id)
-            if product_id == '':
-                product_id = randint(0, 100000)
-            toInsert = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
+
+            toInsert = (elevator_id, product_name, quantity_available, measure, price, description,)
             # inserting new product
             con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             try:
                 cur.execute("""INSERT INTO products
-                        (elevator_id, name, product_id, quantity_available, measure, price, description) 
-                        VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+                        (elevator_id, name, quantity_available, measure, price, description) 
+                        VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
                 con.commit()
                 cur.close()
                 # redirect to sign in page

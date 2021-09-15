@@ -109,16 +109,16 @@ def deleteProduct(elevator_id, product_id):
         if (con):
             con.close()
 
-def insertNewOrder(order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name):
+def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name):
     # missing date, status, quantity_type, description, payment
-    toInsert = (order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
+    toInsert = (product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
     # inserting new product
     con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     try:
         cur.execute("""INSERT INTO orders
-                (order_id, product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
-                VALUES (?, ?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
+                (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
+                VALUES (?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
         con.commit()
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")

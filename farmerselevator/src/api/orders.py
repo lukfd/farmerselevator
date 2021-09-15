@@ -3,7 +3,6 @@ from farmerselevator.src.helper import *
 
 from flask import request
 
-from random import randint
 
 @application.route('/submit-order/<int:product_id>/<int:elevator_id>/<int:farmer_id>', methods=['GET', 'POST'])
 def submit_order(product_id, elevator_id, farmer_id):
@@ -12,12 +11,11 @@ def submit_order(product_id, elevator_id, farmer_id):
             quantity_requested = request.form.get('quantity')
             measure = request.form.get('measure')
             description = request.form.get('description')
-            order_id = randint(0, 100000)
             # get product name
             product_name = getProductName(elevator_id, product_id)
             product_name = product_name[0]
             # send info to orders table
-            result = insertNewOrder(order_id, product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
+            result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
             # send email informations
             # return message
             if result == True:

@@ -25,13 +25,15 @@ def change_profile_information():
             # change in DB
             con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
+
+            toUpdate=(email, contact_person, phone, address, user_id)
+            print(toUpdate)
             #create the new profile into the database
             try:
                 cur.execute(f"""UPDATE elevators 
-                            SET email='{email}', primary_contact='{contact_person}',
-                            phone='{phone}', address='{address}',
-                            profile_image='{user_id}' 
-                            WHERE elevator_id='{user_id}';""")
+                            SET email=?, primary_contact=?,
+                            phone=?, address=?
+                            WHERE elevator_id=?;""", toUpdate)
                 con.commit()
                 cur.close()
                 # reload page
@@ -50,13 +52,13 @@ def change_profile_information():
             # change in DB
             con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
+            toUpdate=(email, first_name, last_name, phone, address, user_id,)
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email='{email}', name='{first_name}',
-                                lastname='{last_name}',
-                                phone='{phone}', address='{address}',
-                                profile_image='{user_id}' 
-                                WHERE farmer_id='{user_id}';""")
+                                SET email=?, name=?,
+                                lastname=?,
+                                phone=?, address=?
+                                WHERE farmer_id=?;""",toUpdate)
                 con.commit()
                 cur.close()
                 # reload page

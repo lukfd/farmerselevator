@@ -3,8 +3,8 @@ from farmerselevator.src.helper import *
 import farmerselevator.constants
 
 import bcrypt
+
 from flask import request
-from random import randint
 
 # parameters: username, password, elevator
 @application.route('/signin-form', methods=['POST'])
@@ -64,7 +64,7 @@ def signup_form():
     email = request.form['email']
     username = request.form['username']
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-    toInsert = ('name', randint(0, 100000), email, password, username, 1, "default.png")
+    toInsert = ('name', email, password, username, 1, "default.png")
 
     con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
@@ -72,12 +72,12 @@ def signup_form():
     try:
         if isElevator == "on":
             cur.execute("""INSERT INTO elevators
-                            (name, elevator_id, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+                            (name, email, password, username, status, profile_image) 
+                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
         else:
             cur.execute("""INSERT INTO farmers
-                            (name, farmer_id, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?, ?);""", toInsert)
+                            (name, email, password, username, status, profile_image) 
+                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
         con.commit()
         cur.close()
         # redirect to sign in page

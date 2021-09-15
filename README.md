@@ -1,6 +1,6 @@
 # Farmers Elevator
 
-Version 0.0.2
+Version 0.0.3
 started on september 2021 - now for different system structure
 
 *Authors: Luca and Daniel*
@@ -134,3 +134,5 @@ The API handles all the request for adding, deliting and modifying users. The AP
 [https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
 
 [https://flask-socketio.readthedocs.io/en/latest/getting_started.html](https://flask-socketio.readthedocs.io/en/latest/getting_started.html)
+
+[https://pythonhosted.org/Flask-Mail/](https://pythonhosted.org/Flask-Mail/)
