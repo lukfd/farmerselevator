@@ -1,0 +1,114 @@
+<html>
+  <head>
+    <title>Farmers & Elevators</title>
+    <!-- CDNs -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/main.css') }}">
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/index.css') }}">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    <script src="{{url_for('static', filename='/js/index.js')}}"></script>
+  
+  </head>
+  <body onload="init()">
+
+    <!-- Header -->
+    <ul class="header">
+      <li><h1>Farmers & Elevators</h1></li>
+      <ul class="right">
+        <li class="button"><a href="/signin" type="button">SignIn</a></li>
+        <li class="button" onclick="document.getElementById('id01').style.display='block'"><a href="#" type="button">SignUp</a></li>
+      </ul>
+    </ul>
+
+    <!-- Sign-up form (hidden until user clicks signup button) -->
+    <div id="id01" class="modal">
+      <form class="modal-content" action="/signup-form" method="post">
+        <div class="modal-container">
+          <span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
+          <h1>Sign Up</h1>
+          <p>Please fill in this form to create an account.</p>
+          <hr>
+          <label for="email"><b>Email</b></label>
+          <input id="emailID" type="text" placeholder="Enter Email" name="email" required>
+
+	        <label for="username"><b>Username</b></label>
+          <input id="usernameID" type="text" placeholder="Enter Username" name="username" required>
+
+          <label for="psw"><b>Password</b></label>
+          <input id="passwdID" type="password" placeholder="Enter Password" name="password" required>
+
+          <label for="psw-repeat"><b>Repeat Password</b></label>
+          <input id="passwdID" type="password" placeholder="Repeat Password" name="password" required>
+
+          <label>
+            <input type="checkbox" checked="checked" name="elevator"    style="margin-bottom:15px"> Create an Elevator account?
+          </label>
+
+          <p>Already have an account?<a href="#" style="color: black; text-decoration: none;"><strong> SIGN IN</strong></a></p>
+
+          <div class="clearfix">
+            <button type="button" onclick="document.getElementById('id01').style.display='none'" class="cancelbtn">Cancel</button>
+            <span class="signupbtn">
+              <button id="modal-btn" type="submit" class="signupbtn">Sign Up</button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="center-text search-area">
+      <div class="center-text">
+        <h5>The online shop for farmers and elevators</h5>
+      </div>
+      <form action="">
+        <input id="elevatorSearch" type="text" name="input" placeholder="Search the name of the elevator" class="search-bar">
+        <button class="btn" type="submit">
+            <img class="btnImg" src="/static/images/search_icon.png"/>
+        </button>
+      </form>        
+    </div>
+
+    <!-- MAP -->
+    <div id="mapid"></div>
+
+    <!-- CARDS -->
+    <ul class="cards">
+      <li>
+        <div class="card">
+          <img src="/static/images/card-1.jpg">
+          <div class="container">
+            <h3>Connect with your elevator easily</h3>
+            <p>Shop from your trusted elevator with a few simple clicks any time!</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="card">
+          <img src="/static/images/card-2.jpg">
+          <div class="container">
+            <h3>Find new elevators near you</h3>
+            <p>Find the closest elevator to you and start ordering from there!</p>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="card">
+          <img src="/static/images/card-3.jpg">
+          <div class="container">
+            <h3>Use all our services for free</h3>
+            <p>Send a message and create orders to your nearest elevator for free!</p>
+          </div>
+        </div>
+      </li>
+    </ul>
+
+    <!-- Footer -->
+    <footer>
+      <a href="/contact-us">Contact us</a>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,18 @@
+{
+    "primary": {
+        "basic": "486e97",
+        "light": "789cc8",
+        "dark": "144369"
+    },
+    "secondary": {
+        "basic": "80deea",
+        "light": "b4ffff",
+        "dark": "4bacb8"
+    },
+    "text": {
+        "primary": "ffffff",
+        "secondary": "000000"
+    },
+    "link": "https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=486E97&secondary.color=80DEEA",
+    "tutorial": "https://www.youtube.com/watch?v=nCX3QVl_PiI"
+}
