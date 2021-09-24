@@ -87,31 +87,29 @@ Now:
 
 - [ ] Send email when sending the new order
 
+- [ ] Create PDF when creating an order
+
 - [x] Correct user_id and product_id generation
+
+- [ ] When creating an id it will be the same for elevator and farmer
+
+- [ ] Have a list of elegible elevators that can suscribe to the platform
 
 - [ ] If logged in, replace signup and signin with user profile
 
 - [ ] SQL injection threats
 
-- [ ] stay consistant with variables in the code
-
-- [ ] creating functions for redundancy in the code
-
-- [ ] have homepage search bar working (style)
-
 - [ ] in homepage have map populated for searching elevators
 
 - [ ] finish contact-page: send email to us, blogging for developers
 
+- [ ] create blog and pages from footer
+
 - [ ] create live chat messages tools
 
-- [ ] Move to Bootstrap
+- [x] Move to Bootstrap
 
-- [ ] Fix css for populating results in search bar, offset to the right (index.js)
-
-- [ ] How do we decide if user can be opening a elevator account?
-
-Completed:
+- [ ] Fix css for populating results in search bar, offset to the right (index.js) use Vue.js
 
 
 ### API Description
