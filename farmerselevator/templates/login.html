@@ -1,0 +1,63 @@
+<link rel="stylesheet" type="text/css" href="/static/css/main.min.css">
+
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Farmers & Elevators</a>
+    </div>
+</nav>
+
+<div class="p-5 bg-light min-vh-100 min-vw-100">
+    <div class="row text-center">
+        <div class="col-4"></div>
+        <div class="col-4 col-offset-4">
+            <div class="border rounded-5 p-5">
+
+                <div class="row">
+                    <h1>
+                        Log In
+                    </h1>
+                </div>
+                <div class="row">
+                    <form action="/signin-form" method="post">
+                        <div class="row py-2 align-middle">
+                            <div class="form-group col-4">
+                                <label class="align-text-bottom">Username:</label>
+                            </div>
+                            <div class="form-group col-8">
+                                <input type="text" name="username" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="form-group col-4">
+                                <label class="align-text-bottom">Password:</label>
+                            </div>
+                            <div class="form-group col-8">
+                                <input type="password" name="password" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="form-group col-4">
+                                <label class="align-text-bottom">elevator?</label>
+                            </div>
+                            <div class="form-group col-1">
+                                <input type="checkbox" name="elevator" class="form-check-label"/>
+                            </div>
+                        </div>
+                        <div class="row py-2">
+                            <div class="form-group col">
+                                <button type="submit" class="btn btn-primary btn-md text-white text-capitalize">Singin</button>
+                            </div>
+                        </div>
+                        <div class="row py-1">
+                            <div class="col">
+                                <a href="/signup">Don't have an account yet? Sign Up</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
