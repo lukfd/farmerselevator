@@ -50,7 +50,7 @@
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                       <a class="dropdown-item" href="/logout">Logout</a>
                       <a class="dropdown-item" href="/settings-elevator">Settings</a>
-                      <a class="dropdown-item" href="{{ url_for('profile', id = id)}}">Your Profile</a>
+                      <a class="dropdown-item" href="{{ url_for('profile', profileType = 'elevator' ,id = id)}}">Your Profile</a>
                     </div>
                 </div>
             </li>

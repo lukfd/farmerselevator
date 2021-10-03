@@ -5,7 +5,7 @@
 </head>
 
 <h1>Welcome to {{username}}'s shop</h1>
-<p>learn more about <a href="{{ url_for('profile', id = id)}}">{{username}}</a></p>
+<p>learn more about <a href="{{ url_for('profile', profileType = 'elevator', id = id)}}">{{username}}</a></p>
 {% if loggedin %}
   <nav>
     <a href="/home">home</a> |
