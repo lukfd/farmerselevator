@@ -1,1 +1,11 @@
 flask
+bcrypt
+cffi
+click
+Flask
+itsdangerous
+Jinja2
+MarkupSafe
+pycparser
+six
+Werkzeug
