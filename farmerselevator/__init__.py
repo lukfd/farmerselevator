@@ -23,6 +23,8 @@ import farmerselevator.src.api.registration
 import farmerselevator.src.api.settings
 
 import farmerselevator.src.pages.index
+import farmerselevator.src.pages.about
+import farmerselevator.src.pages.terms
 import farmerselevator.src.pages.logout
 import farmerselevator.src.pages.registration
 import farmerselevator.src.pages.settings

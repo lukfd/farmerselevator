@@ -1,0 +1,312 @@
+<html>
+  <head>
+    <title>Farmers & Elevators</title>
+    <!-- CSS -->
+    <script src="https://kit.fontawesome.com/928bcb0d71.js" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/main.min.css') }}">
+    
+    <!-- SCRIPTS -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+    <script src="{{url_for('static', filename='/node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+
+    <style>
+
+        /* GENERAL */
+        .text-color-light {
+            color: #FBFBFA;
+        }
+
+        .text-color-dark {
+            color: #A76342;
+        }
+
+        /* TOP */
+        .top-bg-image {
+            background-image: url('https://images.unsplash.com/photo-1615811361523-6bd03d7748e7?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1374&q=80'); 
+            background-repeat: no-repeat; 
+            height: 100%; 
+            background-position: center; 
+            background-size: cover;
+        }
+
+        /* WHO */
+        .who-bg-image {
+            background-image: url('https://images.unsplash.com/photo-1633114072859-7e8171f1bc95?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80'); 
+            background-repeat: no-repeat; 
+            height: 100%; 
+            background-position: center; 
+            background-size: cover;
+        }
+
+        /* NEWS */
+
+
+        /* RESOURCES */
+        .resources-bg-image {
+            background-image: url('https://images.unsplash.com/photo-1594842059196-5b6b8fa73187?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1374&q=80'); 
+            background-repeat: no-repeat; 
+            height: 100%; 
+            background-position: center; 
+            background-size: cover;
+        }
+
+    </style>
+
+  </head>
+  <body>
+
+    <div id="app">
+
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-dark">
+        <div class="container-fluid">
+          <a class="navbar-brand px-4 text-color-light" href="/">Farmers & Elevators</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#who">Who we are</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#news">Latest news</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#resources">Resources</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+              <a class="btn btn-primary btn-md" href="/signin" role="button">SIGN IN</a>
+            </span>
+            <span class="navbar-text px-4">
+              <a class="btn btn-primary btn-md" href="/signup" role="button">SIGN UP</a>
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- PAGE -->
+      <div class="p-5 bg-light min-vh-100 min-vw-100 top-bg-image">
+        <div class="container-fluid py-5">
+
+            <div class="row text-color-light">
+
+                <h5>OUR MISSION</h5>
+                <h1>Connect with your community to have a new online experience.</h1>
+
+            </div>
+
+        </div>
+      </div>
+      
+
+      <div class="px-5 bg-light min-vw-100 who-bg-image text-color-dark" id="who">
+        <div class="container-fluid">
+          <div class="p-5">
+
+            <div class="row">
+                <h1>Who are we</h1>
+            </div>
+
+            <div class="row">
+                <div class="col-8"></div>
+                <div class="col-4">
+                    <h3>Our products empower than farmers and elevator across Minnesota.</h3>
+                    <p>We aim at developing new applications for improving ordering and shopping online.</p>
+                    <p>Platform that offers elevators a personalized online shop that connects them to farmers looking for an improved experience.</p>
+                </div>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 bg-light min-vh-100 min-vw-100" id="news">
+        <div class="container-fluid py-5">
+          <div class="p-5">
+
+            <div class="row pb-5">
+                <h1>Latest News</h1>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h3>Version 0.0.3 coming our soon</h3>
+                    <dt>Sunday, October 3, 2021</dt>
+                    <p class="py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                        optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+                        obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+                        nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+                        tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+                        quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
+                        sapiente officiis modi at sunt excepturi expedita sint?
+                    </p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col">
+                    <h3>Restyling the application</h3>
+                    <dt>Tuesday, September 21, 2021</dt>
+                    <p class="py-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                        molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                        numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                        optio, eaque rerum! Provident similique accusantium nemo autem. Veritatis
+                        obcaecati tenetur iure eius earum ut molestias architecto voluptate aliquam
+                        nihil, eveniet aliquid culpa officia aut! Impedit sit sunt quaerat, odit,
+                        tenetur error, harum nesciunt ipsum debitis quas aliquid. Reprehenderit,
+                        quia. Quo neque error repudiandae fuga? Ipsa laudantium molestias eos 
+                        sapiente officiis modi at sunt excepturi expedita sint?
+                    </p>
+                </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 bg-light min-vh-100 min-vw-100 resources-bg-image text-color-light" id="resources">
+        <div class="container-fluid py-5">
+          <div class="p-5">
+
+            <div class="row">
+                <div class="col-6">
+                    <h1>Questions?</h1>
+                </div>
+                <div class="col-6">
+                    <h5>We want to answer you and share our idea.</h5>
+                </div>
+                
+                
+            </div>
+            <div class="row text-center py-5">
+                <a class="btn btn-light" role="button" href="/contact-us" style="width: 300px;">CONTACT US HERE</a>
+            </div>
+
+            <div class="row p-5">
+                <iframe width="560" height="420" src="https://www.youtube.com/embed/KVoyENmU_x8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <div class="p-5 bg-light min-vh-100 min-vw-100" id="resources">
+        <div class="container-fluid py-5">
+            <div class="p-5">
+                <div class="pt-5" id="careers">
+                    <div class="row py-5">
+                        <h1>Join our team</h1>
+                    </div>
+        
+                    <div class="row border rounder-3 p-5">
+                        <div class="col">
+                            <h5>WEB DEVELOPER</h5>
+                            <dt>Description:</dt>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
+                            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
+                            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
+                            optio, eaque rerum!
+                            </p>
+                            <ul>
+                                <li>Python, Flask</li>
+                                <li>Bootstrap</li>
+                                <li>Vue.js</li>
+                                <li>Git</li>
+                                <li>AWS</li>
+                            </ul>
+                            <a class="btn btn-primary" href="#" role="button">APPLY NOW</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>  
+
+      <!-- FOOTER -->
+      <div class="container-fluid bg-light min-vw-100">
+        <div class="row px-5">
+          <hr>
+        </div>
+        <div class="p-5 text-center text-dark link-dark">
+          <div class="row">
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>Farmers & Elevators</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/about" class="text-decoration-none">About</a>
+              </div>
+              <div class="row p-1">
+                <a href="/about#news" class="text-decoration-none">Latest news</a>
+              </div>
+              <div class="row p-1">
+                <a href="/about#resources" class="text-decoration-none">Careers</a>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>Need support?</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/contact-us" class="text-decoration-none">Contact us</a>
+              </div>
+              <div class="row p-1">
+                <a href="/contact-us" class="text-decoration-none">Report an issue</a>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>More</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/terms" class="text-decoration-none">Terms & Conditions</a>
+              </div>
+              <div class="row p-1">
+                <a href="/terms#pricing" class="text-decoration-none">Pricing</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row p-5">
+          <div class="col-6 text-right">
+            <footer class="text-muted">
+              &copy; 2021 All right reserved
+            </footer>
+          </div>
+          <div class="col-6 text-center">
+            <div class="input-group-btn">
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>
