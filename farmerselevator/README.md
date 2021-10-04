@@ -2,6 +2,12 @@
 
 Endpoints and functions
 
+### Adding a new page or API function
+To add a new web page or a API route, you will need to create a python script into either `/pages` or `/api`.
+Then you will need to also add the reference to the script into the `__init__.py` script such as: 
+
+```import farmerselevator.src.pages.newpagename```
+
 ### Pages
 
 ```
