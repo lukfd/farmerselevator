@@ -37,4 +37,4 @@ import farmerselevator.src.pages.home
 
 # running the server
 if __name__ == '__main__':
-    application.run()
+    application.run(port=8000)
