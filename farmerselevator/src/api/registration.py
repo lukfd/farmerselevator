@@ -18,10 +18,10 @@ def signin_form():
 
     # if it is an Elevator logging in
     if isElevator == "on":
-        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username='{username}';")
+        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username=?;", (username,))
         session['elevator'] = True
     else:
-        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username='{username}';")
+        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username=?;", (username,))
         session['elevator'] = False
     
     result = cur.fetchone()
