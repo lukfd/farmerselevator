@@ -1,52 +1,96 @@
-<!doctype html>
-<head>
-  <title>{{username}}</title>
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
-</head>
+<html>
+  <head>
+    <title>{{username}}'s profile</title>
+    <!-- CSS -->
+    <script src="https://kit.fontawesome.com/928bcb0d71.js" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/main.min.css') }}">
+    
+    <!-- SCRIPTS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  </head>
 
-<nav>
-  <a href="/home">home </a>|
-  {% if loggedin %}
-    <a href="/logout">logout </a>|
-    <a href="/settings-farmer">settings</a>
-  {% endif %}
-</nav>
-
-<table>
-    <thead>
-      <h1>{{profile_type}}: {{username}}</h1>
-    </thead>
-    <tbody>
-      <tr>
-        <td>picture</td>
-        <td><img src="{{ url_for('get_profile_image', file = image)}}" alt="profile image" height="100px"></td>
-      </tr>
-      <tr>
-        <td>Name</td>
-        <td>{{name}}</td>
-      </tr>
-      {% if profile_type == 'elevator' %}
-        <tr>
-          <td>Shop at</td>
-          <td><a href="/shop?name={{username}}">{{username}}</a>'s shop</td>
-        </tr>
-        <tr>
-          <td>Phone</td>
-          <td>{{phone}}</td>
-        </tr>
-        <tr>
-          <td>Email</td>
-          <td>{{email}}</td>
-        </tr>
-        <tr>
-          <td>Address</td>
-          <td>{{address}}</td>
-        </tr>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      {% if loggedin == False %}
+      <a class="navbar-brand px-4" href="/">Farmers & Elevators</a>
       {% else %}
-        <tr>
-          <td>Email</td>
-          <td>{{email}}</td>
-        </tr>
+      <a class="navbar-brand px-4" href="/home">Farmers & Elevators</a>
       {% endif %}
-  </tbody>
-</table>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          
+        </ul>
+        {% if loggedin == False %}
+        <span class="navbar-text">
+          <a class="btn btn-primary btn-md text-white" href="/signin" role="button">SIGN IN</a>
+        </span>
+        <span class="navbar-text px-4">
+          <a class="btn btn-primary btn-md text-white" href="/signup" role="button">SIGN UP</a>
+        </span>
+        {% else %}
+        <!-- navbar-nav -->
+        <ul class="list-unstyled px-3"> 
+          <li class="nav-item text-nowrap">
+              <div class="dropdown">
+                  <button class="btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i class="fas fa-user-circle"></i>
+                  </button>
+                  <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <a class="dropdown-item" href="/logout">Logout</a>
+                    {% if profile_type == 'elevator' %}
+                    <a class="dropdown-item" href="/settings-elevator">Settings</a>
+                    {% else %}
+                    <a class="dropdown-item" href="/settings-elevator">Settings</a>
+                    {% endif %}
+                  </div>
+              </div>
+          </li>
+        </ul>
+        {% endif %}
+      </div>
+    </div>
+  </nav>
+
+  <!-- PAGE -->
+  <div class="p-5 bg-light min-vh-100 min-vw-100">
+    <div class="container-fluid py-5">
+      <div class="row text-center sidebar">
+        <div class="col-4">
+          <img src="{{ url_for('get_profile_image', file = image)}}" alt="profile image" height="100px">
+        </div>
+
+        <div class="col-8">
+          
+          <b>Name:</b> <span>{{username}}</span>
+          <br>
+
+          {% if profile_type == 'elevator' %}
+
+            <b>Shop at:</b> <a href="/shop?name={{username}}">{{username}}</a>'s shop <br>
+
+            <b>Phone:</b> {{phone}} <br>
+
+            <b>Email:</b> {{email}} <br>
+
+            <b>Address:</b> {{address}} <br>
+
+          {% else %}
+
+            <b>Email:</b> {{email}} <br>
+
+          {% endif %}
+
+        </div>
+
+      </div>
+        
+
+    </div> 
+  </div>
+
+</html>
