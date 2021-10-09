@@ -1,77 +1,142 @@
-<!doctype html>
-<head>
-  <title>manage your shop</title>
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='main.css') }}">
-</head>
+<html>
+  <head>
+    <title>manage your shop</title>
+    <!-- CSS -->
+    <script src="https://kit.fontawesome.com/928bcb0d71.js" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='/css/main.min.css') }}">
+    
+    <!-- SCRIPTS -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand px-4" href="/home">Farmers & Elevators</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarText">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            
+          </ul>
+          <!-- navbar-nav -->
+          <ul class="list-unstyled px-3"> 
+            <li class="nav-item text-nowrap">
+                <div class="dropdown">
+                    <button class="btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                      <a class="dropdown-item" href="/logout">Logout</a>
+                      <a class="dropdown-item" href="/settings-elevator">Settings</a>
+                      <a class="dropdown-item" href="/shop?name={{username}}">Your shop</a>
+                    </div>
+                </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
 
-<h1>{{username}}'s shop</h1>
-<nav>
-  <a href="/home">home </a>|
-  <a href="/logout">logout </a>|
-  <a href="/settings-farmer">settings</a>|
-  <a href="/shop?name={{username}}">visit your shop</a>
-</nav>
-<h3>Your products</h3>
+    <!-- PAGE -->
+    <div class="p-5 bg-light min-vh-100 min-vw-100">
+      <div class="container-fluid py-5">
 
-<table style="border: 1px solid;">
-  <thead>
-    <tr>
-      <th></th>
-      <th>Elevator ID</th>
-      <th>Name</th>
-      <th>Product ID</th>
-      <th>Quantity left</th>
-      <th>Measure</th>
-      <th>Price in $</th>
-      <th>Description</th>
-    </tr>
-  </thead>
-  {% for product in products %}
-    <tr>
-      <td><a href="{{ url_for('delete_product', elevator_id = user_id, product_id = product[2])}}">X</a></td>
-      {% for i in product %}
-        <td style="border: 1px solid;">{{i}}</td>
-      {% endfor %}
-    </tr>
-  {% endfor %}
-</table>
+        <div class="row text-center">
+          <h1>Manage your shop</h1>
+        </div>
 
-<h3>Update existing product</h3>
-<small>First type in the productID number of the existing product,
-  then change any of the values of the product that you need to update. Click submit.
-</small>
-<br>
-<form action="/update-product" method="post">
-  <label>elevator id</label>
-  <input type="number" name="elevator_id" value={{user_id}} disabled>
-  <label>product name</label>
-  <input type="text" name="product_name">
-  <label>product ID</label>
-  <input type="number" name="product_id" required>
-  <label>initial quantity available</label>
-  <input type="text" name="quantity_available">
-  <label>measurement of quantity</label>
-  <input type="text" name="measure">
-  <label>price</label>
-  <input type="number" name="price">
-  <label>description</label>
-  <input type="text" name="description"></input>
-  <button type="submit">SUBMIT</button>
-</form>
+        <div class="row">
+          
+        </div>
 
-<h3>Add a new product</h3>
-<form action="/add-product" method="post">
-  <label>elevator id</label>
-  <input type="number" name="elevator_id" value={{user_id}} disabled>
-  <label>product name</label>
-  <input type="text" name="product_name">
-  <label>initial quantity available</label>
-  <input type="text" name="quantity_available">
-  <label>measurement of quantity</label>
-  <input type="text" name="measure">
-  <label>price</label>
-  <input type="number" name="price">
-  <label>description</label>
-  <input type="text" name="description"></input>
-  <button type="submit">SUBMIT</button>
-</form>
+        <div class="row py-5">
+          <div class="col-4"><h3>Your published products</h3></div>
+          <div class="col-8">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Elevator ID</th>
+                  <th>Name</th>
+                  <th>Product ID</th>
+                  <th>Quantity left</th>
+                  <th>Measure</th>
+                  <th>Price in $</th>
+                  <th>Description</th>
+                </tr>
+              </thead>
+              {% for product in products %}
+                <tr>
+                  <td>
+                    <a href="{{ url_for('delete_product', elevator_id = user_id, product_id = product[2])}}" class="btn btn-lg">
+                      <i class="far fa-minus-square"></i>
+                    </a>
+                  </td>
+                  {% for i in product %}
+                    <td>{{i}}</td>
+                  {% endfor %}
+                </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+
+        <div class="row py-5">
+          <div class="col-4"><h3>Update existing product</h3></div>
+          <div class="col-8">
+            <small>First type in the productID number of the existing product,
+              then change any of the values of the product that you need to update. Click submit.
+            </small>
+            <br>
+            <form action="/update-product" method="post">
+              <label>elevator id</label>
+              <input type="number" name="elevator_id" value={{user_id}} disabled>
+              <label>product name</label>
+              <input type="text" name="product_name">
+              <label>product ID</label>
+              <input type="number" name="product_id" required>
+              <label>initial quantity available</label>
+              <input type="text" name="quantity_available">
+              <label>measurement of quantity</label>
+              <input type="text" name="measure">
+              <label>price</label>
+              <input type="number" name="price">
+              <label>description</label>
+              <input type="text" name="description"></input>
+              <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row py-5">
+          <div class="col-4"><h3>Add a new product</h3></div>
+          <div class="col-8">
+            <form action="/add-product" method="post">
+              <label>elevator id</label>
+              <input type="number" name="elevator_id" value={{user_id}} disabled>
+              <label>product name</label>
+              <input type="text" name="product_name">
+              <label>initial quantity available</label>
+              <input type="text" name="quantity_available">
+              <label>measurement of quantity</label>
+              <input type="text" name="measure">
+              <label>price</label>
+              <input type="number" name="price">
+              <label>description</label>
+              <input type="text" name="description"></input>
+              <button type="submit" class="btn btn-primary">SUBMIT</button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </body>
+</html>
