@@ -108,6 +108,8 @@ To install requirements.txt python packages
 
 - [ ] Discuss if in /profile pages email and personal information should be public
 
+- [ ] Check that when a farmer and elevator with the same id, when uploading image will have different image name in /uploads
+
 #### Finised To do
 
 - [x] Move to Bootstrap
