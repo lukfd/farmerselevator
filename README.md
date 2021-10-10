@@ -1,7 +1,7 @@
 # Farmers Elevator
 
-Version 0.0.3
-started on september 2021 - now for different system structure
+Version 0.0.4
+started on October 2021 - now for addition of SocketIO
 
 *Authors: Luca and Daniel*
 
