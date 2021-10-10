@@ -12,7 +12,10 @@
 ###############################################
 
 from flask import Flask
+from flask_socketio import SocketIO
+
 application = Flask(__name__)
+socketio = SocketIO(application)
 
 # internal functions for api and pages calls
 import farmerselevator.src.api.buy
@@ -34,7 +37,9 @@ import farmerselevator.src.pages.manageShop
 import farmerselevator.src.pages.error
 import farmerselevator.src.pages.contactus
 import farmerselevator.src.pages.home
+import farmerselevator.src.pages.chat
 
 # running the server
 if __name__ == '__main__':
-    application.run()
+    #application.run()
+    socketio.run(application)
