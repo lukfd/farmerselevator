@@ -68,6 +68,11 @@ Then can install Flask within the activated environment
 > pip install Flask
 ```
 
+To install requirements.txt python packages
+```
+> pip install -r requirements.txt
+```
+
 **Packages needed:**
 
 - `pip install pysqlite3`, in case of SQLite3 DataBase usage
@@ -75,11 +80,7 @@ Then can install Flask within the activated environment
 
 ### To Do
 
-Now:
-
-- [x] Correct the address in /settings (does not take spaces)
-
-- [x] Correct the description of products input in /manage-shop (does not take spaces)
+- [ ] Switch from SQLite to a server database
 
 - [ ] Update /home orders table for farmers and elevators using SOCKET/IO
 
@@ -89,28 +90,37 @@ Now:
 
 - [ ] Create PDF when creating an order
 
-- [x] Correct user_id and product_id generation
+- [ ] Fix id creating for farmer_id and elevator_id
 
-- [ ] When creating an id it will be the same for elevator and farmer
-
-- [ ] Have a list of elegible elevators that can suscribe to the platform
-
-- [ ] If logged in, replace signup and signin with user profile
+- [ ] Have a list of elegible elevators that can sign up to the platform
 
 - [ ] SQL injection threats
 
-- [ ] in homepage have map populated for searching elevators
-
-- [ ] finish contact-page: send email to us, blogging for developers
-
-- [ ] create blog and pages from footer
+- [ ] in index have map populated for searching elevators
 
 - [ ] create live chat messages tools
 
-- [x] Move to Bootstrap
-
 - [ ] Fix css for populating results in search bar, offset to the right (index.js) use Vue.js
 
+- [ ] All pages seems that have an extra width
+
+- [ ] Discuss about how to store images
+
+- [ ] Discuss if in /profile pages email and personal information should be public
+
+#### Finised To do
+
+- [x] Move to Bootstrap
+
+- [x] Correct user_id and product_id generation
+
+- [x] Correct the address in /settings (does not take spaces)
+
+- [x] Correct the description of products input in /manage-shop (does not take spaces)
+
+- [x] create blog and pages from footer
+
+- [x] If logged in, replace signup and signin with user profile
 
 ### API Description
 

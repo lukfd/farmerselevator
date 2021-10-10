@@ -1,5 +1,16 @@
 # A quick guide to Git
 
+This guide will give you our best practicises for creating a new version and creating it in git.
+
+### Versioning
+
+when creating a verison remember to follow:
+| Major | Minor | Patch |
+|---|---|---|
+|  n. | n. | n | 
+
+more information can be found at [https://en.wikipedia.org/wiki/Software_versioning](https://en.wikipedia.org/wiki/Software_versioning)
+
 ### History of versions
 
 **BETA**
@@ -9,19 +20,14 @@
 | 0.0.2 | August 2021 | Changed strucuture for make it more scalable |
 | 0.0.3 | September 2021 | Addition of bootstrap and bug fixing |
 
-**First Release**
+**OFFICIAL Release**
 | Version | Date | Description |
 |---|---|---|
-| 1.0.0 | *to-do* | *to-do* |
-| 1.0.1 | *to-do* | *to-do* |
-| 1.0.2 | *to-do* | *to-do* |
+| 1.0.0 | *to-fill* | *to-fill* |
+| 1.0.1 | *to-fill* | *to-fill* |
+| 1.0.2 | *to-fill* | *to-fill* |
 
-### Creating a new version
-
-when creating a verison remember to follow:
-| Major | Minor | Patch |
-|---|---|---|
-|  1. | 1. | 1 | 
+### Git
 
 To create a new branch
 ```
