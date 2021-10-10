@@ -8,8 +8,6 @@ var app;
 // when page loads 
 function init() {
 
-    console.log('Hello');
-
     $.get('/getElevatorList', (data) => {
         elevatorList = data
     })
