@@ -202,3 +202,34 @@ def getElevatorArray():
     # return elevators array
     return elevators
 
+# Check if username is in a table
+# @return: True was found, False otherwise
+def checkUserExistance(username, isElevator):
+    con = lite.connect(farmerselevator.constants.databasePath) 
+    cur = con.cursor()
+    tableName = 'farmers'
+    if isElevator:
+        tableName = 'elevators'
+    cur.execute("SELECT EXISTS(SELECT 1 FROM ? WHERE username=?);",(tableName, username,))
+    if cur.fetchall() == 1:
+
+        toReturn = True
+    else:
+        toReturn = False
+    cur.close()
+    return toReturn
+
+# Get user_id
+# @return int or null
+def getUserId(username, isElevator):
+    con = lite.connect(farmerselevator.constants.databasePath) 
+    cur = con.cursor()
+    tableName = 'farmers'
+    user_id = 'farmer_id'
+    if isElevator:
+        tableName = 'elevators'
+        user_id = 'elevator_id'
+    cur.execute("SELECT ? FROM ? WHERE username=?;",(user_id, tableName, username,))
+    result = cur.fetchall()
+    cur.close()
+    return result
