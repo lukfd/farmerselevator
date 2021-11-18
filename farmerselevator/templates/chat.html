@@ -14,11 +14,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
     integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
     crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
 
     <!-- send variable to vue -->
     <script type="text/JavaScript"> 
       var userId = "{{user_id}}"
-      var elevator = "{{elevator}}"
+      var isElevator = "{{elevator}}"
     </script>
 
     <script src="{{url_for('static', filename='/js/chat.js')}}"></script>
@@ -27,7 +28,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     
   </head>
-  <body onload="init()">
+  <body onload="init()" onunload="close()">
     <div id="app">
       <!-- NAVBAR -->
       <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-2">
@@ -56,7 +57,13 @@
                 </h6>
 
                 <!-- List of open chats -->
-                <li class="nav-item"></li>
+                {% raw %}
+                <ul v-for="room in rooms">
+                  <li class="nav-item">
+                    <button class="btn-primary btn-lg" v-on:click="openChat(room.room)">{{room.toUser}}</button>
+                  </li>
+                </ul>
+                {% endraw %}
                 
               </ul>
             </div>
@@ -64,15 +71,15 @@
 
           <!-- MAIN PAGE -->
           <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 min-vh-100">
-            
-            <!-- SHOW MESSAGES -->
-            <!-- <div v-for="message in messages">
+
+            <!-- SHOW MESSAGES IN CURRENT OPENED ROOM-->
+            <div v-for="message in messages">
               {% raw %}
               <div class="row text-center">
                   {{message}} 
               </div>
               {% endraw %}
-            </div> -->
+            </div>
 
             <div class="row text-center fixed-bottom px-5">
 

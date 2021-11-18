@@ -24,6 +24,8 @@ import farmerselevator.src.api.orders
 import farmerselevator.src.api.products
 import farmerselevator.src.api.registration
 import farmerselevator.src.api.settings
+import farmerselevator.src.api.usersUtils
+import farmerselevator.src.api.chatUtils
 
 import farmerselevator.src.pages.index
 import farmerselevator.src.pages.about
@@ -38,6 +40,7 @@ import farmerselevator.src.pages.error
 import farmerselevator.src.pages.contactus
 import farmerselevator.src.pages.home
 import farmerselevator.src.pages.chat
+import farmerselevator.src.pages.test
 
 # running the server
 if __name__ == '__main__':

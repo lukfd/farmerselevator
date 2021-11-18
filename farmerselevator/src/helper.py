@@ -202,25 +202,8 @@ def getElevatorArray():
     # return elevators array
     return elevators
 
-# Check if username is in a table
-# @return: True was found, False otherwise
-def checkUserExistance(username, isElevator):
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
-    tableName = 'farmers'
-    if isElevator:
-        tableName = 'elevators'
-    cur.execute("SELECT EXISTS(SELECT 1 FROM ? WHERE username=?);",(tableName, username,))
-    if cur.fetchall() == 1:
-
-        toReturn = True
-    else:
-        toReturn = False
-    cur.close()
-    return toReturn
-
-# Get user_id
-# @return int or null
+# @parameters: username is a string, and isElevator is a boolean.
+# @return: the userid found, otherwise 0
 def getUserId(username, isElevator):
     con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
@@ -229,7 +212,36 @@ def getUserId(username, isElevator):
     if isElevator:
         tableName = 'elevators'
         user_id = 'elevator_id'
-    cur.execute("SELECT ? FROM ? WHERE username=?;",(user_id, tableName, username,))
-    result = cur.fetchall()
+    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=?;",(username,))
+    result = cur.fetchone()
     cur.close()
-    return result
+
+    if result is None:
+        return 0
+    return str(result[0])
+
+# @parameter: isElevator as string
+# @return: boolean
+def convertIsElevator(isElevator):
+    if isElevator == 'True':
+        return True
+    elif isElevator == 'False':
+        return False
+    else:
+        return 'error'
+
+def getUsername(userId, isElevator):
+    con = lite.connect(farmerselevator.constants.databasePath) 
+    cur = con.cursor()
+    tableName = 'farmers'
+    key = 'farmer_id'
+    if isElevator:
+        tableName = 'elevators'
+        key = 'elevator_id'
+    cur.execute("SELECT username FROM " + tableName + " WHERE " + key + "=?;",(userId,))
+    result = cur.fetchone()
+    cur.close()
+
+    if result is None:
+        return 0
+    return str(result[0])

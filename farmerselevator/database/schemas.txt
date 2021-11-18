@@ -4,4 +4,4 @@ CREATE TABLE products(elevator_id int, name text, product_id integer primary key
 CREATE TABLE orders(order_id integer primary key autoincrement, farmer_id int, elevator_id int, date date, status varchar(255), product_id int, quantity_int int, quantity_type varchar(50), description text, completed_date date, payment varchar(255), product_name text);
 CREATE TABLE deleted_products(elevator_id int, name text, product_id int, quantity_available int, measure varchar(255), price int, description text);
 CREATE TABLE contact_us_messages(id integer not null primary key, message_title text, sender_email varchar(255), message_text text, date date);
-CREATE TABLE chat(room varchar(36), elevator_id int, farmer_id int, chat_history text);
+CREATE TABLE chats(room_id varchar(255), farmer_id int, elevator_id int, messages text);
