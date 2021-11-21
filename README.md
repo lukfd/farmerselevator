@@ -78,36 +78,23 @@ To install requirements.txt python packages
 - `pip install pysqlite3`, in case of SQLite3 DataBase usage
 - `pip install bcrypt` for hasing passwords
 
+---
+
 ### To Do
 
 - [ ] Switch from SQLite to a server database
-
-- [ ] Update /home orders table for farmers and elevators using SOCKET/IO
-
 - [ ] Add payments
-
 - [ ] Send email when sending the new order
-
 - [ ] Create PDF when creating an order
-
 - [ ] Fix id creating for farmer_id and elevator_id
-
 - [ ] Have a list of elegible elevators that can sign up to the platform
-
 - [ ] SQL injection threats
-
 - [ ] in index have map populated for searching elevators
-
 - [ ] create live chat messages tools
-
 - [ ] Fix css for populating results in search bar, offset to the right (index.js) use Vue.js
-
 - [ ] All pages seems that have an extra width
-
 - [ ] Discuss about how to store images
-
 - [ ] Discuss if in /profile pages email and personal information should be public
-
 - [ ] Check that when a farmer and elevator with the same id, when uploading image will have different image name in /uploads
 
 #### Finised To do
@@ -124,9 +111,10 @@ To install requirements.txt python packages
 
 - [x] If logged in, replace signup and signin with user profile
 
-In 0.0.4
+**0.0.4 patches**
 
 - [x] added /chat functionality
+- [x] Update /home orders table for farmers and elevators using SOCKET/IO
 
 ### API Description
 
@@ -140,6 +128,7 @@ The API handles all the request for adding, deliting and modifying users. The AP
 - **orders** all transactions
 - **deleted_products** stores all deleted products
 - **contact_us_messages** stores all deleted products
+- **chats** contains room ids and text history
 
 ### References
 

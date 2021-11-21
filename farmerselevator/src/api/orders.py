@@ -1,8 +1,8 @@
 from farmerselevator import application
+from farmerselevator import socketio
 from farmerselevator.src.helper import *
 
 from flask import request
-
 
 @application.route('/submit-order/<int:product_id>/<int:elevator_id>/<int:farmer_id>', methods=['GET', 'POST'])
 def submit_order(product_id, elevator_id, farmer_id):
@@ -16,7 +16,11 @@ def submit_order(product_id, elevator_id, farmer_id):
             product_name = product_name[0]
             # send info to orders table
             result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
-            # send email informations
+            # TODO send email informations
+
+            # Send socket io notification to refresh pages
+            socketio.emit('incoming new order', {'farmerId': farmer_id, 'elevatorId': elevator_id}, broadcast=True)
+
             # return message
             if result == True:
                 return """

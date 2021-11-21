@@ -3,13 +3,40 @@
 // 
 
 // GLOBAL VARIABLES
-var app;
+// It includes also the one from html: username, userId, isElevator
+// which they carry information of the logged in user, using this home page.
+var app
+var socket = io()
 
 // when page loads 
 function init() {
 
+    console.log("isElevator: " + isElevator)
+    console.log("userId: " + userId)
+    console.log("username: " + username)
+
     $.get('/getElevatorList', (data) => {
         elevatorList = data
+    })
+
+    // if another user have opened a new chat with you
+    // data will be: {'farmerId': farmer_id, 'elevatorId': elevator_id}
+    socket.on('incoming new order', (data) => {
+        console.log('Incoming new order!' + JSON.stringify(data))
+
+        if (isElevator == "True") {
+            console.log("isElevator true for incoming new order")
+            // check for farmer_id
+            if (data.elevatorId == userId) {
+                // refresh page
+                window.location.reload();
+            }
+        } else {
+            if (data.farmerId == userId) {
+                // refresh page
+                window.location.reload();
+            }
+        }
     })
 
     // Vue

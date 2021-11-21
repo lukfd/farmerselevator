@@ -10,7 +10,7 @@ def homepage():
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
             orders = elevatorGetOrders(session["user_id"])
-            return render_template('home-elevator.html', username=session["username"], id=session["user_id"], orders=orders)
+            return render_template('home-elevator.html', username=session["username"], id=session["user_id"], orders=orders, isElevator=session["elevator"])
         else:
             # get list of elevators
             elevators = getElevatorArray()
@@ -22,6 +22,6 @@ def homepage():
             # get list of orders
             orders = farmerGetOrders(session["user_id"])
 
-            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators, orders=orders)
+            return render_template('home-farmer.html', username=session["username"], id=session["user_id"], elevators=elevators, orders=orders, isElevator=session["elevator"])
     else:
         return redirect("/", code=302)

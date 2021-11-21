@@ -1,4 +1,4 @@
-# Socket io and how we use it
+# Socket.io connections
 
 ### A breif description
 
@@ -26,10 +26,18 @@ def message(data):
 
 > cit - [Jacob Sussan](https://stackoverflow.com/questions/53807546/concise-example-of-how-to-join-and-leave-rooms-using-flask-and-socket-io)
 
+### CDN
+
+```html
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js" 
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA==" 
+    crossorigin="anonymous"></script>
+```
+
 ---
 
 ### Resources
 
 - a good explanation about rooms [link](https://stackoverflow.com/questions/53807546/concise-example-of-how-to-join-and-leave-rooms-using-flask-and-socket-io)
-
 - [https://stackoverflow.com/questions/53807546/concise-example-of-how-to-join-and-leave-rooms-using-flask-and-socket-io](https://stackoverflow.com/questions/53807546/concise-example-of-how-to-join-and-leave-rooms-using-flask-and-socket-io)
+- https://stackoverflow.com/questions/30124701/how-to-emit-websocket-message-from-outside-a-websocket-endpoint
