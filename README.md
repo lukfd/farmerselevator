@@ -1,7 +1,7 @@
 # Farmers Elevator
 
-Version 0.0.4
-started on October 2021 - now for addition of SocketIO
+Version 0.0.5
+started on November 2021 - now for bug fixes, addition of payments, pdf and emails
 
 *Authors: Luca and Daniel*
 
