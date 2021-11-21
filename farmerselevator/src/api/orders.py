@@ -32,6 +32,22 @@ def submit_order(product_id, elevator_id, farmer_id):
                     <a href="/settings-farmer">settings</a>
                 </nav>
                 <h1>The order has been sent successfully!</h1>
+                <br>
+                <br>
+                <p id="countdown"></p>
+
+                <script>
+                    var timeLeft = 10
+
+                    setTimeout( () => {
+                        window.location.replace("/home");
+                    }, 10000)
+
+                    setInterval( () => {
+                        document.getElementById("countdown").innerHTML = "You will be redirected to the /home page in " + timeLeft + " seconds..."
+                        timeLeft--
+                    }, 1000);
+                </script>
                 """
             else:
                 return "Error: the new order could not been send at this time"
