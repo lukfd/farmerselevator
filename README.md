@@ -124,6 +124,10 @@ To install requirements.txt python packages
 
 - [x] If logged in, replace signup and signin with user profile
 
+In 0.0.4
+
+- [x] added /chat functionality
+
 ### API Description
 
 The API handles all the request for adding, deliting and modifying users. The API also handles the interaction with tables in the Database.
