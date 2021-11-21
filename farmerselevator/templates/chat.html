@@ -58,9 +58,9 @@
 
                 <!-- List of open chats -->
                 {% raw %}
-                <ul v-for="room in rooms">
+                <ul v-for="room in rooms" style="list-style-type: none;">
                   <li class="nav-item">
-                    <button class="btn-primary btn-lg" v-on:click="openChat(room.room)">{{room.toUser}}</button>
+                    <button class="btn-primary btn" v-on:click="openChat(room.room)">{{room.toUser}}</button>
                   </li>
                 </ul>
                 {% endraw %}
@@ -71,6 +71,10 @@
 
           <!-- MAIN PAGE -->
           <main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4 min-vh-100">
+            <!-- USERNAME IN CHAT WITH -->
+            <div>
+              {% raw %}<h4>{{roomOpenUsername}}</h4>{% endraw %}
+            </div>
 
             <!-- SHOW MESSAGES IN CURRENT OPENED ROOM-->
             <div v-for="message in messages">

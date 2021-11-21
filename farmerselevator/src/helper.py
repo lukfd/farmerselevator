@@ -230,6 +230,8 @@ def convertIsElevator(isElevator):
     else:
         return 'error'
 
+# @parameter:
+# @return:
 def getUsername(userId, isElevator):
     con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()

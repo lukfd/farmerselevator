@@ -30,7 +30,7 @@ def updateMessageHistory(newMessage, room):
     if result is None:
         messages = newMessage
     else:
-        messages = result + newMessage
+        messages = result + '\n' + newMessage
     cur.close()
 
     con = lite.connect(farmerselevator.constants.databasePath) 
@@ -66,6 +66,10 @@ def on_new_chat(data):
     saveChat(room, farmer_id, elevator_id)
 
     emit('alert', fromUserId + ' has entered the room.', room=room)
+
+    # get toUserId
+    toUserId = getUserId(toUser, not isElevator)
+    emit('incoming new chat', {'toUserId': toUserId, 'isElevator': not isElevator, 'room': room}, broadcast=True)
 
 @socketio.on('join')
 def on_join(data):
