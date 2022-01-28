@@ -1,0 +1,241 @@
+<html>
+  <head>
+    <title>Farmers & Elevators</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""/>
+    <script src="https://kit.fontawesome.com/928bcb0d71.js" crossorigin="anonymous"></script>
+    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/main.min.css') }}">
+    
+    <!-- SCRIPTS -->
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.min.js"
+    integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+    
+    <script src="{{url_for('static', filename='js/index.js')}}"></script>
+    <script src="{{url_for('static', filename='node_modules/bootstrap/dist/js/bootstrap.min.js')}}"></script>
+  </head>
+  <body onload="init()">
+
+    <div id="app">
+
+      <!-- NAVBAR -->
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+          <a class="navbar-brand px-4" href="/">Farmers & Elevators</a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarText">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              
+            </ul>
+            <span class="navbar-text">
+              <a class="btn btn-primary btn-md text-white" href="/signin" role="button">SIGN IN</a>
+            </span>
+            <span class="navbar-text px-4">
+              <a class="btn btn-primary btn-md text-white" href="/signup" role="button">SIGN UP</a>
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      <!-- PAGE -->
+      <div class="p-5 bg-light min-vh-100 min-vw-100">
+        <div class="container-fluid py-5 text-center">
+
+          <h3 class="fw-bold">Find your elevator's store</h3>
+          <div class="row justify-content-center">
+            <div class="col-sm-6">
+              <div class="input-group">
+                <input type="text" class="form-control rounded-3" placeholder="Search your elevator" v-model="searchInput" v-on:input="filterSearch">
+                <div class="input-group-btn">
+                  <a href="#" class="btn btn-lg">
+                    <i class="fas fa-search"></i>
+                  </a> 
+                </div>
+              </div>
+            </div>
+          </div>
+          {% raw %}
+          <div v-for="result in results">
+            <div class="row justify-content-center" style="background-color: whitesmoke;">
+              <div class="col-sm-6">
+                <a v-bind:href="result.link">{{ result.name }}</a>
+              </div>
+            </div>
+          </div>
+          {% endraw %}
+
+          <div class="row p-5 justify-content-center min-vh-100">
+            <div class="col-lg-12">
+              <div id="mapid" style="width: 100%; height: 100%;"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      
+
+      <div class="px-5 bg-light min-vw-100">
+        <div class="container-fluid">
+
+          <div class="px-5">
+
+            <div class="row py-5">
+              <h1>Why Farmers & Elevators</h1>
+            </div>
+
+            <div class="row align-items-md-stretch">
+              <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="/static/images/card-1.jpg" alt="image of a tractor" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <h3 class="card-title">Connect with your elevator easily</h3>
+                    <p class="card-text">Shop from your trusted elevator with a few simple clicks any time!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="/static/images/card-2.jpg" alt="image of a tractor" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <h3 class="card-title">Find new elevators near you</h3>
+                    <p class="card-text">Find the closest elevator to you and start ordering from there!</p>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-4">
+                <div class="card" style="width: 18rem;">
+                  <img class="card-img-top" src="/static/images/card-3.jpg" alt="image of a farmer" style="height: 200px; object-fit: cover;">
+                  <div class="card-body">
+                    <h3 class="card-title">Use all our services for free</h3>
+                    <p class="card-text">Send a message and create orders to your nearest elevator for free!</p>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <div class="p-5 bg-light min-vh-100 min-vw-100">
+        <div class="container-fluid py-5">
+
+          <div class="p-5">
+
+            <div class="row py-5">
+              <h1>Everything you need to buy or sell</h1><br>
+              <div class="float-right">
+                <h3>always updated with your community to simplify your life</h3>
+              </div>
+            </div>
+
+            <div class="row align-items-md-stretch">
+              <div class="col-md-6">
+                <div class="h-100 p-5 text-white bg-dark rounded-3">
+                  <h2>You are a farmer</h2>
+                  <p>Farmers, through a personal account, will be able to check the status of their incoming and completed orders so that everything will be under control.</p>
+                  <button class="btn btn-outline-light" type="button">Learn more</button>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="h-100 p-5 bg-light border rounded-3">
+                  <h2>You represent an elevator cooperative</h2>
+                  <p>Elevators cooperatives will have their own pesonal shop online, so that every farmer will be able to reach it and make orders with a simple click while the application will take care of the rest.</p>
+                  <button class="btn btn-outline-secondary" type="button">Learn more</button>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="container-fluid bg-light min-vw-100">
+        <div class="row px-5">
+          <hr>
+        </div>
+        <div class="p-5 text-center text-dark link-dark">
+          <div class="row">
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>Farmers & Elevators</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/about" class="text-decoration-none">About</a>
+              </div>
+              <div class="row p-1">
+                <a href="/about#news" class="text-decoration-none">Latest news</a>
+              </div>
+              <div class="row p-1">
+                <a href="/about#reources" class="text-decoration-none">Careers</a>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>Need support?</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/contact-us" class="text-decoration-none">Contact us</a>
+              </div>
+              <div class="row p-1">
+                <a href="/contact-us" class="text-decoration-none">Report an issue</a>
+              </div>
+            </div>
+            <div class="col-4">
+              <div class="row p-1">
+                <dt>More</dt>
+              </div>
+              <div class="row p-1">
+                <a href="/terms" class="text-decoration-none">Terms & Conditions</a>
+              </div>
+              <div class="row p-1">
+                <a href="/terms#pricing" class="text-decoration-none">Pricing</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row p-5">
+          <div class="col-6 text-right">
+            <footer class="text-muted">
+              &copy; 2021 All right reserved
+            </footer>
+          </div>
+          <div class="col-6 text-center">
+            <div class="input-group-btn">
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-facebook"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-twitter"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-youtube"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-linkedin"></i>
+              </a>
+              <a href="#" class="btn btn-lg">
+                <i class="fab fa-github"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </body>
+</html>

@@ -2,6 +2,12 @@
 
 This guide will direct to references and guide you to how to deploy to AWS.
 
+# Commands
+
+Run command `docker buildx build --platform=linux/amd64 -t farmerselevator-image .`
+
+`aws lightsail push-container-image --region us-east-2 --service-name farmerselevator --label beta --image farmerselevator-image:latest`
+
 ### Errors
 
 My stack overflow questions: [Error deploying flask application in Elastic Beanstalk: option --bind not recognized](https://stackoverflow.com/questions/69441814/error-deploying-flask-application-in-elastic-beanstalk-option-bind-not-recogn)

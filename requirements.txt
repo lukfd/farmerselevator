@@ -2,7 +2,6 @@ bcrypt==3.2.0
 bidict==0.21.3
 cffi==1.14.6
 click==8.0.1
--e git+https://github.com/lukfd/farmerselevator.git@9e73694c24d9c6f52ae74c3bf9a183d460b1fbe7#egg=farmerselevator
 Flask==2.0.1
 Flask-SocketIO==5.1.1
 itsdangerous==2.0.1

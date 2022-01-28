@@ -1,6 +1,6 @@
 # Farmers Elevator
 
-Version 0.0.5
+Version 1.0.0, In test is equal to 0.0.5
 started on November 2021 - now for bug fixes, addition of payments, pdf and emails
 
 *Authors: Luca and Daniel*
@@ -9,10 +9,12 @@ An application for grain elevators ([Grain elevator - Wikipedia](https://en.wiki
 
 The problem specifically arises today because farmers would need to call the elevator several times to complete an order. The order would take even longer in case it has been placed during the weekend.
 
+For more technical info, visit /doc.
+
 ### Structure
 
 ```
-farmerselevator
+farmerselevator_production
 │
 ├─── database/
 │        ├ base.db
