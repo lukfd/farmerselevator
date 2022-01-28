@@ -1,9 +1,9 @@
 README.md
 setup.py
-farmerselevator_production/__init__.py
-farmerselevator_production/constants.py
-farmerselevator_production.egg-info/PKG-INFO
-farmerselevator_production.egg-info/SOURCES.txt
-farmerselevator_production.egg-info/dependency_links.txt
-farmerselevator_production.egg-info/requires.txt
-farmerselevator_production.egg-info/top_level.txt
+farmerselevator/__init__.py
+farmerselevator/constants.py
+farmerselevator.egg-info/PKG-INFO
+farmerselevator.egg-info/SOURCES.txt
+farmerselevator.egg-info/dependency_links.txt
+farmerselevator.egg-info/requires.txt
+farmerselevator.egg-info/top_level.txt

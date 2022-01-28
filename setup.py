@@ -1,8 +1,8 @@
 from setuptools import setup
 
 setup(
-    name='farmerselevator_production',
-    packages=['farmerselevator_production'],
+    name='farmerselevator',
+    packages=['farmerselevator'],
     include_package_data=True,
     install_requires=[
         'flask',

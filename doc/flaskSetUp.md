@@ -2,7 +2,7 @@
 
 To set up the environment
 ```
-export FLASK_APP=farmerselevator_production
+export FLASK_APP=farmerselevator
 export FLASK_ENV=production
 ```
 

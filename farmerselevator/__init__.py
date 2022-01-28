@@ -8,7 +8,7 @@
 #  helper methods.                            #
 #                                             #
 #  for more infromation visit:                #
-#  https://github.com/lukfd/farmerselevator_production   #
+#  https://github.com/lukfd/farmerselevator   #
 ###############################################
 
 from flask import Flask
