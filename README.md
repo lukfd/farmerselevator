@@ -14,7 +14,7 @@ For more technical info, visit /doc.
 ### Structure
 
 ```
-farmerselevator_production
+farmerselevator
 │
 ├─── database/
 │        ├ base.db
