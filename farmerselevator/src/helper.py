@@ -14,7 +14,7 @@
 
 from flask import session, redirect
 import sqlite3 as lite
-import  farmerselevator_production.constants
+import  farmerselevator.constants
 
 #########################################################
 #
@@ -52,7 +52,7 @@ def closeSession():
     session.pop('user_id', None)
 
 def getProductList(id):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT * from products WHERE elevator_id='{id}';")
     result = cur.fetchall()
@@ -64,7 +64,7 @@ def getProductList(id):
     return result
 
 def getProductInformation(product_id, elevator_id):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT * from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
     result = cur.fetchall()
@@ -76,7 +76,7 @@ def getProductInformation(product_id, elevator_id):
     return result[0]
 
 def getProductName(elevator_id, product_id):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT name from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
     result = cur.fetchall()
@@ -89,7 +89,7 @@ def getProductName(elevator_id, product_id):
 
 def deleteProduct(elevator_id, product_id):
     toDelete = (elevator_id, product_id,)
-    con = lite.connect(farmerselevator_production.constants.databasePath)
+    con = lite.connect(farmerselevator.constants.databasePath)
     cur = con.cursor()
     try:
         deletedProductToIntesert = getProductInformation(product_id, elevator_id)
@@ -113,7 +113,7 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
     # missing date, status, quantity_type, description, payment
     toInsert = (product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
     # inserting new product
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     try:
         cur.execute("""INSERT INTO orders
@@ -141,7 +141,7 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
 def markAsComplete(product_id, elevator_id, order_id):
     # update orders table
     toUpdate = ('completed', elevator_id, product_id, order_id,)
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     try:
         cur.execute(f"""UPDATE orders 
@@ -159,7 +159,7 @@ def markAsComplete(product_id, elevator_id, order_id):
             con.close()
 
 def elevatorGetOrders(elevator_id):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT * from orders WHERE elevator_id='{elevator_id}';")
     result = cur.fetchall()
@@ -171,7 +171,7 @@ def elevatorGetOrders(elevator_id):
     return result
 
 def farmerGetOrders(farmer_id):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT * from orders WHERE farmer_id='{farmer_id}';")
     result = cur.fetchall()
@@ -191,7 +191,7 @@ def substituteWithOlderValues(toUpdate, olderValues):
 
 def getElevatorArray():
     # get list of elevators
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     cur.execute(f"SELECT username from elevators;")
     elevators = cur.fetchall()
@@ -205,7 +205,7 @@ def getElevatorArray():
 # @parameters: username is a string, and isElevator is a boolean.
 # @return: the userid found, otherwise 0
 def getUserId(username, isElevator):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     tableName = 'farmers'
     user_id = 'farmer_id'
@@ -233,7 +233,7 @@ def convertIsElevator(isElevator):
 # @parameter: userId string, isElevator boolean
 # @return: the username string
 def getUsername(userId, isElevator):
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     tableName = 'farmers'
     key = 'farmer_id'

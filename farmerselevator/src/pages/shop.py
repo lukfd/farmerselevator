@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import render_template
 from flask import escape
@@ -11,7 +11,7 @@ def shop():
     name = request.args.get('name')
     if 'username' in session:
         # get list of elevators
-        con = lite.connect(farmerselevator_production.constants.databasePath) 
+        con = lite.connect(farmerselevator.constants.databasePath) 
         cur = con.cursor()
         cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
         elevator_id = cur.fetchone()
@@ -30,7 +30,7 @@ def shop():
         return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True, products=products)
     else:
         # get list of elevators
-        con = lite.connect(farmerselevator_production.constants.databasePath)
+        con = lite.connect(farmerselevator.constants.databasePath)
         cur = con.cursor()
         cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
         elevator_id = cur.fetchone()

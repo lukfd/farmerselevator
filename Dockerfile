@@ -2,7 +2,7 @@ FROM python:3.8-alpine
 
 RUN apk add --no-cache musl-dev gcc libffi-dev g++
 
-ENV FLASK_APP=farmerselevator_production
+ENV FLASK_APP=farmerselevator
 
 EXPOSE 8000
 

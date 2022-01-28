@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 import bcrypt
 
@@ -13,7 +13,7 @@ def signin_form():
     username = request.form['username']
     password = request.form['password']
 
-    con = lite.connect(farmerselevator_production.constants.databasePath)
+    con = lite.connect(farmerselevator.constants.databasePath)
     cur = con.cursor()
 
     # if it is an Elevator logging in
@@ -66,7 +66,7 @@ def signup_form():
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
     toInsert = ('name', email, password, username, 1, "default.png")
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
 
     try:

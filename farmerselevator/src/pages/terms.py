@@ -1,4 +1,4 @@
-from farmerselevator_production import application
+from farmerselevator import application
 
 from flask import render_template
 

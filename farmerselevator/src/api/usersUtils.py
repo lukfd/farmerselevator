@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import request, jsonify
 
@@ -14,7 +14,7 @@ def checkUserExistance():
     username = request_data['username']
     isElevator = convertIsElevator(request_data['isElevator'])
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     
     if isElevator:
@@ -45,7 +45,7 @@ def getUserId():
     else:
         return 'error'
     
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     tableName = 'farmers'
     user_id = 'farmer_id'

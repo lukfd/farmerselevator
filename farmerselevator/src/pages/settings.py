@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import render_template
 
@@ -11,7 +11,7 @@ def settings_elevator():
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
             try:
-                con = lite.connect(farmerselevator_production.constants.databasePath) 
+                con = lite.connect(farmerselevator.constants.databasePath) 
                 cur = con.cursor()
                 cur.execute(f"""SELECT email, primary_contact, phone, address
                 from elevators WHERE elevator_id='{session['user_id']}';""")
@@ -26,7 +26,7 @@ def settings_elevator():
                     con.close()
         else: # Farmer
             try:
-                con = lite.connect(farmerselevator_production.constants.databasePath) 
+                con = lite.connect(farmerselevator.constants.databasePath) 
                 cur = con.cursor()
                 cur.execute(f"""SELECT email, name, lastname, phone, address
                 from farmers WHERE farmer_id='{session['user_id']}';""")
@@ -49,7 +49,7 @@ def settings_farmer():
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
             try:
-                con = lite.connect(farmerselevator_production.constants.databasePath) 
+                con = lite.connect(farmerselevator.constants.databasePath) 
                 cur = con.cursor()
                 cur.execute(f"""SELECT email, primary_contact, phone, address, profile_image
                 from elevators WHERE elevator_id='{session['user_id']}';""")
@@ -64,7 +64,7 @@ def settings_farmer():
                     con.close()
         else: # Farmer
             try:
-                con = lite.connect(farmerselevator_production.constants.databasePath) 
+                con = lite.connect(farmerselevator.constants.databasePath) 
                 cur = con.cursor()
                 cur.execute(f"""SELECT email, name, lastname, phone, address, profile_image
                 from farmers WHERE farmer_id='{session['user_id']}';""")

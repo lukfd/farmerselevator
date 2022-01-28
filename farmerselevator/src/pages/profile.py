@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import render_template
 from flask import escape
@@ -12,7 +12,7 @@ def profile(profileType,id):
     if 'username' in session:
         loggedin = True
     #connect to database
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     if profileType == 'elevator':
         cur.execute(f"SELECT username, primary_contact, phone, email, address, profile_image from elevators WHERE elevator_id=?;", (id,))

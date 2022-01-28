@@ -1,4 +1,4 @@
-from farmerselevator_production import application
+from farmerselevator import application
 
 # PATHS
 databasePath = './farmerselevator_production/database/base.db'

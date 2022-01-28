@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import render_template
 from flask import request
@@ -23,7 +23,7 @@ def change_profile_information():
             phone = request.form.get('phone')
             address = request.form.get('address')
             # change in DB
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
 
             toUpdate=(email, contact_person, phone, address, user_id)
@@ -50,7 +50,7 @@ def change_profile_information():
             phone = request.form.get('phone')
             address = request.form.get('address')
             # change in DB
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             toUpdate=(email, first_name, last_name, phone, address, user_id,)
             try:
@@ -83,7 +83,7 @@ def change_profile_image():
         file.save(path)
 
         if session["elevator"] == True:
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             try:
                 cur.execute(f"""UPDATE elevators 
@@ -99,7 +99,7 @@ def change_profile_image():
                 if (con):
                     con.close()
         else:
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             try:
                 cur.execute(f"""UPDATE farmers 
@@ -131,7 +131,7 @@ def change_password():
 
         new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
 
-        con = lite.connect(farmerselevator_production.constants.databasePath) 
+        con = lite.connect(farmerselevator.constants.databasePath) 
         cur = con.cursor()
         # Two different pages for elevator or farmer
         #print(session['username'])
@@ -157,7 +157,7 @@ def change_password():
 def delete_account():
     if 'username' in session:
         # delete account from DB
-        con = lite.connect(farmerselevator_production.constants.databasePath) 
+        con = lite.connect(farmerselevator.constants.databasePath) 
         cur = con.cursor()
         try:
             username = session["username"]

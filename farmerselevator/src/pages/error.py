@@ -1,5 +1,5 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
+from farmerselevator import application
+from farmerselevator.src.helper import *
 
 @application.errorhandler(404)
 def page_not_found(e):

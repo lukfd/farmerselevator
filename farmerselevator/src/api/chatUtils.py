@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import request, jsonify
 
@@ -19,7 +19,7 @@ def isChat():
     isElevator = convertIsElevator(request_data['isElevator'])
     toUserId = getUserId(request_data['toUser'], not isElevator)
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
     
     if isElevator:
@@ -52,7 +52,7 @@ def getRoom():
     isElevator = convertIsElevator(request_data['isElevator'])
     toUserId = getUserId(request_data['toUser'], not isElevator)
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
 
     if isElevator:
@@ -80,7 +80,7 @@ def getPreviousMessages():
 
     room = request_data['room']
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
 
     cur.execute("SELECT messages FROM chats WHERE room_id = ?;", (room,))
@@ -101,7 +101,7 @@ def loadRooms():
     fromUserId = request_data['fromUserId']
     isElevator = convertIsElevator(request_data['isElevator'])
 
-    con = lite.connect(farmerselevator_production.constants.databasePath) 
+    con = lite.connect(farmerselevator.constants.databasePath) 
     cur = con.cursor()
 
     if isElevator:

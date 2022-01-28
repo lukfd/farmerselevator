@@ -1,6 +1,6 @@
-from farmerselevator_production import application
-from farmerselevator_production.src.helper import *
-import farmerselevator_production.constants
+from farmerselevator import application
+from farmerselevator.src.helper import *
+import farmerselevator.constants
 
 from flask import request
 
@@ -19,7 +19,7 @@ def add_product():
 
             toInsert = (elevator_id, product_name, quantity_available, measure, price, description,)
             # inserting new product
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             try:
                 cur.execute("""INSERT INTO products
@@ -60,7 +60,7 @@ def update_product():
             # switching values
             toUpdate = (toUpdate[1], toUpdate[3], toUpdate[4], toUpdate[5], toUpdate[6], toUpdate[2], toUpdate[0],)
             # inserting new product
-            con = lite.connect(farmerselevator_production.constants.databasePath) 
+            con = lite.connect(farmerselevator.constants.databasePath) 
             cur = con.cursor()
             try:
                 cur.execute("""UPDATE products
