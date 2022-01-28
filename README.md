@@ -1,7 +1,7 @@
 # Farmers Elevator
 
-Version 1.0.0, In test is equal to 0.0.5
-started on November 2021 - now for bug fixes, addition of payments, pdf and emails
+Version 1.0.0
+started on end January 2022
 
 *Authors: Luca and Daniel*
 
@@ -24,29 +24,47 @@ farmerselevator
 ├─── src/
 │        ├ api/
 │        │   ├ buy.py
+│        │   ├ chatUtils.py
 │        │   ├ elevatorList.py
 │        │   ├ orders.py
 │        │   ├ products.py
 │        │   ├ registration.py
-│        │   └ settings.py
-│        ├ pages/
-│        │   ├ contuctus.py
-│        │   ├ error.py
-│        │   ├ home.py
-│        │   ├ index.py
-│        │   ├ logout.py
-│        │   ├ manageShop.py
-│        │   ├ profile.py
-│        │   ├ registration.py
 │        │   ├ settings.py
-│        │   └ shop.py
+│        │   └ usersUtils.py	
+│        ├ pages/
+│        │   ├ chat.py
+│        │   ├ error.py
+│        │   ├ index.py
+│        │   ├ manageShop.py
+│        │   ├ registration.py
+│        │   ├ shop.py
+│        │   ├ test.py
+│        │   ├ about.py
+│        │   ├ contuctus.py
+│        │   ├ home.py
+│        │   ├ logout.py
+│        │   ├ profile.py
+│        │   ├ settings.py
+│        │   └ terms.py
 │        └ helper.py
 │
 ├─── static/
+│        ├ images/
+│        ├ node_modules/
+│        ├ css/
+│        ├ js/
+│        ├ scss/
+│        ├ package-lock.json
+│        ├ package.json
+│        └ README.md
 │
 ├─── templates/
 │
-└ ─── uploads/
+├─── uploads/
+│
+├─── __init__.py
+│
+└─── constants.py
 ```
 
 ### Installation guide
@@ -115,7 +133,7 @@ To install requirements.txt python packages
 - [x] added /chat functionality
 - [x] Update /home orders table for farmers and elevators using SOCKET/IO
 
-**0.0.5**
+**1.0.1**
 
 - [ ] General bug fixes
 - [ ] Send email when sign-up
@@ -123,7 +141,7 @@ To install requirements.txt python packages
 - [ ] Save PDF when new orders
 - [ ] Populate map in index page with elevators addresses
 
-**0.0.6**
+**1.0.2**
 
 - [ ] Security check (SQL injection)
 - [ ] Save who has sent messages in /chat
