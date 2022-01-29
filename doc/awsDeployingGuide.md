@@ -22,7 +22,7 @@ aws lightsail push-container-image --region us-east-2 --service-name farmerselev
 
 On aws lightsail go the the Deployments page. If another container was already running or deployed, click  Modify and redeploy.
 
-![](/Users/lukfd/Development/Git/farmerselevator/doc/example_awslight.png)
+![](doc/example_awslight.png)
 
 #### Running the image locally
 
@@ -32,7 +32,7 @@ Or if you want to create the container locally to test it:
 docker run -p 8000:8000 farmerselevator-image flask run --host 0.0.0.0
 ```
 
-![alt text](/Users/lukfd/Development/Git/farmerselevator/doc/awslightsail_deployment_screen_settings.png)
+![alt text](doc/awslightsail_deployment_screen_settings.png)
 
 #### Github actions
 
