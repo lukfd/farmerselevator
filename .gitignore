@@ -9,3 +9,5 @@ farmerselevator/.venv/
 farmerselevator/__pycache__/
 farmerselevator/.__pycache__
 farmerselevator/.env
+
+farmerselevator/src/static/node_modules

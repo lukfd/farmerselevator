@@ -45,4 +45,4 @@ import farmerselevator.src.pages.test
 # running the server
 if __name__ == '__main__':
     #application.run()
-    socketio.run(application)
+    socketio.run(application, host='0.0.0.0', port='8000', debug=True)

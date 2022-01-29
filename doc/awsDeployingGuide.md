@@ -1,8 +1,44 @@
 # Guide and notes for the deployment to AWS
 
+#### Prerequisites
+
 This guide will direct to references and guide you to how to deploy to AWS.
 
-### Errors
+Make sure you have installed docker for desktop in your local machine.
+
+#### Process to deploy
+
+Create a local image:
+
+```
+docker buildx build --platform=linux/amd64 -t farmerselevator-image .
+```
+
+Create the container and deploy it to aws light sail:
+
+```
+aws lightsail push-container-image --region us-east-2 --service-name farmerselevator --label beta --image farmerselevator-image:latest
+```
+
+On aws lightsail go the the Deployments page. If another container was already running or deployed, click  Modify and redeploy.
+
+![](./example_awslight.png)
+
+#### Running the image locally
+
+Or if you want to create the container locally to test it:
+
+```
+docker run -p 8000:8000 farmerselevator-image flask run --host 0.0.0.0
+```
+
+![alt text](./awslightsail_deployment_screen_settings.png)
+
+#### Github actions
+
+
+
+#### Known errors
 
 My stack overflow questions: [Error deploying flask application in Elastic Beanstalk: option --bind not recognized](https://stackoverflow.com/questions/69441814/error-deploying-flask-application-in-elastic-beanstalk-option-bind-not-recogn)
 

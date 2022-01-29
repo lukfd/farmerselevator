@@ -1,13 +1,15 @@
 # Farmers Elevator
 
-Version 0.0.4
-started on October 2021 - now for addition of SocketIO
+Version 1.0.0
+started on end January 2022
 
 *Authors: Luca and Daniel*
 
 An application for grain elevators ([Grain elevator - Wikipedia](https://en.wikipedia.org/wiki/Grain_elevator)) for giving them their own website and ecommerce to sell food for livestock to farmers.
 
 The problem specifically arises today because farmers would need to call the elevator several times to complete an order. The order would take even longer in case it has been placed during the weekend.
+
+For more technical info, visit /doc.
 
 ### Structure
 
@@ -22,29 +24,47 @@ farmerselevator
 ├─── src/
 │        ├ api/
 │        │   ├ buy.py
+│        │   ├ chatUtils.py
 │        │   ├ elevatorList.py
 │        │   ├ orders.py
 │        │   ├ products.py
 │        │   ├ registration.py
-│        │   └ settings.py
-│        ├ pages/
-│        │   ├ contuctus.py
-│        │   ├ error.py
-│        │   ├ home.py
-│        │   ├ index.py
-│        │   ├ logout.py
-│        │   ├ manageShop.py
-│        │   ├ profile.py
-│        │   ├ registration.py
 │        │   ├ settings.py
-│        │   └ shop.py
+│        │   └ usersUtils.py	
+│        ├ pages/
+│        │   ├ chat.py
+│        │   ├ error.py
+│        │   ├ index.py
+│        │   ├ manageShop.py
+│        │   ├ registration.py
+│        │   ├ shop.py
+│        │   ├ test.py
+│        │   ├ about.py
+│        │   ├ contuctus.py
+│        │   ├ home.py
+│        │   ├ logout.py
+│        │   ├ profile.py
+│        │   ├ settings.py
+│        │   └ terms.py
 │        └ helper.py
 │
 ├─── static/
+│        ├ images/
+│        ├ node_modules/
+│        ├ css/
+│        ├ js/
+│        ├ scss/
+│        ├ package-lock.json
+│        ├ package.json
+│        └ README.md
 │
 ├─── templates/
 │
-└ ─── uploads/
+├─── uploads/
+│
+├─── __init__.py
+│
+└─── constants.py
 ```
 
 ### Installation guide
@@ -80,7 +100,7 @@ To install requirements.txt python packages
 
 ---
 
-### To Do
+### General To Do
 
 - [ ] Switch from SQLite to a server database
 - [ ] Add payments
@@ -99,22 +119,32 @@ To install requirements.txt python packages
 
 #### Finised To do
 
+**0.0.1 to 0.0.3**
+
 - [x] Move to Bootstrap
-
 - [x] Correct user_id and product_id generation
-
 - [x] Correct the address in /settings (does not take spaces)
-
 - [x] Correct the description of products input in /manage-shop (does not take spaces)
-
 - [x] create blog and pages from footer
-
 - [x] If logged in, replace signup and signin with user profile
 
 **0.0.4 patches**
 
 - [x] added /chat functionality
 - [x] Update /home orders table for farmers and elevators using SOCKET/IO
+
+**1.0.1**
+
+- [ ] General bug fixes
+- [ ] Send email when sign-up
+- [ ] Restrict to who can signup as elevator
+- [ ] Save PDF when new orders
+- [ ] Populate map in index page with elevators addresses
+
+**1.0.2**
+
+- [ ] Security check (SQL injection)
+- [ ] Save who has sent messages in /chat
 
 ### API Description
 
