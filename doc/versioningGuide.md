@@ -23,7 +23,7 @@ more information can be found at [https://en.wikipedia.org/wiki/Software_version
 **OFFICIAL Release**
 | Version | Date | Description |
 |---|---|---|
-| 1.0.0 | *to-fill* | *to-fill* |
+| 1.0.0 | Jan 2022 | Addition of Socketio and Dockerfile |
 | 1.0.1 | *to-fill* | *to-fill* |
 | 1.0.2 | *to-fill* | *to-fill* |
 
@@ -45,6 +45,13 @@ git checkout <branchname>
 ```
 
 ### Update main (master) with branch code
+
+**preferred method:**
+From your branch:
+```
+git push origin -u main
+```
+Log into github and open a new pull request.
 
 When tested and ready to merge branch with main
 ```
