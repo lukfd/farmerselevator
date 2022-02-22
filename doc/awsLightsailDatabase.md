@@ -1,10 +1,27 @@
 # AWS Lightsail database
 
+This is a guide for creating an AWS lightsail 's database.
+
 ## Tables
+
+We are going to create these tables
+- chats
+- elevators 
+- products   
+- contact_us_messages  
+- farmers            
+- deleted_products     
+- orders
 
 ## Users
 
 ## How to connect
+
+#### In our flask
+
+#### to AWS lightsail
+
+#### /constants.py
 
 ## Before version 1.0.1 - sqlite with base.db
 We have started with base.db: a sqlite3 database.
