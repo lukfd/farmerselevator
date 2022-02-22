@@ -24,8 +24,9 @@ more information can be found at [https://en.wikipedia.org/wiki/Software_version
 | Version | Date | Description |
 |---|---|---|
 | 1.0.0 | Jan 2022 | Addition of Socketio and Dockerfile |
-| 1.0.1 | *to-fill* | *to-fill* |
-| 1.0.2 | *to-fill* | *to-fill* |
+| 1.0.1 | Feb-Mar 2022 | Moving to awslightsail db |
+| 1.0.2 | Apr 2022 | Map, Billing and Payments |
+| 1.0.3 | May 2022 | Tracking and Chat fix |
 
 ### Git
 
