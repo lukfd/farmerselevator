@@ -15,6 +15,10 @@ We are going to create these tables
 
 ## Users
 
+| User | Password |
+| ---- | -------- |
+| root | root     |
+
 ## How to connect
 
 #### In our flask

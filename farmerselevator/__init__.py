@@ -13,6 +13,10 @@
 
 from flask import Flask
 from flask_socketio import SocketIO
+from flaskext.mysql import MySQL
+
+import os
+from dotenv import load_dotenv
 
 application = Flask(__name__)
 socketio = SocketIO(application)
@@ -44,5 +48,16 @@ import farmerselevator.src.pages.test
 
 # running the server
 if __name__ == '__main__':
-    #application.run()
+    # loading env
+    load_dotenv()
+
+    # Loading DB
+    mysql = MySQL()
+    application.config['MYSQL_DATABASE_USER'] = os.getenv('USER')
+    application.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('PASSWORD')
+    application.config['MYSQL_DATABASE_DB'] = os.getenv('NAME')
+    application.config['MYSQL_DATABASE_HOST'] = os.getenv('HOST')
+    mysql.init_app(application)
+
+    # Running
     socketio.run(application, host='0.0.0.0', port='8000', debug=True)
