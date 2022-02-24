@@ -1,3 +1,4 @@
+from re import U
 from farmerselevator import application
 from farmerselevator import mysql
 from farmerselevator.src.helper import *
@@ -26,11 +27,11 @@ def signin_form():
     
     result = cur.fetchone()
     cur.close()
-    
     if result: # A non-empty result evaluates to True.
         # 1st parameter checks if plain text password matches 2nd parameter hash in database
         # if true, password hashes correctly
-        if bcrypt.checkpw(password.encode('utf-8'), result[2]):
+        # bytes(result[2], encoding='utf-8')
+        if bcrypt.checkpw(password.encode('utf-8'), result[2].encode('utf8')):
             # create new session
             session['username'] = username
             session['user_id'] = result[1]
