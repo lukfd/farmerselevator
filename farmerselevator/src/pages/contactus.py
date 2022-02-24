@@ -26,13 +26,9 @@ def contact_us_message():
         cur.execute("""INSERT INTO contact_us_messages
                         (message_title, sender_email, message_text, date) 
                         VALUES (?, ?, ?, datetime('now', 'localtime'));""", toInsert)
-        cur.commit()
         cur.close()
     except:
-        #return "Failed: "+str(error)
-        if (cur):
-            cur.close()
-        return
+        return 'Server Error', 500
     finally:
         if (cur):
             cur.close()

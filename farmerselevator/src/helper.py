@@ -93,15 +93,12 @@ def deleteProduct(elevator_id, product_id):
         cur.execute("""INSERT INTO deleted_products
                     (elevator_id, name, product_id, quantity_available, measure, price, description) 
                     VALUES (?, ?, ?, ?, ?, ?, ?);""", deletedProductToIntesert)
-        cur.commit()
         cur.execute("DELETE from products WHERE elevator_id=? AND product_id=?;", toDelete)
-        cur.commit()
         cur.close()
         # return success
         return redirect("/manage-shop", code=302)
     except:
-        # return "Error:" + str(error)
-        return
+        return 'Server Error', 500
     finally:
         if (cur):
             cur.close()
@@ -115,7 +112,6 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
         cur.execute("""INSERT INTO orders
                 (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
                 VALUES (?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
-        cur.commit()
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
         quantity_available = cur.fetchall()
@@ -123,7 +119,6 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
         cur.execute(f"""UPDATE products 
                         SET quantity_available=? 
                         WHERE elevator_id=? AND product_id=?;""", toUpdate)
-        cur.commit()
         cur.close()
         # return success
         return True
@@ -141,7 +136,6 @@ def markAsComplete(product_id, elevator_id, order_id):
         cur.execute(f"""UPDATE orders 
                         SET status=?, completed_date=datetime('now', 'localtime')  
                         WHERE elevator_id=? AND product_id=? AND order_id=?;""", toUpdate)
-        cur.commit()
         cur.close()
         # return success
         return redirect("/home", code=302)

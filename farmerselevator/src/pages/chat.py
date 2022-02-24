@@ -13,7 +13,6 @@ def saveChat(room_id, farmer_id, elevator_id):
     cur = mysql.get_db().cursor()
 
     cur.execute("INSERT INTO chats (room_id, farmer_id, elevator_id) VALUES (?, ?, ?);", (room_id, farmer_id, elevator_id,))
-    cur.commit()
     cur.close()
     return
 
@@ -33,7 +32,6 @@ def updateMessageHistory(newMessage, room):
 
     cur = mysql.get_db().cursor()
     cur.execute('UPDATE chats SET messages=? WHERE room_id=?;', (messages, room,))
-    cur.commit()
     cur.close()
 
 # MAIN FUNCTION

@@ -24,9 +24,7 @@ socketio = SocketIO(application)
 load_dotenv()
 
 # Loading DB
-print(os.getenv('USERNAME'))
-
-mysql = MySQL()
+mysql = MySQL(autocommit=True)
 application.config['MYSQL_DATABASE_USER'] = os.getenv('USERNAME')
 application.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('PASSWORD')
 application.config['MYSQL_DATABASE_DB'] = os.getenv('NAME')

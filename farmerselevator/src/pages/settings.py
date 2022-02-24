@@ -20,10 +20,7 @@ def settings_elevator():
                 cur.close()
                 return render_template('settings-elevator.html', result=result)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -37,10 +34,7 @@ def settings_elevator():
                 cur.close()
                 return render_template('settings-farmer.html', result=result)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -62,10 +56,7 @@ def settings_farmer():
                 cur.close()
                 return render_template('settings-elevator.html', username=session['username'], result=result)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -79,10 +70,7 @@ def settings_farmer():
                 cur.close()
                 return render_template('settings-farmer.html', username=session['username'], result=result)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()

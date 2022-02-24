@@ -76,16 +76,8 @@ def signup_form():
         else:
             cur.execute("""INSERT INTO farmers
                             (name, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-        cur.commit()
-        cur.close()
+                            VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
         # redirect to sign in page
         return redirect("/signin", code=302)
     except:
-        #return "Failed: "+str(error)
-        if (cur):
-            cur.close()
-        return
-    finally:
-        if (cur):
-            cur.close()
+        return 'Server Error', 500

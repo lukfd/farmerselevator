@@ -34,15 +34,11 @@ def change_profile_information():
                             SET email=?, primary_contact=?,
                             phone=?, address=?
                             WHERE elevator_id=?;""", toUpdate)
-                cur.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-elevator', code=302)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -61,15 +57,11 @@ def change_profile_information():
                                 lastname=?,
                                 phone=?, address=?
                                 WHERE farmer_id=?;""",toUpdate)
-                cur.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -93,15 +85,11 @@ def change_profile_image():
                 cur.execute(f"""UPDATE elevators 
                                 SET profile_image='{image_name}' 
                                 WHERE elevator_id='{user_id}';""")
-                cur.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -111,15 +99,11 @@ def change_profile_image():
                 cur.execute(f"""UPDATE farmers 
                                 SET profile_image='{image_name}' 
                                 WHERE farmer_id='{user_id}';""")
-                cur.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -147,17 +131,12 @@ def change_password():
             if session["elevator"] == True:
                 # change password in DB:
                 cur.execute('''UPDATE elevators SET password = ? WHERE elevator_id = ?''', (new_password, user_id))
-                cur.commit()
             else:
                 cur.execute('''UPDATE farmers SET password = ? WHERE farmer_id = ?''', (new_password, user_id))
-                cur.commit()
                 # reload page
             return redirect('/settings-farmer', code=302)                
         except:
-            #return "Failed: "+str(error)
-            if (cur):
-                cur.close()
-            return
+            return 'Server Error', 500
         finally:
             if (cur):
                 cur.close()
@@ -177,7 +156,6 @@ def delete_account():
             else:
                 cur.execute(f"""DELETE FROM farmers
                                 WHERE farmer_id ='{session['user_id']}';""")
-            cur.commit()
             closeSession()
             return f'''
             <h1>Farmers & Elevators</h1>
@@ -188,10 +166,7 @@ def delete_account():
             </nav>
             '''
         except:
-            #return "Failed: "+str(error)
-            if (cur):
-                cur.close()
-            return
+            return 'Server Error', 500
         finally:
             if (cur):
                 cur.close()

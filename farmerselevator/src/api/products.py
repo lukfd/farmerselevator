@@ -25,15 +25,11 @@ def add_product():
                 cur.execute("""INSERT INTO products
                         (elevator_id, name, quantity_available, measure, price, description) 
                         VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-                cur.commit()
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
@@ -68,15 +64,11 @@ def update_product():
                 cur.execute("""UPDATE products
                         SET name=?, quantity_available=?, measure=?, price=?, description=? 
                         WHERE product_id=? AND elevator_id=?;""", toUpdate)
-                cur.commit()
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
             except:
-                #return "Failed: "+str(error)
-                if (cur):
-                    cur.close()
-                return
+                return 'Server Error', 500
             finally:
                 if (cur):
                     cur.close()
