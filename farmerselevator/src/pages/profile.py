@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -12,8 +13,7 @@ def profile(profileType,id):
     if 'username' in session:
         loggedin = True
     #connect to database
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
     if profileType == 'elevator':
         cur.execute(f"SELECT username, primary_contact, phone, email, address, profile_image from elevators WHERE elevator_id=?;", (id,))
         result = cur.fetchone()

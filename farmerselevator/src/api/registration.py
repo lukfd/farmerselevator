@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -13,8 +14,7 @@ def signin_form():
     username = request.form['username']
     password = request.form['password']
 
-    con = lite.connect(farmerselevator.constants.databasePath)
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
     # if it is an Elevator logging in
     if isElevator == "on":
@@ -66,8 +66,7 @@ def signup_form():
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
     toInsert = ('name', email, password, username, 1, "default.png")
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
     try:
         if isElevator == "on":
@@ -78,12 +77,15 @@ def signup_form():
             cur.execute("""INSERT INTO farmers
                             (name, email, password, username, status, profile_image) 
                             VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-        con.commit()
+        cur.commit()
         cur.close()
         # redirect to sign in page
         return redirect("/signin", code=302)
-    except lite.Error as error:
-            return "Failed: "+str(error)
+    except:
+        #return "Failed: "+str(error)
+        if (cur):
+            cur.close()
+        return
     finally:
-        if (con):
-            con.close()
+        if (cur):
+            cur.close()

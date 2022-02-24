@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -19,21 +20,23 @@ def add_product():
 
             toInsert = (elevator_id, product_name, quantity_available, measure, price, description,)
             # inserting new product
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute("""INSERT INTO products
                         (elevator_id, name, quantity_available, measure, price, description) 
                         VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-                con.commit()
+                cur.commit()
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
-            except lite.Error as error:
-                    return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return "not authorized"
 
@@ -60,21 +63,23 @@ def update_product():
             # switching values
             toUpdate = (toUpdate[1], toUpdate[3], toUpdate[4], toUpdate[5], toUpdate[6], toUpdate[2], toUpdate[0],)
             # inserting new product
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute("""UPDATE products
                         SET name=?, quantity_available=?, measure=?, price=?, description=? 
                         WHERE product_id=? AND elevator_id=?;""", toUpdate)
-                con.commit()
+                cur.commit()
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
-            except lite.Error as error:
-                    return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return "not authorized"
 

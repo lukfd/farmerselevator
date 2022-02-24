@@ -11,15 +11,27 @@
 #  https://github.com/lukfd/farmerselevator   #
 ###############################################
 
+import os
+from dotenv import load_dotenv
 from flask import Flask
 from flask_socketio import SocketIO
 from flaskext.mysql import MySQL
 
-import os
-from dotenv import load_dotenv
-
 application = Flask(__name__)
 socketio = SocketIO(application)
+
+# Loding env variables
+load_dotenv()
+
+# Loading DB
+print(os.getenv('USERNAME'))
+
+mysql = MySQL()
+application.config['MYSQL_DATABASE_USER'] = os.getenv('USERNAME')
+application.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('PASSWORD')
+application.config['MYSQL_DATABASE_DB'] = os.getenv('NAME')
+application.config['MYSQL_DATABASE_HOST'] = os.getenv('HOST')
+mysql.init_app(application)
 
 # internal functions for api and pages calls
 import farmerselevator.src.api.buy
@@ -48,16 +60,5 @@ import farmerselevator.src.pages.test
 
 # running the server
 if __name__ == '__main__':
-    # loading env
-    load_dotenv()
-
-    # Loading DB
-    mysql = MySQL()
-    application.config['MYSQL_DATABASE_USER'] = os.getenv('USER')
-    application.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('PASSWORD')
-    application.config['MYSQL_DATABASE_DB'] = os.getenv('NAME')
-    application.config['MYSQL_DATABASE_HOST'] = os.getenv('HOST')
-    mysql.init_app(application)
-
     # Running
     socketio.run(application, host='0.0.0.0', port='8000', debug=True)

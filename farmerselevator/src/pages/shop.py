@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -11,8 +12,7 @@ def shop():
     name = request.args.get('name')
     if 'username' in session:
         # get list of elevators
-        con = lite.connect(farmerselevator.constants.databasePath) 
-        cur = con.cursor()
+        cur = mysql.get_db().cursor()
         cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
         elevator_id = cur.fetchone()
         if not elevator_id:
@@ -30,8 +30,7 @@ def shop():
         return render_template('shop.html', username=name, id=elevator_id[0], loggedin=True, products=products)
     else:
         # get list of elevators
-        con = lite.connect(farmerselevator.constants.databasePath)
-        cur = con.cursor()
+        cur = mysql.get_db().cursor()
         cur.execute(f"SELECT elevator_id from elevators WHERE username='{name}';")
         elevator_id = cur.fetchone()
         if not elevator_id:

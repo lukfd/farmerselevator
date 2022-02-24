@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -14,8 +15,7 @@ def checkUserExistance():
     username = request_data['username']
     isElevator = convertIsElevator(request_data['isElevator'])
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
     
     if isElevator:
         tableName = 'elevators'
@@ -45,8 +45,7 @@ def getUserId():
     else:
         return 'error'
     
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
     tableName = 'farmers'
     user_id = 'farmer_id'
     if isElevator:

@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -11,34 +12,38 @@ def settings_elevator():
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
             try:
-                con = lite.connect(farmerselevator.constants.databasePath) 
-                cur = con.cursor()
+                cur = mysql.get_db().cursor()
                 cur.execute(f"""SELECT email, primary_contact, phone, address
                 from elevators WHERE elevator_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
                 return render_template('settings-elevator.html', result=result)
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
         else: # Farmer
             try:
-                con = lite.connect(farmerselevator.constants.databasePath) 
-                cur = con.cursor()
+                cur = mysql.get_db().cursor()
                 cur.execute(f"""SELECT email, name, lastname, phone, address
                 from farmers WHERE farmer_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
                 return render_template('settings-farmer.html', result=result)
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return redirect("/", code=302)
 
@@ -49,33 +54,37 @@ def settings_farmer():
         # Two different pages for elevator or farmer
         if session["elevator"] == True:
             try:
-                con = lite.connect(farmerselevator.constants.databasePath) 
-                cur = con.cursor()
+                cur = mysql.get_db().cursor()
                 cur.execute(f"""SELECT email, primary_contact, phone, address, profile_image
                 from elevators WHERE elevator_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
                 return render_template('settings-elevator.html', username=session['username'], result=result)
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
         else: # Farmer
             try:
-                con = lite.connect(farmerselevator.constants.databasePath) 
-                cur = con.cursor()
+                cur = mysql.get_db().cursor()
                 cur.execute(f"""SELECT email, name, lastname, phone, address, profile_image
                 from farmers WHERE farmer_id='{session['user_id']}';""")
                 result = cur.fetchone()
                 result = ['' if x is None else x for x in result]
                 cur.close()
                 return render_template('settings-farmer.html', username=session['username'], result=result)
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                #return "Failed: "+str(error)
+                if (cur):
+                    cur.close()
+                return
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return redirect("/", code=302)

@@ -1,0 +1,5 @@
+CREATE TABLE farmers(name varchar(20), lastname varchar(20), username varchar(20), email varchar(255), password varchar(50), profile_image blob, farmer_id integer primary key auto_increment, address text, phone int, status boolean);
+CREATE TABLE elevators(name varchar(40), elevator_id integer primary key auto_increment, primary_contact text, email varchar(255), password varchar(50), username varchar(20), phone int, website varchar(50), shop_url varchar(50), address text, profile_image blob, status boolean);
+CREATE TABLE products(elevator_id int, name text, product_id integer primary key auto_increment, quantity_available int, measure varchar(255), price int, description text);
+CREATE TABLE deleted_products(elevator_id int, name text, product_id int, quantity_available int, measure varchar(255), price int, description text);
+CREATE TABLE orders(order_id integer primary key auto_increment, farmer_id int, elevator_id int, date date, status varchar(255), product_id int, quantity_int int, quantity_type varchar(50), description text, completed_date date, payment varchar(255), product_name text);
