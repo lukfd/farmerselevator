@@ -25,7 +25,7 @@ def contact_us_message():
     try:
         cur.execute("""INSERT INTO contact_us_messages
                         (message_title, sender_email, message_text, date) 
-                        VALUES (?, ?, ?, datetime('now', 'localtime'));""", toInsert)
+                        VALUES (%s, %s, %s, datetime('now', 'localtime'));""", toInsert)
         cur.close()
     except:
         return 'Server Error', 500

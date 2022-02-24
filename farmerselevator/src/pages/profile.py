@@ -15,7 +15,7 @@ def profile(profileType,id):
     #connect to database
     cur = mysql.get_db().cursor()
     if profileType == 'elevator':
-        cur.execute(f"SELECT username, primary_contact, phone, email, address, profile_image from elevators WHERE elevator_id=?;", (id,))
+        cur.execute(f"SELECT username, primary_contact, phone, email, address, profile_image from elevators WHERE elevator_id=%s;", (id,))
         result = cur.fetchone()
         if not result:
             cur.close()
@@ -30,7 +30,7 @@ def profile(profileType,id):
         cur.close()
         return render_template('profile.html', loggedin=loggedin, username=result[0], profile_type = "elevator", name=result[1], phone=result[2], email=result[3], address=result[4], image=str(result[5]))
     elif profileType == 'farmer':
-        cur.execute(f"SELECT username, name, lastname, email, profile_image from farmers WHERE farmer_id=?;", (id,))
+        cur.execute(f"SELECT username, name, lastname, email, profile_image from farmers WHERE farmer_id=%s;", (id,))
         result = cur.fetchone()
         result = ['' if x is None else x for x in result]
         if not result:

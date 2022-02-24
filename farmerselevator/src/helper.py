@@ -92,8 +92,8 @@ def deleteProduct(elevator_id, product_id):
         # deletedProductToInsert is a tuple (elevator_id, name, product_id, quantity_av, measure, price, description)
         cur.execute("""INSERT INTO deleted_products
                     (elevator_id, name, product_id, quantity_available, measure, price, description) 
-                    VALUES (?, ?, ?, ?, ?, ?, ?);""", deletedProductToIntesert)
-        cur.execute("DELETE from products WHERE elevator_id=? AND product_id=?;", toDelete)
+                    VALUES (%s, %s, %s, %s, %s, %s, %s);""", deletedProductToIntesert)
+        cur.execute("DELETE from products WHERE elevator_id=%s AND product_id=%s;", toDelete)
         cur.close()
         # return success
         return redirect("/manage-shop", code=302)
@@ -111,14 +111,14 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
     try:
         cur.execute("""INSERT INTO orders
                 (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
-                VALUES (?, ?, ?, ?, datetime('now', 'localtime'), 'to process', ?, ?, ?);""", toInsert)
+                VALUES (%s, %s, %s, %s, datetime('now', 'localtime'), 'to process', %s, %s, %s);""", toInsert)
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
         quantity_available = cur.fetchall()
         toUpdate = (int(quantity_available[0][0]-int(quantity_requested)), elevator_id, product_id,)
         cur.execute(f"""UPDATE products 
-                        SET quantity_available=? 
-                        WHERE elevator_id=? AND product_id=?;""", toUpdate)
+                        SET quantity_available=%s 
+                        WHERE elevator_id=%s AND product_id=%s;""", toUpdate)
         cur.close()
         # return success
         return True
@@ -134,8 +134,8 @@ def markAsComplete(product_id, elevator_id, order_id):
     cur = mysql.get_db().cursor()
     try:
         cur.execute(f"""UPDATE orders 
-                        SET status=?, completed_date=datetime('now', 'localtime')  
-                        WHERE elevator_id=? AND product_id=? AND order_id=?;""", toUpdate)
+                        SET status=%s, completed_date=datetime('now', 'localtime')  
+                        WHERE elevator_id=%s AND product_id=%s AND order_id=%s;""", toUpdate)
         cur.close()
         # return success
         return redirect("/home", code=302)
@@ -195,7 +195,7 @@ def getUserId(username, isElevator):
     if isElevator:
         tableName = 'elevators'
         user_id = 'elevator_id'
-    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=?;",(username,))
+    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=%s;",(username,))
     result = cur.fetchone()
     cur.close()
 
@@ -222,7 +222,7 @@ def getUsername(userId, isElevator):
     if isElevator:
         tableName = 'elevators'
         key = 'elevator_id'
-    cur.execute("SELECT username FROM " + tableName + " WHERE " + key + "=?;",(userId,))
+    cur.execute("SELECT username FROM " + tableName + " WHERE " + key + "=%s;",(userId,))
     result = cur.fetchone()
     cur.close()
 

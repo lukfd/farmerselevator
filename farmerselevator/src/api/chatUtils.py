@@ -29,7 +29,7 @@ def isChat():
         farmer_id = fromUserId
         elevator_id = toUserId
 
-    cur.execute("SELECT EXISTS(SELECT 1 FROM chats WHERE farmer_id=? AND elevator_id=?);", (farmer_id, elevator_id,))
+    cur.execute("SELECT EXISTS(SELECT 1 FROM chats WHERE farmer_id=%s AND elevator_id=%s);", (farmer_id, elevator_id,))
 
     if cur.fetchone()[0] == 1:
         toReturn = {"return": "True"}
@@ -61,7 +61,7 @@ def getRoom():
         farmer_id = fromUserId
         elevator_id = toUserId
 
-    cur.execute("SELECT room_id FROM chats WHERE farmer_id = ? AND elevator_id = ?;", (farmer_id, elevator_id,))
+    cur.execute("SELECT room_id FROM chats WHERE farmer_id = %s AND elevator_id = %s;", (farmer_id, elevator_id,))
     toReturn = cur.fetchone()
     cur.close()
     if toReturn is None:
@@ -81,7 +81,7 @@ def getPreviousMessages():
 
     cur = mysql.get_db().cursor()
 
-    cur.execute("SELECT messages FROM chats WHERE room_id = ?;", (room,))
+    cur.execute("SELECT messages FROM chats WHERE room_id = %s;", (room,))
     toReturn = cur.fetchone()
     cur.close()
     if (toReturn is None) or (toReturn[0] is None):
@@ -103,10 +103,10 @@ def loadRooms():
 
     if isElevator:
         to = "farmer_id"
-        fromUser = "elevator_id = ?"
+        fromUser = "elevator_id = %s"
     else:
         to = "elevator_id"
-        fromUser = "farmer_id = ?"
+        fromUser = "farmer_id = %s"
 
     cur.execute("SELECT room_id , " + to + " FROM chats WHERE " + fromUser +";", (fromUserId,))
     result = cur.fetchall()

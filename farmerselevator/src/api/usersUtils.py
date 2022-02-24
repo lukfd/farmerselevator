@@ -22,7 +22,7 @@ def checkUserExistance():
     else:
         tableName = 'farmers'
 
-    cur.execute("SELECT EXISTS(SELECT 1 FROM " + tableName +" WHERE username=?);",(username,))
+    cur.execute("SELECT EXISTS(SELECT 1 FROM " + tableName +" WHERE username=%s);",(username,))
 
     if cur.fetchone()[0] == 1:
         toReturn = {"return": "True"}
@@ -51,7 +51,7 @@ def getUserId():
     if isElevator:
         tableName = 'elevators'
         user_id = 'elevator_id'
-    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=?;",(username,))
+    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=%s;",(username,))
     result = cur.fetchall()
     cur.close()
     return str(result)

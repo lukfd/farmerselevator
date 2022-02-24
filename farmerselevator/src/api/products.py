@@ -24,7 +24,7 @@ def add_product():
             try:
                 cur.execute("""INSERT INTO products
                         (elevator_id, name, quantity_available, measure, price, description) 
-                        VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+                        VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
@@ -62,8 +62,8 @@ def update_product():
             cur = mysql.get_db().cursor()
             try:
                 cur.execute("""UPDATE products
-                        SET name=?, quantity_available=?, measure=?, price=?, description=? 
-                        WHERE product_id=? AND elevator_id=?;""", toUpdate)
+                        SET name=%s, quantity_available=%s, measure=%s, price=%s, description=%s 
+                        WHERE product_id=%s AND elevator_id=%s;""", toUpdate)
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)

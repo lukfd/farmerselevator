@@ -18,10 +18,10 @@ def signin_form():
 
     # if it is an Elevator logging in
     if isElevator == "on":
-        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username=?;", (username,))
+        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username=%s;", (username,))
         session['elevator'] = True
     else:
-        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username=?;", (username,))
+        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username=%s;", (username,))
         session['elevator'] = False
     
     result = cur.fetchone()
@@ -72,7 +72,7 @@ def signup_form():
         if isElevator == "on":
             cur.execute("""INSERT INTO elevators
                             (name, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+                            VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
         else:
             cur.execute("""INSERT INTO farmers
                             (name, email, password, username, status, profile_image) 

@@ -12,7 +12,7 @@ from flask_socketio import join_room, leave_room, send, emit
 def saveChat(room_id, farmer_id, elevator_id):
     cur = mysql.get_db().cursor()
 
-    cur.execute("INSERT INTO chats (room_id, farmer_id, elevator_id) VALUES (?, ?, ?);", (room_id, farmer_id, elevator_id,))
+    cur.execute("INSERT INTO chats (room_id, farmer_id, elevator_id) VALUES (%s, %s, %s);", (room_id, farmer_id, elevator_id,))
     cur.close()
     return
 
@@ -22,7 +22,7 @@ def updateMessageHistory(newMessage, room):
 
     cur = mysql.get_db().cursor()
 
-    cur.execute("SELECT messages FROM chats WHERE room_id=?;", (room,))
+    cur.execute("SELECT messages FROM chats WHERE room_id=%s;", (room,))
     result = cur.fetchone()[0]
     if result is None:
         messages = newMessage
@@ -31,7 +31,7 @@ def updateMessageHistory(newMessage, room):
     cur.close()
 
     cur = mysql.get_db().cursor()
-    cur.execute('UPDATE chats SET messages=? WHERE room_id=?;', (messages, room,))
+    cur.execute('UPDATE chats SET messages=%s WHERE room_id=%s;', (messages, room,))
     cur.close()
 
 # MAIN FUNCTION

@@ -31,9 +31,9 @@ def change_profile_information():
             #create the new profile into the database
             try:
                 cur.execute(f"""UPDATE elevators 
-                            SET email=?, primary_contact=?,
-                            phone=?, address=?
-                            WHERE elevator_id=?;""", toUpdate)
+                            SET email=%s, primary_contact=%s,
+                            phone=%s, address=%s
+                            WHERE elevator_id=%s;""", toUpdate)
                 cur.close()
                 # reload page
                 return redirect('/settings-elevator', code=302)
@@ -53,10 +53,10 @@ def change_profile_information():
             toUpdate=(email, first_name, last_name, phone, address, user_id,)
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email=?, name=?,
-                                lastname=?,
-                                phone=?, address=?
-                                WHERE farmer_id=?;""",toUpdate)
+                                SET email=%s, name=%s,
+                                lastname=%s,
+                                phone=%s, address=%s
+                                WHERE farmer_id=%s;""",toUpdate)
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
@@ -130,9 +130,9 @@ def change_password():
         try:
             if session["elevator"] == True:
                 # change password in DB:
-                cur.execute('''UPDATE elevators SET password = ? WHERE elevator_id = ?''', (new_password, user_id))
+                cur.execute('''UPDATE elevators SET password = %s WHERE elevator_id = %s''', (new_password, user_id))
             else:
-                cur.execute('''UPDATE farmers SET password = ? WHERE farmer_id = ?''', (new_password, user_id))
+                cur.execute('''UPDATE farmers SET password = %s WHERE farmer_id = %s''', (new_password, user_id))
                 # reload page
             return redirect('/settings-farmer', code=302)                
         except:
