@@ -119,3 +119,7 @@ Tables that we have used were:
 
 
 ## References
+
+- [pymysql commands](https://pymysql.readthedocs.io/en/latest/modules/cursors.html)
+- [flask-mysql home page](https://flask-mysql.readthedocs.io/en/stable/#configuration)
+- [flask-mysql source code](https://github.com/cyberdelia/flask-mysql/blob/master/flaskext/mysql.py)
