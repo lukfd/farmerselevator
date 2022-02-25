@@ -29,6 +29,7 @@ application.config['MYSQL_DATABASE_USER'] = os.getenv('USERNAME')
 application.config['MYSQL_DATABASE_PASSWORD'] = os.getenv('PASSWORD')
 application.config['MYSQL_DATABASE_DB'] = os.getenv('NAME')
 application.config['MYSQL_DATABASE_HOST'] = os.getenv('HOST')
+application.config['MYSQL_DATABASE_CHARSET'] = "utf8"
 mysql.init_app(application)
 
 # internal functions for api and pages calls
