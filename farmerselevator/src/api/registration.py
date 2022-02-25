@@ -30,10 +30,7 @@ def signin_form():
     if result: # A non-empty result evaluates to True.
         # 1st parameter checks if plain text password matches 2nd parameter hash in database
         # if true, password hashes correctly
-        # bytes(result[2], encoding='utf-8')
-        print(password)
-        print(result[2])
-        if bcrypt.checkpw(password.encode('utf-8'), result[2]):
+        if bcrypt.checkpw(password.encode('utf-8'), result[2].encode('utf-8')):
             # create new session
             session['username'] = username
             session['user_id'] = result[1]
