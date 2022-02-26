@@ -53,6 +53,8 @@ def update_product():
                 return "you have to select a product id! <a href='/manage-shop'>Go back</a>"
             # if any of the form are empty, use old values
             olderValues = getProductInformation(product_id, elevator_id)
+            if olderValues is None:
+                return "This product does not exists. Try again <a href='/manage-shop'>Go back</a>"
             # make the variables
             toUpdate = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
             toUpdate = substituteWithOlderValues(toUpdate, olderValues)

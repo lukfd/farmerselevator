@@ -71,7 +71,10 @@ def getProductInformation(product_id, elevator_id):
     else:
         result = ['' if x is None else x for x in result]
     cur.close()
-    return result[0]
+    if len(result) > 0:
+        return result[0]
+    else:
+        return None
 
 def getProductName(elevator_id, product_id):
     cur = mysql.get_db().cursor()
@@ -82,7 +85,10 @@ def getProductName(elevator_id, product_id):
     else:
         result = ['' if x is None else x for x in result]
     cur.close()
-    return result[0]
+    if len(result) > 0:
+        return result[0]
+    else:
+        return
 
 def deleteProduct(elevator_id, product_id):
     toDelete = (elevator_id, product_id,)
