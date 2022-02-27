@@ -1,6 +1,6 @@
 # Farmers Elevator
 
-Version 1.0.0
+Version 1.0.1
 started on end January 2022
 
 *Authors: Luca and Daniel*
@@ -66,6 +66,22 @@ farmerselevator
 │
 └─── constants.py
 ```
+
+### start website locally
+
+You first need to create your `.env` file. Install all python libraries. Then run:
+
+```
+startApp.sh
+```
+
+### AWS
+
+After the changes made and after a pull request approved. run:
+```
+deployment.sh
+```
+Then login into AWS lightsail to update the image running. For more info check the doc folder.
 
 ### Installation guide
 
@@ -164,8 +180,6 @@ The API handles all the request for adding, deliting and modifying users. The AP
 ### References
 
 [https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies](https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies)
-
-[https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
 
 [https://flask-socketio.readthedocs.io/en/latest/getting_started.html](https://flask-socketio.readthedocs.io/en/latest/getting_started.html)
 
