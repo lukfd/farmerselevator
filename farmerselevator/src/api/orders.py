@@ -14,13 +14,13 @@ def submit_order(product_id, elevator_id, farmer_id):
             # get product name
             product_name = getProductName(elevator_id, product_id)
             product_name = product_name[0]
+            print(product_name)
             # send info to orders table
             result = insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measure, description, product_name)
             # TODO send email informations
-
+            print(result)
             # Send socket io notification to refresh pages
             socketio.emit('incoming new order', {'farmerId': farmer_id, 'elevatorId': elevator_id}, broadcast=True)
-
             # return message
             if result == True:
                 return """

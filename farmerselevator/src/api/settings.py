@@ -108,7 +108,7 @@ def change_profile_image():
                 if (cur):
                     cur.close()
 
-@application.route('/get-profile-image/<file>')
+@application.route('/get-profile-image/<path:file>')
 def get_profile_image(file):
     return send_from_directory(application.config['UPLOAD_FOLDER'], file)
 

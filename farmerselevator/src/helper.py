@@ -15,6 +15,7 @@
 from flask import session, redirect
 import  farmerselevator.constants
 from farmerselevator import mysql
+import pymysql
 
 #########################################################
 #
@@ -103,7 +104,7 @@ def deleteProduct(elevator_id, product_id):
         cur.close()
         # return success
         return redirect("/manage-shop", code=302)
-    except:
+    except pymysql.Error as e:
         return 'Server Error', 500
     finally:
         if (cur):
@@ -117,7 +118,7 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
     try:
         cur.execute("""INSERT INTO orders
                 (product_id, elevator_id, farmer_id, quantity_int, date, status, quantity_type, description, product_name) 
-                VALUES (%s, %s, %s, %s, datetime('now', 'localtime'), 'to process', %s, %s, %s);""", toInsert)
+                VALUES (%s, %s, %s, %s, NOW(), 'to process', %s, %s, %s);""", toInsert)
         # UPDATE in products table quantity available
         cur.execute(f"SELECT quantity_available from products WHERE elevator_id='{elevator_id}' AND product_id='{product_id}';")
         quantity_available = cur.fetchall()
@@ -128,7 +129,7 @@ def insertNewOrder(product_id, elevator_id, farmer_id, quantity_requested, measu
         cur.close()
         # return success
         return True
-    except:
+    except pymysql.Error as e:
         return False
     finally:
         if (cur):
@@ -140,12 +141,12 @@ def markAsComplete(product_id, elevator_id, order_id):
     cur = mysql.get_db().cursor()
     try:
         cur.execute(f"""UPDATE orders 
-                        SET status=%s, completed_date=datetime('now', 'localtime')  
+                        SET status=%s, completed_date=NOW() 
                         WHERE elevator_id=%s AND product_id=%s AND order_id=%s;""", toUpdate)
         cur.close()
         # return success
         return redirect("/home", code=302)
-    except:
+    except pymysql.Error as e:
         return "Could not mark as completed"
     finally:
         if (cur):
