@@ -102,18 +102,18 @@ To install requirements.txt python packages
 
 ### General To Do
 
-- [ ] Switch from SQLite to a server database
+- [x] Switch from SQLite to mysql server database
 - [ ] Add payments
 - [ ] Send email when sending the new order
 - [ ] Create PDF when creating an order
-- [ ] Fix id creating for farmer_id and elevator_id
+- [ ] Fix id creating for farmer_id and elevator_id (to use uuid)
 - [ ] Have a list of elegible elevators that can sign up to the platform
 - [ ] SQL injection threats
 - [ ] in index have map populated for searching elevators
-- [ ] create live chat messages tools
+- [ ] improve live chat messages tools
 - [ ] Fix css for populating results in search bar, offset to the right (index.js) use Vue.js
 - [ ] All pages seems that have an extra width
-- [ ] Discuss about how to store images
+- [x] Discuss about how to store images
 - [ ] Discuss if in /profile pages email and personal information should be public
 - [ ] Check that when a farmer and elevator with the same id, when uploading image will have different image name in /uploads
 
@@ -135,14 +135,15 @@ To install requirements.txt python packages
 
 **1.0.1**
 
-- [ ] General bug fixes
-- [ ] Send email when sign-up
-- [ ] Restrict to who can signup as elevator
-- [ ] Save PDF when new orders
-- [ ] Populate map in index page with elevators addresses
+- [x] move to mysql
+- [x] fix profile image
 
 **1.0.2**
 
+- [ ] Populate map in index page with elevators addresses
+- [ ] Save PDF when new orders
+- [ ] Restrict to who can signup as elevator
+- [ ] Send email when sign-up
 - [ ] Security check (SQL injection)
 - [ ] Save who has sent messages in /chat
 
