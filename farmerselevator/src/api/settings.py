@@ -5,7 +5,7 @@ import farmerselevator.constants
 
 from flask import render_template
 from flask import request
-from flask import send_from_directory
+from flask import send_file
 from flask import escape
 
 import os
@@ -108,9 +108,9 @@ def change_profile_image():
                 if (cur):
                     cur.close()
 
-@application.route('/get-profile-image/<path:file>')
+@application.route('/get-profile-image/<string:file>')
 def get_profile_image(file):
-    return send_from_directory(application.config['UPLOAD_FOLDER'], file)
+    return send_file(application.config['UPLOAD_FOLDER']+'/'+file, cache_timeout=0)
 
 @application.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
