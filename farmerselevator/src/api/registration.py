@@ -1,4 +1,6 @@
+from re import U
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -13,24 +15,22 @@ def signin_form():
     username = request.form['username']
     password = request.form['password']
 
-    con = lite.connect(farmerselevator.constants.databasePath)
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
     # if it is an Elevator logging in
     if isElevator == "on":
-        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username=?;", (username,))
+        cur.execute(f"SELECT username, elevator_id, password from elevators WHERE username=%s;", (username,))
         session['elevator'] = True
     else:
-        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username=?;", (username,))
+        cur.execute(f"SELECT username, farmer_id, password from farmers WHERE username=%s;", (username,))
         session['elevator'] = False
     
     result = cur.fetchone()
     cur.close()
-    
     if result: # A non-empty result evaluates to True.
         # 1st parameter checks if plain text password matches 2nd parameter hash in database
         # if true, password hashes correctly
-        if bcrypt.checkpw(password.encode('utf-8'), result[2]):
+        if bcrypt.checkpw(password.encode('utf-8'), result[2].encode('utf-8')):
             # create new session
             session['username'] = username
             session['user_id'] = result[1]
@@ -66,24 +66,18 @@ def signup_form():
     password = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
     toInsert = ('name', email, password, username, 1, "default.png")
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
     try:
         if isElevator == "on":
             cur.execute("""INSERT INTO elevators
                             (name, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
+                            VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
         else:
             cur.execute("""INSERT INTO farmers
                             (name, email, password, username, status, profile_image) 
-                            VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-        con.commit()
-        cur.close()
+                            VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
         # redirect to sign in page
         return redirect("/signin", code=302)
-    except lite.Error as error:
-            return "Failed: "+str(error)
-    finally:
-        if (con):
-            con.close()
+    except:
+        return 'Server Error', 500

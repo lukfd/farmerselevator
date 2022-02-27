@@ -1,10 +1,11 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
 from flask import render_template
 from flask import request
-from flask import send_from_directory
+from flask import send_file
 from flask import escape
 
 import os
@@ -23,26 +24,24 @@ def change_profile_information():
             phone = request.form.get('phone')
             address = request.form.get('address')
             # change in DB
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
 
             toUpdate=(email, contact_person, phone, address, user_id)
             print(toUpdate)
             #create the new profile into the database
             try:
                 cur.execute(f"""UPDATE elevators 
-                            SET email=?, primary_contact=?,
-                            phone=?, address=?
-                            WHERE elevator_id=?;""", toUpdate)
-                con.commit()
+                            SET email=%s, primary_contact=%s,
+                            phone=%s, address=%s
+                            WHERE elevator_id=%s;""", toUpdate)
                 cur.close()
                 # reload page
                 return redirect('/settings-elevator', code=302)
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
         else: # farmer
             email = request.form.get('email')
             first_name = request.form.get('first_name')
@@ -50,24 +49,22 @@ def change_profile_information():
             phone = request.form.get('phone')
             address = request.form.get('address')
             # change in DB
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             toUpdate=(email, first_name, last_name, phone, address, user_id,)
             try:
                 cur.execute(f"""UPDATE farmers 
-                                SET email=?, name=?,
-                                lastname=?,
-                                phone=?, address=?
-                                WHERE farmer_id=?;""",toUpdate)
-                con.commit()
+                                SET email=%s, name=%s,
+                                lastname=%s,
+                                phone=%s, address=%s
+                                WHERE farmer_id=%s;""",toUpdate)
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return redirect("/", code=302)
 
@@ -83,41 +80,37 @@ def change_profile_image():
         file.save(path)
 
         if session["elevator"] == True:
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute(f"""UPDATE elevators 
                                 SET profile_image='{image_name}' 
                                 WHERE elevator_id='{user_id}';""")
-                con.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
         else:
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute(f"""UPDATE farmers 
                                 SET profile_image='{image_name}' 
                                 WHERE farmer_id='{user_id}';""")
-                con.commit()
                 cur.close()
                 # reload page
                 return redirect('/settings-farmer', code=302)                
-            except lite.Error as error:
-                return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
 
-@application.route('/get-profile-image/<file>')
+@application.route('/get-profile-image/<string:file>')
 def get_profile_image(file):
-    return send_from_directory(application.config['UPLOAD_FOLDER'], file)
+    return send_file(application.config['UPLOAD_FOLDER']+'/'+file, cache_timeout=0)
 
 @application.route('/change-password', methods=['GET', 'POST', 'PULL'])
 def change_password():
@@ -131,25 +124,22 @@ def change_password():
 
         new_password = bcrypt.hashpw(new_password.encode('utf-8'), bcrypt.gensalt())
 
-        con = lite.connect(farmerselevator.constants.databasePath) 
-        cur = con.cursor()
+        cur = mysql.get_db().cursor()
         # Two different pages for elevator or farmer
         #print(session['username'])
         try:
             if session["elevator"] == True:
                 # change password in DB:
-                cur.execute('''UPDATE elevators SET password = ? WHERE elevator_id = ?''', (new_password, user_id))
-                con.commit()
+                cur.execute('''UPDATE elevators SET password = %s WHERE elevator_id = %s''', (new_password, user_id))
             else:
-                cur.execute('''UPDATE farmers SET password = ? WHERE farmer_id = ?''', (new_password, user_id))
-                con.commit()
+                cur.execute('''UPDATE farmers SET password = %s WHERE farmer_id = %s''', (new_password, user_id))
                 # reload page
             return redirect('/settings-farmer', code=302)                
-        except lite.Error as error:
-            return "Failed: "+str(error)
+        except:
+            return 'Server Error', 500
         finally:
-            if (con):
-                con.close()
+            if (cur):
+                cur.close()
     else:
         return redirect("/", code=302)
 
@@ -157,8 +147,7 @@ def change_password():
 def delete_account():
     if 'username' in session:
         # delete account from DB
-        con = lite.connect(farmerselevator.constants.databasePath) 
-        cur = con.cursor()
+        cur = mysql.get_db().cursor()
         try:
             username = session["username"]
             if session["elevator"] == True:
@@ -167,7 +156,6 @@ def delete_account():
             else:
                 cur.execute(f"""DELETE FROM farmers
                                 WHERE farmer_id ='{session['user_id']}';""")
-            con.commit()
             closeSession()
             return f'''
             <h1>Farmers & Elevators</h1>
@@ -177,10 +165,10 @@ def delete_account():
                 <a href="/">home</a>
             </nav>
             '''
-        except lite.Error as error:
-                return "Failed: "+str(error)
+        except:
+            return 'Server Error', 500
         finally:
-            if (con):
-                con.close()
+            if (cur):
+                cur.close()
     else:
         return redirect("/", code=302)

@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -19,21 +20,19 @@ def add_product():
 
             toInsert = (elevator_id, product_name, quantity_available, measure, price, description,)
             # inserting new product
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute("""INSERT INTO products
                         (elevator_id, name, quantity_available, measure, price, description) 
-                        VALUES (?, ?, ?, ?, ?, ?);""", toInsert)
-                con.commit()
+                        VALUES (%s, %s, %s, %s, %s, %s);""", toInsert)
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
-            except lite.Error as error:
-                    return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return "not authorized"
 
@@ -54,27 +53,27 @@ def update_product():
                 return "you have to select a product id! <a href='/manage-shop'>Go back</a>"
             # if any of the form are empty, use old values
             olderValues = getProductInformation(product_id, elevator_id)
+            if olderValues is None:
+                return "This product does not exists. Try again <a href='/manage-shop'>Go back</a>"
             # make the variables
             toUpdate = (elevator_id, product_name, product_id, quantity_available, measure, price, description,)
             toUpdate = substituteWithOlderValues(toUpdate, olderValues)
             # switching values
             toUpdate = (toUpdate[1], toUpdate[3], toUpdate[4], toUpdate[5], toUpdate[6], toUpdate[2], toUpdate[0],)
             # inserting new product
-            con = lite.connect(farmerselevator.constants.databasePath) 
-            cur = con.cursor()
+            cur = mysql.get_db().cursor()
             try:
                 cur.execute("""UPDATE products
-                        SET name=?, quantity_available=?, measure=?, price=?, description=? 
-                        WHERE product_id=? AND elevator_id=?;""", toUpdate)
-                con.commit()
+                        SET name=%s, quantity_available=%s, measure=%s, price=%s, description=%s 
+                        WHERE product_id=%s AND elevator_id=%s;""", toUpdate)
                 cur.close()
                 # redirect to sign in page
                 return redirect("/manage-shop", code=302)
-            except lite.Error as error:
-                    return "Failed: "+str(error)
+            except:
+                return 'Server Error', 500
             finally:
-                if (con):
-                    con.close()
+                if (cur):
+                    cur.close()
     else:
         return "not authorized"
 

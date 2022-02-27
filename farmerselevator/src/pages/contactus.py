@@ -1,10 +1,10 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
 from flask import render_template
 from flask import request
-import sqlite3 as lite
 
 @application.route('/contact-us')
 def contact_us():
@@ -20,18 +20,16 @@ def contact_us_message():
 
     toInsert = (title, email, message)
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
     try:
         cur.execute("""INSERT INTO contact_us_messages
                         (message_title, sender_email, message_text, date) 
-                        VALUES (?, ?, ?, datetime('now', 'localtime'));""", toInsert)
-        con.commit()
+                        VALUES (%s, %s, %s, NOW());""", toInsert)
         cur.close()
-    except lite.Error as error:
-            return "Failed: "+str(error)
+    except:
+        return 'Server Error', 500
     finally:
-        if (con):
-            con.close()
+        if (cur):
+            cur.close()
     return contact_us()

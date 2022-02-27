@@ -1,4 +1,5 @@
 from farmerselevator import application
+from farmerselevator import mysql
 from farmerselevator.src.helper import *
 import farmerselevator.constants
 
@@ -14,15 +15,14 @@ def checkUserExistance():
     username = request_data['username']
     isElevator = convertIsElevator(request_data['isElevator'])
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
     
     if isElevator:
         tableName = 'elevators'
     else:
         tableName = 'farmers'
 
-    cur.execute("SELECT EXISTS(SELECT 1 FROM " + tableName +" WHERE username=?);",(username,))
+    cur.execute("SELECT EXISTS(SELECT 1 FROM " + tableName +" WHERE username=%s);",(username,))
 
     if cur.fetchone()[0] == 1:
         toReturn = {"return": "True"}
@@ -45,14 +45,13 @@ def getUserId():
     else:
         return 'error'
     
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
     tableName = 'farmers'
     user_id = 'farmer_id'
     if isElevator:
         tableName = 'elevators'
         user_id = 'elevator_id'
-    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=?;",(username,))
+    cur.execute("SELECT " + user_id + " FROM " + tableName + " WHERE username=%s;",(username,))
     result = cur.fetchall()
     cur.close()
     return str(result)

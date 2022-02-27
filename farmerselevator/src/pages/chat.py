@@ -1,20 +1,18 @@
 from farmerselevator import application
 from farmerselevator import socketio
+from farmerselevator import mysql
 import farmerselevator.constants
 from farmerselevator.src.helper import getUserId, convertIsElevator
 
-import sqlite3 as lite
 from flask import render_template, session, redirect
 from flask_socketio import join_room, leave_room, send, emit
 
 # HELPER FUNCTION
 
 def saveChat(room_id, farmer_id, elevator_id):
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
-    cur.execute("INSERT INTO chats (room_id, farmer_id, elevator_id) VALUES (?, ?, ?);", (room_id, farmer_id, elevator_id,))
-    con.commit()
+    cur.execute("INSERT INTO chats (room_id, farmer_id, elevator_id) VALUES (%s, %s, %s);", (room_id, farmer_id, elevator_id,))
     cur.close()
     return
 
@@ -22,10 +20,9 @@ def updateMessageHistory(newMessage, room):
 
     # TO-DO: check if room actually exists
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
+    cur = mysql.get_db().cursor()
 
-    cur.execute("SELECT messages FROM chats WHERE room_id=?;", (room,))
+    cur.execute("SELECT messages FROM chats WHERE room_id=%s;", (room,))
     result = cur.fetchone()[0]
     if result is None:
         messages = newMessage
@@ -33,10 +30,8 @@ def updateMessageHistory(newMessage, room):
         messages = result + '\n' + newMessage
     cur.close()
 
-    con = lite.connect(farmerselevator.constants.databasePath) 
-    cur = con.cursor()
-    cur.execute('UPDATE chats SET messages=? WHERE room_id=?;', (messages, room,))
-    con.commit()
+    cur = mysql.get_db().cursor()
+    cur.execute('UPDATE chats SET messages=%s WHERE room_id=%s;', (messages, room,))
     cur.close()
 
 # MAIN FUNCTION
