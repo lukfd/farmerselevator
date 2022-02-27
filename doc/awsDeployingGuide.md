@@ -20,7 +20,7 @@ Create the container and deploy it to aws light sail:
 aws lightsail push-container-image --region us-east-2 --service-name farmerselevator --label beta --image farmerselevator-image:latest
 ```
 
-On aws lightsail go the the Deployments page. If another container was already running or deployed, click  Modify and redeploy.
+On aws lightsail go the the Deployments page. If another container was already running or deployed, click  Modify and change Image version and redeploy.
 
 ![](./example_awslight.png)
 

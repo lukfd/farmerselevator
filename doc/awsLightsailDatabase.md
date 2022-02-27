@@ -67,13 +67,13 @@ Tables that we have used were:
 | elevator_id     | integer primary key autoincrement |
 | primary_contact | text                              |
 | email           | varchar(255)                      |
-| password        | varchar(50)                       |
+| password        | char(60)                          |
 | username        | varchar(20)                       |
 | phone           | int                               |
 | website         | varchar(50)                       |
 | shop_url        | varchar(50)                       |
 | address         | text                              |
-| profile_image   | blob                              |
+| profile_image   | varch                             |
 | status          | boolean                           |
 
 **farmers**
@@ -83,8 +83,8 @@ Tables that we have used were:
 | lastname      | varchar(20)                         |
 | username      | varchar(20)                         |
 | email         | varchar(255)                        |
-| password      | varchar(50)                         |
-| profile_image | blob                                |
+| password      | char(60)                            |
+| profile_image | varchar                             |
 | farmer_id     | integer primary  key  autoincrement |
 | address       | text                                |
 | phone         | int                                 |
