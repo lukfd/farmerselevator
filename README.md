@@ -1,6 +1,6 @@
 # Farmers Elevator
 
-Version 1.0.0
+Version 1.0.1
 started on end January 2022
 
 *Authors: Luca and Daniel*
@@ -67,6 +67,22 @@ farmerselevator
 └─── constants.py
 ```
 
+### start website locally
+
+You first need to create your `.env` file. Install all python libraries. Then run:
+
+```
+startApp.sh
+```
+
+### AWS
+
+After the changes made and after a pull request approved. run:
+```
+deployment.sh
+```
+Then login into AWS lightsail to update the image running. For more info check the doc folder.
+
 ### Installation guide
 
 From the website [flask.palletsprojects.com/en/2.0.x/installation](https://flask.palletsprojects.com/en/2.0.x/installation/)
@@ -102,18 +118,18 @@ To install requirements.txt python packages
 
 ### General To Do
 
-- [ ] Switch from SQLite to a server database
+- [x] Switch from SQLite to mysql server database
 - [ ] Add payments
 - [ ] Send email when sending the new order
 - [ ] Create PDF when creating an order
-- [ ] Fix id creating for farmer_id and elevator_id
+- [ ] Fix id creating for farmer_id and elevator_id (to use uuid)
 - [ ] Have a list of elegible elevators that can sign up to the platform
 - [ ] SQL injection threats
 - [ ] in index have map populated for searching elevators
-- [ ] create live chat messages tools
+- [ ] improve live chat messages tools
 - [ ] Fix css for populating results in search bar, offset to the right (index.js) use Vue.js
 - [ ] All pages seems that have an extra width
-- [ ] Discuss about how to store images
+- [x] Discuss about how to store images
 - [ ] Discuss if in /profile pages email and personal information should be public
 - [ ] Check that when a farmer and elevator with the same id, when uploading image will have different image name in /uploads
 
@@ -135,14 +151,15 @@ To install requirements.txt python packages
 
 **1.0.1**
 
-- [ ] General bug fixes
-- [ ] Send email when sign-up
-- [ ] Restrict to who can signup as elevator
-- [ ] Save PDF when new orders
-- [ ] Populate map in index page with elevators addresses
+- [x] move to mysql
+- [x] fix profile image
 
 **1.0.2**
 
+- [ ] Populate map in index page with elevators addresses
+- [ ] Save PDF when new orders
+- [ ] Restrict to who can signup as elevator
+- [ ] Send email when sign-up
 - [ ] Security check (SQL injection)
 - [ ] Save who has sent messages in /chat
 
@@ -163,8 +180,6 @@ The API handles all the request for adding, deliting and modifying users. The AP
 ### References
 
 [https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies](https://flask.palletsprojects.com/en/2.0.x/quickstart/#cookies)
-
-[https://www.mongodb.com/products/shell](https://www.mongodb.com/products/shell)
 
 [https://flask-socketio.readthedocs.io/en/latest/getting_started.html](https://flask-socketio.readthedocs.io/en/latest/getting_started.html)
 
