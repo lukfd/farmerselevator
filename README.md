@@ -156,12 +156,19 @@ To install requirements.txt python packages
 
 **1.0.2**
 
+- [ ] order table with subpages if list is too long
 - [ ] Populate map in index page with elevators addresses
 - [ ] Save PDF when new orders
 - [ ] Restrict to who can signup as elevator
 - [ ] Send email when sign-up
 - [ ] Security check (SQL injection)
 - [ ] Save who has sent messages in /chat
+
+**1.0.3**
+
+- [ ] add payments
+- [ ] Start iOS app mockup
+- [ ] Bug fix
 
 ### API Description
 
