@@ -156,7 +156,8 @@ To install requirements.txt python packages
 
 **1.0.2**
 
-- [ ] order table with subpages if list is too long
+- [x] Order table with subpages if list is too long
+- [x] Add image attribuition
 - [ ] Populate map in index page with elevators addresses
 - [ ] Save PDF when new orders
 - [ ] Restrict to who can signup as elevator
