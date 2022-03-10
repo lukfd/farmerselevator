@@ -11,9 +11,9 @@ var socket = io()
 // when page loads 
 function init() {
 
-    console.log("isElevator: " + isElevator)
-    console.log("userId: " + userId)
-    console.log("username: " + username)
+    // console.log("isElevator: " + isElevator)
+    // console.log("userId: " + userId)
+    // console.log("username: " + username)
 
     $.get('/getElevatorList', (data) => {
         elevatorList = data
@@ -22,10 +22,10 @@ function init() {
     // if another user have opened a new chat with you
     // data will be: {'farmerId': farmer_id, 'elevatorId': elevator_id}
     socket.on('incoming new order', (data) => {
-        console.log('Incoming new order!' + JSON.stringify(data))
+        //console.log('Incoming new order!' + JSON.stringify(data))
 
         if (isElevator == "True") {
-            console.log("isElevator true for incoming new order")
+            //console.log("isElevator true for incoming new order")
             // check for farmer_id
             if (data.elevatorId == userId) {
                 // refresh page
@@ -39,19 +39,29 @@ function init() {
         }
     })
 
+    // Add DataTable to our table.
+    $(window).ready( () => {
+        $('table.ordersDisplay').DataTable()
+    })
+
     // Vue
     app = new Vue({
         el: '#app',
         data: {
           searchInput: '',
           showNewOrders: true,
+          showOldOrders: false,
           results: [],
           discoveredResultsNames:[]
         },
         methods: {
             filterSearch: filterSearch,
-            setNewOrdersTrue: () => app.showNewOrders = true,
-            setNewOrdersFalse: () => app.showNewOrders = false
+            setNewOrdersTrue: () => {
+                app.showNewOrders=true; app.showOldOrders=false;
+            },
+            setNewOrdersFalse: () => { 
+                app.showNewOrders=false; app.showOldOrders=true;
+            }
         }
     })
 }
