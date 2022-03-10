@@ -36,7 +36,16 @@
 
         /* WHO */
         .who-bg-image {
-            background-image: url('https://images.unsplash.com/photo-1633114072859-7e8171f1bc95?ixid=MnwxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1470&q=80'); 
+            background-image: url('https://images.unsplash.com/photo-1569880153113-76e33fc52d5f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80'); 
+            background-repeat: no-repeat; 
+            height: 100%; 
+            background-position: center; 
+            background-size: cover;
+        }
+
+        /* TEAM */
+        .team-bg-image {
+            background-image: url('https://images.unsplash.com/photo-1519309621146-2a47d1f7103a?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1473&q=80'); 
             background-repeat: no-repeat; 
             height: 100%; 
             background-position: center; 
@@ -106,7 +115,7 @@
       </div>
       
 
-      <div class="px-5 bg-light min-vw-100 who-bg-image text-color-dark" id="who">
+      <div class="px-5 bg-light min-vw-100 who-bg-image text-color-light" id="who">
         <div class="container-fluid">
           <div class="p-5">
 
@@ -128,12 +137,69 @@
         </div>
       </div>
 
+      <div class="px-5 bg-light min-vw-100 team-bg-image text-color-light" id="team">
+        <div class="container-fluid">
+          <div class="p-5">
+
+            <div class="row">
+                <h1>Our Team</h1>
+            </div>
+
+            <div class="row text-center p-5">
+                <div class="col-4">
+                    <figure>
+                        <img src="../static/images/team/luca.png" class="rounded" style="width: 150px;">
+                        <figcaption>Luca Comba</figcaption>
+                    </figure>
+                </div>
+                <div class="col-4">
+                    Daniel Taufiq
+                </div>
+                <div class="col-4">
+                    Josh Stevens
+                </div>
+            </div>
+            <div class="row text-center p-5">
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+
+                </div>
+                <div class="col-4">
+
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="p-5 bg-light min-vh-100 min-vw-100" id="news">
         <div class="container-fluid py-5">
           <div class="p-5">
 
             <div class="row pb-5">
                 <h1>Latest News</h1>
+            </div>
+
+            <div class="row pb-2">
+                <div class="col">
+                    <h3>Version 1.0.2</h3>
+                    <dt>Wednesday, March 9, 2022</dt>
+                    <p class="py-2">
+                        Connecting farmers with elevators is our goal. There are a lot of tools that will help us reach this goal.
+                        With version 1.0.1 we finally have our cloud database so that we can scale our applications even faster.
+                        Now with version 1.0.2 we wanted to have a more complete website. We have added:
+                      <ul>
+                        <li>Pagination system in our homepage table</li>
+                        <li>Our map will show elevators</li>
+                        <li>Save orders' details in a PDF</li>
+                        <li>Improved signup process</li>
+                      </ul>
+                        We are always improving our website and adding more functionality. Our offerings should improve in quality, that's why
+                        we are striving to add the possibility to pay directly online for our future release.
+                    </p>
+                </div>
             </div>
 
             <div class="row pb-2">
@@ -200,36 +266,54 @@
 
       <div class="p-5 bg-light min-vh-100 min-vw-100" id="resources">
         <div class="container-fluid py-5">
-            <div class="p-5">
-                <div class="pt-5" id="careers">
-                    <div class="row py-5">
-                        <h1>Join our team</h1>
-                    </div>
-        
-                    <div class="row border rounder-3 p-5">
-                        <div class="col">
-                            <h5>WEB DEVELOPER</h5>
-                            <dt>Description:</dt>
-                            <p>
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime mollitia,
-                            molestiae quas vel sint commodi repudiandae consequuntur voluptatum laborum
-                            numquam blanditiis harum quisquam eius sed odit fugiat iusto fuga praesentium
-                            optio, eaque rerum!
-                            </p>
-                            <ul>
-                                <li>Python, Flask</li>
-                                <li>Bootstrap</li>
-                                <li>Vue.js</li>
-                                <li>Git</li>
-                                <li>AWS</li>
-                            </ul>
-                            <a class="btn btn-primary" href="#" role="button">APPLY NOW</a>
-                        </div>
+            <div class="pt-5" id="careers">
+                <div class="row py-5">
+                    <h1>Join our team</h1>
+                </div>
+    
+                <div class="row border rounder-3 p-5">
+                    <div class="col">
+                        <h5>WEB DEVELOPER</h5>
+                        <dt>Description:</dt>
+                        <p>
+                            We are looking for a new friend and a team player. 
+                            Our web developers will create new tools and feature for our website. Our future team member will create web pages and research new technology to improve our application with a high regard in security.
+                        </p>
+                        <dt>What we offer:</dt>
+                        <p>Equity.</p>
+                        <dt>Technical skills:</dt>
+                        <ul>
+                            <li>Python, Flask</li>
+                            <li>Bootstrap</li>
+                            <li>Vue.js</li>
+                            <li>Git</li>
+                            <li>AWS</li>
+                            <li>MySql</li>
+                        </ul>
+                        <a class="btn btn-primary" href="mailto:luca.comba98@gmail.com" role="button">APPLY NOW</a>
                     </div>
                 </div>
             </div>
         </div>
-      </div>  
+      </div>
+
+      <div class="p-5 bg-light min-vh-100 min-vw-100" id="thanks">
+        <div class="container-fluid py-5">
+            <div class="pt-5" id="careers">
+                <div class="row py-5">
+                    <h1>Acknowledgements</h1>
+                </div>
+                <div class="row">
+                    We are thankful for the many developers, photographers and other people that have created the tools and resources that we are using daily.
+                    Here we thank you.
+
+                    <br>
+
+                    Palletsprojects, Chris Ensminger, Spencer Pugh and others...
+                </div>
+            </div>
+        </div>
+      </div>
 
       <!-- FOOTER -->
       <div class="container-fluid bg-light min-vw-100">
