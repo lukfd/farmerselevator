@@ -158,6 +158,9 @@ To install requirements.txt python packages
 
 - [x] Order table with subpages if list is too long
 - [x] Add image attribuition
+- [ ] make uuid for users
+- [ ] Save profile images in db
+- [x] Send notification if in homepage received a new order
 - [ ] Populate map in index page with elevators addresses
 - [ ] Save PDF when new orders
 - [ ] Restrict to who can signup as elevator

@@ -19,17 +19,23 @@ function init() {
         elevatorList = data
     })
 
+    if (sessionStorage.getItem("reloading")) {
+        sessionStorage.removeItem("reloading");
+        $.notify("New incoming order!", "info", {autoHide: false, globalPosition:"top right", showDuration: 400 });
+    }
+
     // if another user have opened a new chat with you
     // data will be: {'farmerId': farmer_id, 'elevatorId': elevator_id}
     socket.on('incoming new order', (data) => {
-        //console.log('Incoming new order!' + JSON.stringify(data))
+        console.log('Incoming new order!' + JSON.stringify(data))
 
         if (isElevator == "True") {
             //console.log("isElevator true for incoming new order")
             // check for farmer_id
             if (data.elevatorId == userId) {
                 // refresh page
-                window.location.reload();
+                sessionStorage.setItem("reloading", "true")
+                window.location.reload()       
             }
         } else {
             if (data.farmerId == userId) {
