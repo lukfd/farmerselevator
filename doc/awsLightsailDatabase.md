@@ -8,7 +8,6 @@ We are going to create these tables
 - chats
 - elevators 
 - products   
-- contact_us_messages  
 - farmers            
 - deleted_products     
 - orders
@@ -39,15 +38,6 @@ Tables that we have used were:
 | farmer_id   | int         |
 | elevator_id | int         |
 | messages    | text        |
-
-**contact_us_messages**
-| Column        | Description                  |
-| ------------- | ---------------------------- |
-| id            | integer not null primary key |
-| message_title | text                         |
-| sender_email  | varchar(255)                 |
-| message_text  | text                         |
-| date          | date                         |
 
 **deleted_products**
 | Column             | Description  |

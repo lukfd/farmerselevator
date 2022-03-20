@@ -1,7 +1,8 @@
 from farmerselevator import application
-from farmerselevator import mysql
 from farmerselevator.src.helper import *
-import farmerselevator.constants
+
+import os
+import smtplib
 
 from flask import render_template
 from flask import request
@@ -15,21 +16,10 @@ def contact_us_message():
     title = request.form['title']
     email = request.form['email']
     message = request.form['message']
+    message = f"Subject: {title}\n\nSENT FROM: {email}\n\n" + message
 
-    # also date and id
-
-    toInsert = (title, email, message)
-
-    cur = mysql.get_db().cursor()
-
-    try:
-        cur.execute("""INSERT INTO contact_us_messages
-                        (message_title, sender_email, message_text, date) 
-                        VALUES (%s, %s, %s, NOW());""", toInsert)
-        cur.close()
-    except:
-        return 'Server Error', 500
-    finally:
-        if (cur):
-            cur.close()
+    serverSmtp = smtplib.SMTP("smtp.gmail.com", 587)
+    serverSmtp.starttls()
+    serverSmtp.login(os.getenv('EMAIL_ADDRESS'), os.getenv('EMAIL_PASSWORD'))
+    serverSmtp.sendmail(os.getenv('EMAIL_ADDRESS'), os.getenv('EMAIL_ADDRESS'), message)
     return contact_us()

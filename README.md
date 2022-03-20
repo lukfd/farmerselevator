@@ -189,7 +189,6 @@ The API handles all the request for adding, deliting and modifying users. The AP
 - **products** stores the list of products for each elevator
 - **orders** all transactions
 - **deleted_products** stores all deleted products
-- **contact_us_messages** stores all deleted products
 - **chats** contains room ids and text history
 
 ### References

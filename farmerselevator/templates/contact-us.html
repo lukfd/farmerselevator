@@ -1,48 +1,127 @@
-<html>
-  <head>
-    <!-- CDNs -->
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/main.css') }}">
-    <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static', filename='css/contact_us.css') }}">
-    <title>Contact us</title>
-  </head>
-  <body>
-    
-    <!-- Header -->
-    <ul class="header">
-      <li><a href="/"><h1>Farmers & Elevators</h1></a></li>
-      <ul class="right">
-        <li class="button"><a href="/signin" type="button">SignIn</a></li>
-        <li class="button" onclick="document.getElementById('id01').style.display='block'"><a href="#" type="button">SignUp</a></li>
-      </ul>
-    </ul>
+<title>Contact us</title>
+<link rel="stylesheet" type="text/css" href="/static/css/main.min.css">
 
+<!-- NAVBAR -->
+<nav class="navbar navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/">Farmers & Elevators</a>
+    </div>
+</nav>
 
-    <!-- Page -->
-    <div class="page">
-      <div class="request">
-        <h3>Contact us</h3>
-        <form action="/contact-us-message" method="POST">
-          <label class="clear-both">Title:</label>
-          <input type="text" name="title">
-          <label class="clear-both">Your email:</label>
-          <input type="email" name="email" required>
-          <br>
-          <label>Type your message for us:</label>
-          <br>
-          <textarea name="message" style="width: 100%;" rows="10"></textarea>
-          <br>
-          <button class="submit">SUBMIT</button>
-        </form>
-      </div>
-      <div>
-        <h3>Our latest news!</h3>
-
-      </div>
+<!-- BODY -->
+<div class="p-5 bg-light min-vh-100">
+    <div class="container py-5">
+        <div class="row p-5">
+            <div class="col">
+                <h3>Contact us</h3>
+            </div>
+            <div class="col">
+                <p>Do you have questions? Suggestions? Need to report a bug? Let us know by submitting a message to us.
+                </p>
+            </div>
+        </div>
     </div>
 
-    <!-- Footer -->
-    <footer>
-      <a href="/">Homepage</a>
-    </footer>
-  </body>
-</html>
+    <div class="container-sm py-5">
+        <div class="row">
+            <h4>Submit a new message</h4>
+            <form action="/contact-us-message" method="POST">
+                <div class="form-group row">
+                    <div class="form-group col-2">
+                        <label class="clear-both">Email</label>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="email" name="email" required>
+                    </div>
+                    <div class="form-group col-2">
+                        <label>Subject</label>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="text" name="title">
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <textarea name="message" style="min-width: 100%" rows="8"></textarea>
+                </div>
+                <div class="form-group row">
+                    <div class="d-grid gap-2 col-6 mx-auto">
+                        <button type="submit" class="btn btn-primary btn-md text-white text-capitalize">SUBMIT</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- FOOTER -->
+<div class="container-fluid bg-light min-vw-100">
+    <div class="row px-5">
+        <hr>
+    </div>
+    <div class="p-5 text-center text-dark link-dark">
+        <div class="row">
+            <div class="col-4">
+                <div class="row p-1">
+                    <dt>Farmers & Elevators</dt>
+                </div>
+                <div class="row p-1">
+                    <a href="/about" class="text-decoration-none">About</a>
+                </div>
+                <div class="row p-1">
+                    <a href="/about#news" class="text-decoration-none">Latest news</a>
+                </div>
+                <div class="row p-1">
+                    <a href="/about#reources" class="text-decoration-none">Careers</a>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row p-1">
+                    <dt>Need support?</dt>
+                </div>
+                <div class="row p-1">
+                    <a href="/contact-us" class="text-decoration-none">Contact us</a>
+                </div>
+                <div class="row p-1">
+                    <a href="/contact-us" class="text-decoration-none">Report an issue</a>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row p-1">
+                    <dt>More</dt>
+                </div>
+                <div class="row p-1">
+                    <a href="/terms" class="text-decoration-none">Terms & Conditions</a>
+                </div>
+                <div class="row p-1">
+                    <a href="/terms#pricing" class="text-decoration-none">Pricing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row p-5">
+        <div class="col-6 text-right">
+            <footer class="text-muted">
+                &copy; 2022 All right reserved
+            </footer>
+        </div>
+        <div class="col-6 text-center">
+            <div class="input-group-btn">
+                <a href="#" class="btn btn-lg">
+                    <i class="fab fa-facebook"></i>
+                </a>
+                <a href="#" class="btn btn-lg">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="btn btn-lg">
+                    <i class="fab fa-youtube"></i>
+                </a>
+                <a href="#" class="btn btn-lg">
+                    <i class="fab fa-linkedin"></i>
+                </a>
+                <a href="#" class="btn btn-lg">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
