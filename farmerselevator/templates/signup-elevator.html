@@ -1,22 +1,37 @@
-<title>Contact us</title>
+<title>Register your elevator</title>
 <link rel="stylesheet" type="text/css" href="/static/css/main.min.css">
 
+<style>
+.body-bg-image {
+    background-image: url('/static/images/signupelevatorbackground.jpg'); 
+    background-repeat: no-repeat; 
+    height: 100%; 
+    background-position: center; 
+    background-size: cover;
+}
+</style>
+
 <!-- NAVBAR -->
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="/">Farmers & Elevators</a>
     </div>
 </nav>
 
 <!-- BODY -->
-<div class="p-5 bg-light min-vh-100">
+<div class="p-5 bg-light min-vh-100 body-bg-image">
     <div class="container py-5">
         <div class="row p-5">
             <div class="col">
-                <h3>Contact us</h3>
+                <h3>Would you like to register your elevator account?</h3>
             </div>
             <div class="col">
-                <p>Do you have questions? Suggestions? Need to report a bug? Let us know by submitting a message to us.
+                <p>
+                    We are looking to have you aboard, so that you can create your shop and start selling to your community of farmers.
+                </p>
+                <br>
+                <p>
+                    Fill out this request and we will create your account.
                 </p>
             </div>
         </div>
@@ -24,27 +39,42 @@
 
     <div class="container-sm py-5">
         <div class="row">
-            <h4>Submit a new message</h4>
-            <form action="/contact-us-message" method="POST">
-                <div class="form-group row">
+            <h4>Request your elevator account</h4>
+            <form action="/signup-elevator-form" method="POST" id="signupform">
+                <div class="form-group row p-2">
                     <div class="form-group col-2">
-                        <label class="clear-both">Email</label>
+                        <label class="clear-both">Company Name</label>
                     </div>
                     <div class="form-group col-lg-4">
-                        <input type="email" class="form-control" name="email" required>
-                    </div>
-                    <div class="form-group col-2">
-                        <label>Subject</label>
-                    </div>
-                    <div class="form-group col-lg-4">
-                        <input type="text" class="form-control" name="title">
+                        <input type="text" class="form-control" name="companyName" required>
                     </div>
                 </div>
                 <div class="form-group row p-2">
-                    <textarea name="message" class="form-control" style="min-width: 100%" rows="8"></textarea>
+                    <div class="form-group col-2">
+                        <label class="clear-both">Your First Name</label>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="text" class="form-control" name="firstName" required>
+                    </div>
                 </div>
-                <div class="form-group row">
-                    <div class="d-grid gap-2 col-6 mx-auto">
+                <div class="form-group row p-2">
+                    <div class="form-group col-2">
+                        <label class="clear-both">Your Last Name</label>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="text" class="form-control" name="lastName" required>
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="form-group col-2">
+                        <label>Email</label>
+                    </div>
+                    <div class="form-group col-lg-4">
+                        <input type="email" class="form-control" name="email">
+                    </div>
+                </div>
+                <div class="form-group row p-2">
+                    <div class="d-grid gap-2 d-md-block">
                         <button type="submit" class="btn btn-primary btn-md text-white text-capitalize">SUBMIT</button>
                     </div>
                 </div>
