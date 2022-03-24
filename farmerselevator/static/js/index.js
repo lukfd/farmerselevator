@@ -13,6 +13,11 @@ var lat = 46.108537
 // when page loads 
 function init() {
 
+    $("#resultBox").width($('#searchBar').width());
+    $(window).on('resize', function(){
+        $("#resultBox").width($('#searchBar').width());
+    });
+
     $.get('/getElevatorList', (data) => {
         elevatorList = data
     })

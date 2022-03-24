@@ -49,38 +49,46 @@
     <div id="app">
         <!-- NAVBAR -->
         <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-2">
-
-            <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="/home">{{username}}</a>
-            <input class="form-control form-control-dark w-100 pr-2" type="text" placeholder="Search an elevator's shop"
-                aria-label="Search" v-model="searchInput" v-on:input="filterSearch">
-            <!-- TO-DO: Make it oveflow -->
-            {% raw %}
-            <div v-for="result in results">
-                <div class="row justify-content-center" style="background-color: whitesmoke;">
-                    <div class="col-sm-6">
-                        <a v-bind:href="result.link">{{ result.name }}</a>
-                    </div>
-                </div>
+            <div class="col-md-3 col-sm-2 mr-0">
+                <a class="navbar-brand" href="/home">{{username}}</a>
             </div>
-            {% endraw %}
+            <!-- SEARCH BAR -->
+            <div class="col-md-6">
+                <input id="searchBar" class="form-control form-control-dark w-100 pr-2" type="text" placeholder="Search an elevator's shop"
+                    aria-label="Search" v-model="searchInput" v-on:input="filterSearch">
+                <!-- RESULTS OF RESEARCH -->
+                {% raw %}
+                    <ul v-for="result in results" 
+                        class="input-group form-control list-unstyled" 
+                        style="position:absolute; z-index: 3000; background-color: rgba(255, 255, 255, 0.95);"
+                        id="resultBox">
+                        <li>
+                            <a v-bind:href="result.link">
+                                {{ result.name }}
+                            </a>
+                        </li>
+                    </ul>
+                {% endraw %}
+            </div>
 
-            <!-- navbar-nav -->
-            <ul class="list-unstyled px-3">
-                <li class="nav-item text-nowrap">
-                    <div class="dropdown">
-                        <button class="btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton"
-                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fas fa-user-circle"></i>
-                        </button>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <a class="dropdown-item" href="/logout">Logout</a>
-                            <a class="dropdown-item" href="/settings-elevator">Settings</a>
-                            <a class="dropdown-item"
-                                href="{{ url_for('profile', profileType = 'elevator' ,id = id)}}">Your Profile</a>
+            <div class="col-md-3 text-center">
+                <ul class="list-unstyled px-3">
+                    <li class="nav-item text-nowrap">
+                        <div class="dropdown">
+                            <button class="btn btn-lg dropdown-toggle" type="button" id="dropdownMenuButton"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/logout">Logout</a>
+                                <a class="dropdown-item" href="/settings-elevator">Settings</a>
+                                <a class="dropdown-item"
+                                    href="{{ url_for('profile', profileType = 'elevator' ,id = id)}}">Your Profile</a>
+                            </div>
                         </div>
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                </ul>
+            </div>
 
         </nav>
 

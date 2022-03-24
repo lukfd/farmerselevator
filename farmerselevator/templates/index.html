@@ -52,28 +52,32 @@
             <div class="container-fluid py-5 text-center">
 
                 <h3 class="fw-bold">Find your elevator's store</h3>
-                <div class="row justify-content-center">
+                <div class="row justify-content-center" >
                     <div class="col-sm-6">
+
                         <div class="input-group">
                             <input type="text" class="form-control rounded-3" placeholder="Search your elevator"
-                                v-model="searchInput" v-on:input="filterSearch">
+                                v-model="searchInput" v-on:input="filterSearch" id="searchBar">
                             <div class="input-group-btn">
                                 <a href="#" class="btn btn-lg">
                                     <i class="fas fa-search"></i>
                                 </a>
                             </div>
                         </div>
+                        {% raw %}
+                            <ul v-for="result in results" 
+                                class="input-group form-control list-unstyled" 
+                                style="position:absolute; z-index: 3000;"
+                                id="resultBox">
+                                <li>
+                                    <a v-bind:href="result.link">
+                                        {{ result.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        {% endraw %}
                     </div>
                 </div>
-                {% raw %}
-                <div v-for="result in results">
-                    <div class="row justify-content-center" style="background-color: whitesmoke;">
-                        <div class="col-sm-6">
-                            <a v-bind:href="result.link">{{ result.name }}</a>
-                        </div>
-                    </div>
-                </div>
-                {% endraw %}
 
                 <div class="row p-5 justify-content-center min-vh-100">
                     <div class="col-lg-12">
@@ -101,8 +105,8 @@
                                     style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
                                     <h3 class="card-title">Connect with your elevator easily</h3>
-                                    <p class="card-text">Shop from your trusted elevator with a few simple clicks any
-                                        time!</p>
+                                    <p class="card-text">Shop from your trusted elevator with few simple clicks and at any
+                                        time of the day.</p>
                                 </div>
                             </div>
                         </div>
@@ -112,7 +116,7 @@
                                     style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
                                     <h3 class="card-title">Find new elevators near you</h3>
-                                    <p class="card-text">Find the closest elevator to you and start ordering from there!
+                                    <p class="card-text">Find the closest elevator to you and start a new order.
                                     </p>
                                 </div>
                             </div>
@@ -123,8 +127,7 @@
                                     style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
                                     <h3 class="card-title">Use all our services for free</h3>
-                                    <p class="card-text">Send a message and create orders to your nearest elevator for
-                                        free!</p>
+                                    <p class="card-text">Send messages and create orders to send to your nearest elevator.</p>
                                 </div>
                             </div>
                         </div>
@@ -140,11 +143,10 @@
             <div class="container-fluid py-5">
 
                 <div class="p-5">
-
                     <div class="row py-5">
                         <h1>Everything you need to buy or sell</h1><br>
                         <div class="float-right">
-                            <h3>always updated with your community to simplify your life</h3>
+                            <h3></h3>
                         </div>
                     </div>
 
@@ -152,18 +154,21 @@
                         <div class="col-md-6">
                             <div class="h-100 p-5 text-white bg-dark rounded-3">
                                 <h2>You are a farmer</h2>
-                                <p>Farmers, through a personal account, will be able to check the status of their
-                                    incoming and completed orders so that everything will be under control.</p>
-                                <button class="btn btn-outline-light" type="button">Learn more</button>
+                                <p>
+                                    Farmers, through a personal account, will be able to check the status of their
+                                    incoming and completed orders so that everything will be under control.
+                                </p>
+                                <a href="/signup" class="btn btn-outline-light" type="button">Sign up</a>
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="h-100 p-5 bg-light border rounded-3">
                                 <h2>You represent an elevator cooperative</h2>
-                                <p>Elevators cooperatives will have their own pesonal shop online, so that every farmer
-                                    will be able to reach it and make orders with a simple click while the application
-                                    will take care of the rest.</p>
-                                <button class="btn btn-outline-secondary" type="button">Learn more</button>
+                                <p>
+                                    Elevator cooperatives will have their own pesonal shop to sell online and get in contact with farmers.
+                                    Our website will make online ordering easier for you from tracking orders to payments.
+                                </p>
+                                <a href="/signup-elevator" class="btn btn-outline-secondary" type="button">Create your account</a>
                             </div>
                         </div>
                     </div>

@@ -11,6 +11,11 @@ var socket = io()
 // when page loads 
 function init() {
 
+    $("#resultBox").width($('#searchBar').width());
+    $(window).on('resize', function(){
+        $("#resultBox").width($('#searchBar').width());
+    });
+
     // console.log("isElevator: " + isElevator)
     // console.log("userId: " + userId)
     // console.log("username: " + username)
