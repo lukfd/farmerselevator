@@ -7,10 +7,9 @@ from flask import jsonify
 def getElevatorList():
     # get names of elevators
     elevators = getElevatorArray()
-
     data = []
     for i in range(len(elevators)):
-        data.append({"name": elevators[i][0]})
+        data.append({"name": elevators[i][0], "address": elevators[i][1], "phone": elevators[i][2], "shopUrl": elevators[i][3]})
 
     # return json
     return jsonify(data)

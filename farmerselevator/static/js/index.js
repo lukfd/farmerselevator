@@ -6,6 +6,7 @@
 var app;
 var mymap;
 var elevatorList;
+var nominatimBaseUrl = 'https://nominatim.openstreetmap.org/search?';
 // Minnesota Center Map
 var lng = -94.648311
 var lat = 46.108537
@@ -18,10 +19,6 @@ function init() {
         $("#resultBox").width($('#searchBar').width());
     });
 
-    $.get('/getElevatorList', (data) => {
-        elevatorList = data
-    })
-
     // Vue
     app = new Vue({
         el: '#app',
@@ -31,7 +28,8 @@ function init() {
           discoveredResultsNames:[]
         },
         methods: {
-            filterSearch: filterSearch
+            filterSearch: filterSearch,
+            searchMap: searchMap
         }
     })
 
@@ -51,8 +49,56 @@ function init() {
         //bounds: mybounds,
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
     }).addTo(mymap);
+
+    $.get('/getElevatorList', (data) => {
+        elevatorList = data
+    }).then( () => {
+        elevatorList.forEach( (obj) => {
+            let url = nominatimBaseUrl + 'street='+ encodeURIComponent(obj.address.trim()) +'&state=MN&format=json'
+            $.get( url, ( data ) => {
+                if (data) {
+                    obj.latlng = [data[0].lat, data[0].lon]
+                } else {
+                    obj.latlng = [lat, lng]
+                }
+                var marker = L.marker([obj.latlng[0], obj.latlng[1]], title = obj.name).addTo(mymap);
+                marker.bindPopup(
+                    '<h3>'+obj.name+'</h3>'+
+                    '<div style="padding-top:3px;"></div>'+
+                    '<a href="/shop?name='+obj.name+'">'+'visit shop'+'</a><br>'+
+                    '<p>Address: '+obj.address+'</p>'+
+                    '<p>Phone:'+obj.phone+'</p>', {
+                    minWidth : 100,
+                    autoClose: false
+                });
+                obj.marker = marker
+            })
+        })
+    })
 }
 
+//---
+// @return: flyTo the elevator searched
+// @paramaters: app.searchInput is what the user inputted
+//---
+function searchMap () {
+    var elevatorFound = []
+    if (app.searchInput) {
+        elevatorList.forEach((obj) => {
+            // if name is result then go to that
+            if (obj.name.toUpperCase().includes(app.searchInput.toUpperCase())) {
+                obj.marker.openPopup()
+                elevatorFound.push(obj)
+            }
+        })
+        if (elevatorFound.length > 0) { // TO-DO ideally find string most similar to searchInput
+            mymap.flyTo(elevatorFound[0].latlng, 15)
+            app.searchInput = ''
+            app.results = []
+            app.discoveredResultsNames = []
+        }
+    }
+}
 
 //---
 // @return: add what it finds to app.results
