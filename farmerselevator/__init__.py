@@ -41,6 +41,7 @@ import farmerselevator.src.api.registration
 import farmerselevator.src.api.settings
 import farmerselevator.src.api.usersUtils
 import farmerselevator.src.api.chatUtils
+import farmerselevator.src.api.downloadZip
 
 import farmerselevator.src.pages.index
 import farmerselevator.src.pages.about
