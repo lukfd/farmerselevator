@@ -161,7 +161,6 @@ To install requirements.txt python packages
 - [x] Add image attribuition
 - [x] Send notification if in homepage received a new order
 - [x] Populate map in index page with elevators addresses
-- [ ] Save PDF when new orders and send email
 - [x] Restrict to who can signup as elevator
 
 **1.0.3**
@@ -175,6 +174,7 @@ To install requirements.txt python packages
 - [ ] In index, find best search match for map search
 - [ ] More complete shop
 - [ ] Better email system
+- [ ] Save PDF when new orders and send email
 
 **1.0.4**
 
