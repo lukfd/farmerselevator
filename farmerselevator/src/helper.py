@@ -184,10 +184,12 @@ def substituteWithOlderValues(toUpdate, olderValues):
 def getElevatorArray():
     # get list of elevators
     cur = mysql.get_db().cursor()
-    cur.execute(f"SELECT username from elevators;")
+    cur.execute(f"SELECT username, address, phone, shop_url from elevators;")
     elevators = cur.fetchall()
     if not elevators:
         elevators = []
+    else:
+        elevators = ['' if x is None else x for x in elevators]
     # render page
     cur.close()
     # return elevators array

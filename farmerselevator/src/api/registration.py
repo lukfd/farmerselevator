@@ -6,7 +6,7 @@ import farmerselevator.constants
 
 import bcrypt
 
-from flask import request
+from flask import request, render_template
 
 # parameters: username, password, elevator
 @application.route('/signin-form', methods=['POST'])
@@ -37,21 +37,7 @@ def signin_form():
             # redirect to css/main page
             return redirect("/home", code=302)
     # failed to login
-    return '''
-        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
-        <h1>Farmers & Elevators</h1>
-        <h3>Login Failed, try again</h3>
-        <form action="/signin-form" method="post">
-            <label>Username:</label>
-            <input type="text" name="username"/>
-            <label>Password:</label>
-            <input type="password" name="password"/>
-            <label>elevator?</label>
-            <input type="checkbox" name="elevator"/>
-            <button type="submit">sign-in</button>
-        </form>
-        <a href="/signup">Don't have an account yet? Sign Up</a>
-        '''
+    return render_template("login.html", failedLogin = True)
             
     
 # Parameters: email, username, password, elevator

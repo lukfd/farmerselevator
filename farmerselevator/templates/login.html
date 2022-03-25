@@ -46,9 +46,14 @@
                         </div>
                         <div class="row py-2">
                             <div class="form-group col">
-                                <button type="submit" class="btn btn-primary btn-md text-white text-capitalize">Singin</button>
+                                <button type="submit" class="btn btn-primary btn-md text-white text-capitalize">Signin</button>
                             </div>
                         </div>
+                        {% if failedLogin %}
+                            <div class="alert alert-warning" role="alert">
+                                Failed to login, try again.
+                            </div>
+                        {% endif %}
                         <div class="row py-1">
                             <div class="col">
                                 <a href="/signup">Don't have an account yet? Sign Up</a>

@@ -11,13 +11,23 @@ var socket = io()
 // when page loads 
 function init() {
 
-    console.log("isElevator: " + isElevator)
-    console.log("userId: " + userId)
-    console.log("username: " + username)
+    $("#resultBox").width($('#searchBar').width());
+    $(window).on('resize', function(){
+        $("#resultBox").width($('#searchBar').width());
+    });
+
+    // console.log("isElevator: " + isElevator)
+    // console.log("userId: " + userId)
+    // console.log("username: " + username)
 
     $.get('/getElevatorList', (data) => {
         elevatorList = data
     })
+
+    if (sessionStorage.getItem("reloading")) {
+        sessionStorage.removeItem("reloading");
+        $.notify("New incoming order!", "info", {autoHide: false, globalPosition:"top right", showDuration: 400 });
+    }
 
     // if another user have opened a new chat with you
     // data will be: {'farmerId': farmer_id, 'elevatorId': elevator_id}
@@ -25,11 +35,12 @@ function init() {
         console.log('Incoming new order!' + JSON.stringify(data))
 
         if (isElevator == "True") {
-            console.log("isElevator true for incoming new order")
+            //console.log("isElevator true for incoming new order")
             // check for farmer_id
             if (data.elevatorId == userId) {
                 // refresh page
-                window.location.reload();
+                sessionStorage.setItem("reloading", "true")
+                window.location.reload()       
             }
         } else {
             if (data.farmerId == userId) {
@@ -39,19 +50,29 @@ function init() {
         }
     })
 
+    // Add DataTable to our table.
+    $(window).ready( () => {
+        $('table.ordersDisplay').DataTable()
+    })
+
     // Vue
     app = new Vue({
         el: '#app',
         data: {
           searchInput: '',
           showNewOrders: true,
+          showOldOrders: false,
           results: [],
           discoveredResultsNames:[]
         },
         methods: {
             filterSearch: filterSearch,
-            setNewOrdersTrue: () => app.showNewOrders = true,
-            setNewOrdersFalse: () => app.showNewOrders = false
+            setNewOrdersTrue: () => {
+                app.showNewOrders=true; app.showOldOrders=false;
+            },
+            setNewOrdersFalse: () => { 
+                app.showNewOrders=false; app.showOldOrders=true;
+            }
         }
     })
 }

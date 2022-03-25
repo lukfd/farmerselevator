@@ -1,6 +1,6 @@
 # Farmers Elevator
 
-Version 1.0.1
+Version 1.0.2
 started on end January 2022
 
 *Authors: Luca and Daniel*
@@ -118,9 +118,10 @@ To install requirements.txt python packages
 
 ### General To Do
 
+- [ ] Mock up mobile app
 - [x] Switch from SQLite to mysql server database
 - [ ] Add payments
-- [ ] Send email when sending the new order
+- [ ] Send email when sending the new order -> this will need to be an option in the settings
 - [ ] Create PDF when creating an order
 - [ ] Fix id creating for farmer_id and elevator_id (to use uuid)
 - [ ] Have a list of elegible elevators that can sign up to the platform
@@ -133,7 +134,7 @@ To install requirements.txt python packages
 - [ ] Discuss if in /profile pages email and personal information should be public
 - [ ] Check that when a farmer and elevator with the same id, when uploading image will have different image name in /uploads
 
-#### Finised To do
+#### Versions
 
 **0.0.1 to 0.0.3**
 
@@ -156,12 +157,28 @@ To install requirements.txt python packages
 
 **1.0.2**
 
-- [ ] Populate map in index page with elevators addresses
-- [ ] Save PDF when new orders
-- [ ] Restrict to who can signup as elevator
-- [ ] Send email when sign-up
+- [x] Order table with subpages if list is too long
+- [x] Add image attribuition
+- [x] Send notification if in homepage received a new order
+- [x] Populate map in index page with elevators addresses
+- [x] Restrict to who can signup as elevator
+
+**1.0.3**
+
+- [ ] add payments
+- [ ] Start iOS app mockup
+- [ ] Bug fix
+- [ ] Set UUID as userId
 - [ ] Security check (SQL injection)
 - [ ] Save who has sent messages in /chat
+- [ ] In index, find best search match for map search
+- [ ] More complete shop
+- [ ] Better email system
+- [ ] Save PDF when new orders and send email
+
+**1.0.4**
+
+- [ ] Set up better development in Git and add auto deployment
 
 ### API Description
 
@@ -174,7 +191,6 @@ The API handles all the request for adding, deliting and modifying users. The AP
 - **products** stores the list of products for each elevator
 - **orders** all transactions
 - **deleted_products** stores all deleted products
-- **contact_us_messages** stores all deleted products
 - **chats** contains room ids and text history
 
 ### References
